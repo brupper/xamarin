@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Core", "Core\Brupper.Core.csproj", "{6C8B48D2-9FB7-45DF-8B29-7E6BE3C13B51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Data.Azure", "Data.Azure\Brupper.Data.Azure.csproj", "{48313019-67E7-4958-B07B-CFDB9639C963}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Data.Sqlite", "Data.Sqlite\Brupper.Data.Sqlite.csproj", "{B5563BBA-5DD3-4B52-9BF1-2B8A939FC847}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Forms", "Forms\Brupper.Forms.csproj", "{B893248D-FDA1-4013-A824-018FFDA1787A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Identity.B2C", "Identity.B2C\Brupper.Identity.B2C.csproj", "{F4EB34EA-4EC6-4D70-9690-B0FDDBF68E6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C8B48D2-9FB7-45DF-8B29-7E6BE3C13B51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8B48D2-9FB7-45DF-8B29-7E6BE3C13B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8B48D2-9FB7-45DF-8B29-7E6BE3C13B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8B48D2-9FB7-45DF-8B29-7E6BE3C13B51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48313019-67E7-4958-B07B-CFDB9639C963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48313019-67E7-4958-B07B-CFDB9639C963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48313019-67E7-4958-B07B-CFDB9639C963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48313019-67E7-4958-B07B-CFDB9639C963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5563BBA-5DD3-4B52-9BF1-2B8A939FC847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5563BBA-5DD3-4B52-9BF1-2B8A939FC847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5563BBA-5DD3-4B52-9BF1-2B8A939FC847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5563BBA-5DD3-4B52-9BF1-2B8A939FC847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B893248D-FDA1-4013-A824-018FFDA1787A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B893248D-FDA1-4013-A824-018FFDA1787A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B893248D-FDA1-4013-A824-018FFDA1787A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B893248D-FDA1-4013-A824-018FFDA1787A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4EB34EA-4EC6-4D70-9690-B0FDDBF68E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4EB34EA-4EC6-4D70-9690-B0FDDBF68E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4EB34EA-4EC6-4D70-9690-B0FDDBF68E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4EB34EA-4EC6-4D70-9690-B0FDDBF68E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEF8BC6B-B3F8-4900-B9AC-4794612FD4CD}
+	EndGlobalSection
+EndGlobal

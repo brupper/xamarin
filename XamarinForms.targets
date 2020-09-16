@@ -1,0 +1,7 @@
+<Project>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
+  </ItemGroup>
+
+  <Import Project="XamarinBuild.targets" Condition="'$(IsXamarinForms)' == 'true' and $(TargetFramework.StartsWith('monoandroid'))"/>
+</Project>
