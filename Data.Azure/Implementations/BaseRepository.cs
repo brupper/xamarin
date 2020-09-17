@@ -1,11 +1,13 @@
 ﻿using Brupper.Data.Azure.Models;
-using Microsoft.AppCenter.Crashes;
-using MvvmCross;
+using Microsoft.WindowsAzure.Storage;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
@@ -15,17 +17,13 @@ namespace Brupper.Data.Azure.Implementations
     public abstract class BaseRepository<T> : IBaseRepository<T>
         where T : class, IBaseDataObject, new()
     {
-        private static readonly List<T> localCache = new List<T>();
+        protected static readonly List<T> localCache = new List<T>();
+        protected static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
-        ITableStorage table;
-        IFileSystem fileSystemService;
-        IConnectivity connectivityService;
+        protected ITableStorage Table { get; private set; }
 
-        protected ITableStorage Table =>
-            table ?? (table = Mvx.IoCProvider.GetSingleton<ITableStorage>());
-
-        protected IFileSystem FileSystemService =>
-            fileSystemService ?? (fileSystemService = Mvx.IoCProvider.GetSingleton<IFileSystem>());
+        protected IFileSystem FileSystemService { get; private set; }
+        protected IConnectivity ConnectivityService { get; private set; }
 
         public virtual string Identifier => "Items";
 
@@ -35,16 +33,16 @@ namespace Brupper.Data.Azure.Implementations
             IConnectivity connectivityService,
             IFileSystem fileSystemService)
         {
-            this.table = table;
-            this.connectivityService = connectivityService;
-            this.fileSystemService = fileSystemService;
+            Table = table;
+            ConnectivityService = connectivityService;
+            FileSystemService = fileSystemService;
         }
 
         #endregion
 
         public virtual Task<bool> DropTable()
         {
-            table = null;
+            Table = null;
             return Task.FromResult(true);
         }
 
@@ -62,7 +60,7 @@ namespace Brupper.Data.Azure.Implementations
                 }
             }
 
-            if (connectivityService.NetworkAccess != NetworkAccess.Internet)
+            if (ConnectivityService.NetworkAccess != NetworkAccess.Internet)
             {
                 //TODO: await SyncAsync();
                 return false;
@@ -79,24 +77,39 @@ namespace Brupper.Data.Azure.Implementations
 
         public async Task InitializeStoreAsync()
         {
+            var filePath = Path.Combine(FileSystemService.AppDataDirectory, Identifier);
+
             try
             {
-                using (var fs = File.OpenRead(Path.Combine(FileSystemService.AppDataDirectory, Identifier)))
-                using (var sw = new StreamReader(fs))
-                {
-                    var json = await sw.ReadToEndAsync();
+                await semaphore.WaitAsync(TimeSpan.FromSeconds(5)); //avoid deadlocks...
 
-                    var entities = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
-                    if (entities.Any())
-                    {
-                        localCache.Clear();
-                        localCache.AddRange(entities);
-                    }
+                if (!File.Exists(filePath))
+                {
+                    using (File.CreateText(filePath)) ;
                 }
+
+                var json = File.ReadAllText(filePath);
+
+                var entities = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
+                if (entities.Any())
+                {
+                    localCache.Clear();
+                    localCache.AddRange(entities);
+                }
+            }
+            catch (JsonException)
+            {
+                // reset file
+                File.WriteAllText(filePath, string.Empty);
             }
             catch (Exception exception)
             {
-                Crashes.TrackError(exception, new Dictionary<string, string> { { "Unable to to InitializeStore :", connectivityService.NetworkAccess.ToString() } });
+                //Crashes.TrackError(exception, new Dictionary<string, string> { { "Unable to to InitializeStore :", connectivityService.NetworkAccess.ToString() } });
+                Debug.WriteLine(exception);
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
 
@@ -122,14 +135,24 @@ namespace Brupper.Data.Azure.Implementations
                 return entity;
             }
 
-            if (connectivityService.NetworkAccess != NetworkAccess.Internet)
+            if (ConnectivityService.NetworkAccess != NetworkAccess.Internet)
             {
                 return entity;
             }
 
             var partitionKey = new T().PartitionKey;
-            var item = await Table.GetAsync<T>(id, partitionKey);
-            localCache.Add(item);
+            var item = await Table.GetAsync<T>(partitionKey, id);
+
+            if (entity != null)
+            {
+                localCache.Remove(entity);
+            }
+
+            if (item != null)
+            {
+                localCache.Add(item);
+            }
+
             return item;
         }
 
@@ -139,7 +162,7 @@ namespace Brupper.Data.Azure.Implementations
 
             localCache.Add(item); //Insert into the local store
 
-            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            if (ConnectivityService.NetworkAccess != NetworkAccess.Internet)
             {
                 //TODO await SyncAsync();
                 return false;
@@ -153,7 +176,7 @@ namespace Brupper.Data.Azure.Implementations
         public virtual async Task<bool> UpdateAsync(T item)
         {
             // localcache works by reference so no nedd to update entity
-            if (connectivityService.NetworkAccess != NetworkAccess.Internet)
+            if (ConnectivityService.NetworkAccess != NetworkAccess.Internet)
             {
                 //TODO await SyncAsync();
                 return false;
@@ -171,7 +194,7 @@ namespace Brupper.Data.Azure.Implementations
             try
             {
                 localCache.Remove(item);
-                if (connectivityService.NetworkAccess != NetworkAccess.Internet)
+                if (ConnectivityService.NetworkAccess != NetworkAccess.Internet)
                 {
                     //TODO await SyncAsync();
                     return false;
@@ -182,9 +205,10 @@ namespace Brupper.Data.Azure.Implementations
                 //TODO await SyncAsync(); //Send changes to the mobile service
                 result = true;
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Crashes.TrackError(e, new Dictionary<string, string> { { "Unable to remove item :", item.RowKey } });
+                //Crashes.TrackError(e, new Dictionary<string, string> { { "Unable to remove item :", item.RowKey } });
+                Debug.WriteLine(exception);
             }
 
             return result;
@@ -196,40 +220,59 @@ namespace Brupper.Data.Azure.Implementations
         //in the context of an async method, the rest of that method's code may also run on a background thread.
         public virtual async Task<bool> SyncAsync()
         {
-            if (connectivityService.NetworkAccess != NetworkAccess.Internet)
+            if (ConnectivityService.NetworkAccess != NetworkAccess.Internet)
             {
                 // Logger.Instance.Track("Unable to sync items, we are offline");
                 return false;
             }
             try
             {
-                if (table == null)
+                await semaphore.WaitAsync(TimeSpan.FromSeconds(5)); //avoid deadlocks...
+
+                if (Table == null)
                 {
                     //Logger.Instance.Track("Unable to sync items, client is null");
                     return false;
                 }
 
                 // TODO: push, pull.
-                var remoteItems = await table.GetAllAsync<T>();
+                var reference = new T();
+                var remoteItems = await Table.GetAllAsync<T>();
                 localCache.Clear();
-                localCache.AddRange(remoteItems);
+                localCache.AddRange(remoteItems.Where(x => x.PartitionKey == reference.PartitionKeyInternal));
 
-                using (var fs = File.OpenWrite(Path.Combine(FileSystemService.AppDataDirectory, Identifier)))
+                var filePath = Path.Combine(FileSystemService.AppDataDirectory, Identifier);
+                using (var fs = File.OpenWrite(filePath))
                 using (var sw = new StreamWriter(fs))
                 {
                     var json = JsonConvert.SerializeObject(localCache);
-                    await sw.WriteAsync(json);
+                    await sw.WriteAsync(json).ConfigureAwait(false);
                 }
 
                 //push changes on the sync context before pulling new items
                 //await table.SyncContext.PushAsync();
                 //await Table.PullAsync($"all{Identifier}", Table.CreateQuery());
+
             }
-            catch (Exception ex)
+            catch (StorageException exception)
             {
-                Crashes.TrackError(ex, new Dictionary<string, string> { { "Unable to to push/pull items :", connectivityService.NetworkAccess.ToString() } });
+                Debug.WriteLine(exception);
+            }
+            catch (HttpRequestException exception)
+            {
+                Debug.WriteLine(exception);
+            }
+            catch (Exception exception)
+            {
+                //Crashes.TrackError(exception, new Dictionary<string, string> { { "Unable to to push/pull items :", connectivityService.NetworkAccess.ToString() } });
+                Debug.WriteLine(exception);
                 return false;
             }
+            finally
+            {
+                semaphore.Release();
+            }
+
             return true;
         }
 

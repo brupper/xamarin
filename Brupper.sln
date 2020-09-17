@@ -13,6 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Forms", "Forms\Brup
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Identity.B2C", "Identity.B2C\Brupper.Identity.B2C.csproj", "{F4EB34EA-4EC6-4D70-9690-B0FDDBF68E6B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{BEDAE117-15E3-40C7-987B-51D518EC1F73}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		XamarinBuild.targets = XamarinBuild.targets
+		XamarinForms.targets = XamarinForms.targets
+		XamarinFormsWpf.targets = XamarinFormsWpf.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

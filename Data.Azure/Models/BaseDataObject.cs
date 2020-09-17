@@ -1,15 +1,18 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 using System;
 
 namespace Brupper.Data.Azure.Models
 {
     public interface IBaseDataObject : ITableEntity
     {
+        string PartitionKeyInternal { get; }
     }
 
     public abstract class BaseDataObject : TableEntity, IBaseDataObject
     {
-        protected abstract string PartitionKeyInternal { get; }
+        [JsonIgnore]
+        public abstract string PartitionKeyInternal { get; }
 
         protected BaseDataObject()
         {

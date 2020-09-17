@@ -43,6 +43,7 @@ namespace Brupper.Data.Azure.Implementations
             var entities = new List<T>();
             do
             {
+                // TODO: filter by partitionkey
                 var queryResult = await table.ExecuteQuerySegmentedAsync(new TableQuery<T>(), token).ConfigureAwait(false);
                 entities.AddRange(queryResult.Results);
                 token = queryResult.ContinuationToken;
