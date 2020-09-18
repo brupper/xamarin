@@ -1,33 +1,29 @@
-﻿using MvvmCross.Binding.BindingContext;
+﻿using Brupper.Forms.Attributes;
+using Brupper.ViewModels.Popups;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.Forms.Views;
 using MvvmCross.ViewModels;
 using MvvmCross.Views;
-using Brupper.Forms.Attributes;
 using Rg.Plugins.Popup.Pages;
-using System.Windows.Input;
 
 namespace Brupper.Forms.Pages.Base
 {
-    public interface IPopupDialogViewModel
-    {
-        ICommand BackCommand { get; }
-    }
-
     [PopupPresentation(Animated = true, WrapInNavigationPage = false)]
-    public class MvxPopupPage<TViewModel> : PopupPage, IMvxPage<TViewModel>
-        where TViewModel : class, IMvxViewModel, IPopupDialogViewModel
+    public partial class MvxPopupPage<TViewModel> : PopupPage, IMvxPage<TViewModel>
+           where TViewModel : class, IMvxViewModel, IPopupDialogViewModel
     {
         private IMvxBindingContext bindingContext;
+
+        public MvxPopupPage()
+        {
+            CloseWhenBackgroundIsClicked = false;
+            HasSystemPadding = false;
+        }
 
         public TViewModel ViewModel
         {
             get => (TViewModel)((IMvxView)this).ViewModel;
             set => ((IMvxView)this).ViewModel = value;
-        }
-
-        public MvxPopupPage()
-        {
-            CloseWhenBackgroundIsClicked = false;
         }
 
         public object DataContext
@@ -61,14 +57,14 @@ namespace Brupper.Forms.Pages.Base
             }
         }
 
-        public MvxFluentBindingDescriptionSet<IMvxElement<TViewModel>, TViewModel> CreateBindingSet()
-        {
-            return this.CreateBindingSet<IMvxElement<TViewModel>, TViewModel>();
-        }
-
         protected virtual void OnViewModelSet()
         {
         }
+
+        public MvxFluentBindingDescriptionSet<IMvxElement<TViewModel>, TViewModel> CreateBindingSet()
+            => this.CreateBindingSet<IMvxElement<TViewModel>, TViewModel>();
+
+        #region Overrided Methods
 
         protected override void OnAppearing()
         {
@@ -86,9 +82,25 @@ namespace Brupper.Forms.Pages.Base
 
         protected override bool OnBackButtonPressed()
         {
-            ViewModel?.BackCommand?.Execute(null);
+            if (ViewModel != null)//is ViewModels.BaseViewModel baseVm)
+            {
+                ViewModel.BackPressedCommand?.Execute(null);
+                return true;
+            }
 
-            return true;
+            return base.OnBackButtonPressed();
         }
+
+        protected override bool OnBackgroundClicked()
+        {
+            if (CloseWhenBackgroundIsClicked)
+            {
+                ViewModel?.BackPressedCommand?.Execute(null);
+            }
+
+            return base.OnBackgroundClicked();
+        }
+
+        #endregion
     }
 }

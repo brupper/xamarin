@@ -5,6 +5,7 @@ using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Forms.Platforms.Ios.Core;
 using MvvmCross.Forms.Presenters;
+using MvvmCross.IoC;
 using MvvmCross.Logging;
 using MvvmCross.ViewModels;
 
@@ -25,6 +26,7 @@ namespace Brupper.Forms.Platforms.iOS
 
             var platformInformationService = new PlatformInformationService();
             Mvx.IoCProvider.RegisterSingleton<IPlatformInformationService>(platformInformationService);
+            Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPermissionHelper, PermissionHelper>();
         }
 
         protected override IMvxLogProvider CreateLogProvider() => new AppCenterTrace(base.CreateLogProvider());
