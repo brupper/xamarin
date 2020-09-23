@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using System.Linq;
 
-namespace Brupper.Forms.Views.Controls
+namespace Brupper.Forms.Views
 {
-    public partial class ImageButton : Frame
+    public partial class ImageButton
     {
         #region Private Fields
 
@@ -37,8 +37,8 @@ namespace Brupper.Forms.Views.Controls
 
         public ICommand Command
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
 
         public static readonly BindableProperty CommandProperty =
@@ -50,8 +50,8 @@ namespace Brupper.Forms.Views.Controls
 
         public object CommandParameter
         {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
 
         public static readonly BindableProperty CommandParameterProperty =
@@ -63,8 +63,8 @@ namespace Brupper.Forms.Views.Controls
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         public static readonly BindableProperty TextProperty =
@@ -86,8 +86,8 @@ namespace Brupper.Forms.Views.Controls
 
         public double FontSize
         {
-            get { return (double)GetValue(FontSizeProperty); }
-            set { SetValue(FontSizeProperty, value); }
+            get => (double)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
         }
 
         public static readonly BindableProperty FontSizeProperty =
@@ -99,8 +99,8 @@ namespace Brupper.Forms.Views.Controls
 
         public Color TextColor
         {
-            get { return (Color)GetValue(TextColorProperty); }
-            set { SetValue(TextColorProperty, value); }
+            get => (Color)GetValue(TextColorProperty);
+            set => SetValue(TextColorProperty, value);
         }
 
         public static readonly BindableProperty TextColorProperty =
@@ -112,8 +112,8 @@ namespace Brupper.Forms.Views.Controls
 
         public ImageSource ImageSource
         {
-            get { return (ImageSource)GetValue(ImageSourceProperty); }
-            set { SetValue(ImageSourceProperty, value); }
+            get => (ImageSource)GetValue(ImageSourceProperty);
+            set => SetValue(ImageSourceProperty, value);
         }
 
         public static readonly BindableProperty ImageSourceProperty =
@@ -125,8 +125,8 @@ namespace Brupper.Forms.Views.Controls
 
         public bool IsBusy
         {
-            get { return (bool)GetValue(IsBusyProperty); }
-            set { SetValue(IsBusyProperty, value); }
+            get => (bool)GetValue(IsBusyProperty);
+            set => SetValue(IsBusyProperty, value);
         }
 
         public static readonly BindableProperty IsBusyProperty =

@@ -6,47 +6,57 @@ using Xamarin.Forms;
 
 namespace Brupper.Forms.Converters
 {
-    //[ValueConversion(typeof(string), typeof(string))]
     public class TranslateConverter : IValueConverter
     {
-        public static TranslateConverter Instance { get; } = new TranslateConverter();
+        #region Fields
 
-        private readonly IMvxTextProvider textProvider;
+        private IMvxTextProvider textProvider;
 
-        public TranslateConverter()
-        {
-            textProvider = Mvx.IoCProvider.GetSingleton<IMvxTextProvider>();
-        }
-
-        public static void Init()
-        {
-            var time = DateTime.UtcNow;
-        }
+        #endregion
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
-                return string.Empty;
-
-            var text = (string)value;
-
-            var translation = textProvider.GetText(null, null, text);
-            //var translation = Labels.ResourceManager.GetString(text);
-            if (translation == null)
+            string resourceId = value as string;
+            if (value == null || string.IsNullOrEmpty(resourceId) && !(value is Enum))
             {
-#if DEBUG
-                throw new ArgumentException(
-                    $"Key '{text}' was not found in resources for culture '{(CultureInfo.CurrentUICulture.Name ?? "<???>")}'.");
-#else
-				translation = text; // HACK: returns the key, which GETS DISPLAYED TO THE USER
-#endif
+                return string.Empty;
             }
-            return translation;
+            else if (value is Enum)
+            {
+                resourceId = $"{value.GetType().Name}.{value}";
+            }
+
+            if (!string.IsNullOrEmpty(resourceId))
+            {
+                if (parameter is string prefix)
+                {
+                    resourceId = prefix + resourceId;
+                }
+
+                if (textProvider == null)
+                {
+                    textProvider = Mvx.IoCProvider.GetSingleton<IMvxTextProvider>();
+                }
+
+                var localizedText = textProvider.GetText(null, null, resourceId);
+                if (localizedText == null)
+                {
+#if DEBUG
+                    throw new ArgumentNullException($"'{resourceId}' was not found in Recources for culture '{CultureInfo.CurrentUICulture.Name ?? "-"}'");
+#else
+                    localizedText = "<??? - resourceId>"; // resource's not found
+#endif
+                }
+
+                return localizedText;
+            }
+
+            return "<???>"; // resource's not found
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return value;
         }
     }
 }
