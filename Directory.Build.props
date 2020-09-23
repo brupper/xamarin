@@ -42,6 +42,7 @@
 	
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild Condition=" '$(IsTestProject)' != 'true'">true</GeneratePackageOnBuild>
+    <PackageOutputPath>../.nuget/</PackageOutputPath>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsTestProject)' != 'true' and '$(TF_BUILD)' == 'true'">
@@ -84,7 +85,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Roslynator.Analyzers" Version="2.3.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

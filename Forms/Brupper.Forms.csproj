@@ -49,7 +49,7 @@
     <Compile Include="Platforms\Android\**\*.cs" />
     <Compile Include="Platforms\Xamarin\**\*.cs" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat" />
-    <PackageReference Include="Xamarin.AndroidX.CardView" />
+    <!--<PackageReference Include="Xamarin.AndroidX.CardView" />-->
     <PackageReference Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
   </ItemGroup>
 
