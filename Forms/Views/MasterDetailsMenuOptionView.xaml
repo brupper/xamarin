@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ff="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    x:Class="Brupper.Forms.Views.MasterDetailsMenuOptionView"
+    x:Name="View"
+    Padding="0,8"
+    Margin="24,8,8,8"
+    HorizontalOptions="FillAndExpand"
+    Orientation="Horizontal">
+
+    <ff:SvgCachedImage x:Name="Icon" Source="{x:Null}" Aspect="AspectFit" WidthRequest="24" HeightRequest="24" />
+
+    <Label x:Name="Label" FontSize="20" HorizontalOptions="StartAndExpand" VerticalOptions="Center" TextColor="White"/>
+
+    <StackLayout.GestureRecognizers>
+        <TapGestureRecognizer BindingContext="{x:Reference View}" Tapped="Handle_Tapped" />
+    </StackLayout.GestureRecognizers>
+</StackLayout>
