@@ -8,6 +8,7 @@ using MvvmCross.Forms.Platforms.Android.Core;
 using MvvmCross.Forms.Presenters;
 using MvvmCross.IoC;
 using MvvmCross.Logging;
+using MvvmCross.Platforms.Android.Presenters;
 using MvvmCross.ViewModels;
 
 namespace Brupper.Forms.Platforms.Android
@@ -37,6 +38,25 @@ namespace Brupper.Forms.Platforms.Android
             var formsPagePresenter = new PagePresenter(viewPresenter);
             Mvx.IoCProvider.RegisterSingleton<IMvxFormsPagePresenter>(formsPagePresenter);
             return formsPagePresenter;
+        }
+
+        protected override IMvxAndroidViewPresenter CreateViewPresenter()
+        {
+            // DO SOMETHING BEFORE Xamarin.Forms.Forms.Initialize called:
+
+            //UserDialogs.Init(() => Mvx.IoCProvider.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
+            //Mvx.IoCProvider.RegisterSingleton((IApplicationStateListener)ApplicationContext);
+            //ZXing.Net.Mobile.Forms.iOS.Platform.Init();
+            //FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
+
+            Xamarin.Forms.Forms.SetFlags(new[]{
+                "Brush_Experimental",
+                "SwipeView_Experimental",
+                "CarouselView_Experimental",
+                "IndicatorView_Experimental",  // https://devblogs.microsoft.com/xamarin/xamarin-forms-4-4/
+            });
+
+            return base.CreateViewPresenter();
         }
     }
 }

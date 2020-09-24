@@ -1,3 +1,29 @@
+Before your start:
+
+Experimantal FLAGS we do use:
+    - Brush_Experimental
+    - SwipeView_Experimental
+    - CarouselView_Experimental
+    - IndicatorView_Experimental  // https://devblogs.microsoft.com/xamarin/xamarin-forms-4-4/
+
+Initialize Rg.Plugins.Popup:
+- Android: 
+    OnCreate(Bundle savedInstanceState) => Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+    OnBackPressed() => if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed)) ... ;
+- iOS:
+     Setup.cs => Rg.Plugins.Popup.Popup.Init(); 
+
+Initialize FFImageLoading:
+If you reference Brupper.Forms in your platform projects (iOS&Android)=> it automatically initialize FFImageLoading ;)
+//- Android: 
+//    FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
+//- iOS:
+//    Setup.cs => FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
+Initialize ZXing:
+- just kidding, we do not use ZXing... YET! HAHAAHA
+
+
 Create your own VMs:
 
 
