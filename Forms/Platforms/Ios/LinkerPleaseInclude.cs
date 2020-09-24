@@ -16,6 +16,13 @@ namespace Brupper.Forms.Platforms.iOS
     [Foundation.Preserve(AllMembers = true)]
     public class LinkerPleaseInclude
     {
+        public void Include()
+        {
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
+            var circle = new FFImageLoading.Forms.CachedImage();
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
+        }
+
         public void Include(MvxTaskBasedBindingContext c)
         {
             c.Dispose();

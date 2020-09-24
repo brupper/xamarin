@@ -38,7 +38,7 @@ namespace Brupper.Forms.Platforms.iOS
         {
             //ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             //Rg.Plugins.Popup.Popup.Init();
-            //FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
             return base.CreateViewPresenter();
         }

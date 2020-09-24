@@ -20,6 +20,9 @@ namespace Brupper.Forms.Platforms.Android
     {
         public virtual void Include()
         {
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
+            var circle = new FFImageLoading.Forms.CachedImage();
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
         }
 
         public void Include(Button button)
