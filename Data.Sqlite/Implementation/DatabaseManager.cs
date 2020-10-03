@@ -12,7 +12,7 @@ namespace Brupper.Data.Sqlite.Implementation
     {
         #region Members
 
-        public string DatabaseName { get; set; }
+        public virtual string DatabaseName { get; set; }
             = "default.db";
 
         public string DatabasePath { get; private set; }

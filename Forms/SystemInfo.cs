@@ -1,4 +1,6 @@
-﻿using Microsoft.AppCenter.Crashes;
+﻿using Brupper.Forms.Services.Interfaces;
+using Microsoft.AppCenter.Crashes;
+using MvvmCross;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -7,21 +9,30 @@ namespace Brupper.Forms
 {
     public class SystemInfo
     {
+        public IPlatformInformationService PlatformInformation
+        {
+            get
+            {
+                Mvx.IoCProvider.TryResolve<IPlatformInformationService>(out var reference);
+                return reference;
+            }
+        }
+
         #region Platform informations
 
-        //public string DeviceId => DeviceInfo.?.GetDeviceId();
+        public string DeviceId => PlatformInformation?.GetDeviceId();
 
-        public string Version => DeviceInfo.VersionString;
+        public string Version => PlatformInformation?.GetVersion() ?? AppInfo.VersionString;
 
-        public string Platform => DeviceInfo.Platform.ToString();
+        public string Platform => PlatformInformation?.GetPlatform() ?? DeviceInfo.Platform.ToString();
 
-        //public string PlatformVersion => DeviceInfo.;
+        public string PlatformVersion => PlatformInformation?.GetPlatformVersion() ?? DeviceInfo.Version.ToString();
 
-        //public string MachineName => PlatformInformation?.GetMachineName();
+        public string MachineName => PlatformInformation?.GetMachineName();
 
-        //public string Carrier => PlatformInformation?.GetCarrier();
+        public string Carrier => PlatformInformation?.GetCarrier();
 
-        //public string OSVersion => PlatformInformation?.GetOSVersion();
+        public string OSVersion => PlatformInformation?.GetOSVersion();
 
         #endregion
 
