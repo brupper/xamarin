@@ -10,6 +10,8 @@ using MvvmCross.IoC;
 using MvvmCross.Logging;
 using MvvmCross.Platforms.Android.Presenters;
 using MvvmCross.ViewModels;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Brupper.Forms.Platforms.Android
 {
@@ -57,6 +59,24 @@ namespace Brupper.Forms.Platforms.Android
             });
 
             return base.CreateViewPresenter();
+        }
+
+        //public override IEnumerable<Assembly> GetViewAssemblies()
+        //{
+        //    var list = new List<Assembly>();
+        //    list.AddRange(base.GetViewAssemblies());
+        //    list.Add(typeof(Brupper.Forms.Pages.Base.MvxPopupPage<>).Assembly);
+
+        //    return list.ToArray();
+        //}
+
+        public override IEnumerable<Assembly> GetViewModelAssemblies()
+        {
+            var list = new List<Assembly>();
+            list.AddRange(base.GetViewModelAssemblies());
+            list.Add(typeof(Brupper.ViewModels.Popups.MvxPopupViewModel).Assembly);
+
+            return list.ToArray();
         }
     }
 }

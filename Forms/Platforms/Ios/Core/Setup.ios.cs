@@ -9,6 +9,8 @@ using MvvmCross.IoC;
 using MvvmCross.Logging;
 using MvvmCross.Platforms.Ios.Presenters;
 using MvvmCross.ViewModels;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Brupper.Forms.Platforms.iOS
 {
@@ -37,7 +39,7 @@ namespace Brupper.Forms.Platforms.iOS
         protected override IMvxIosViewPresenter CreateViewPresenter()
         {
             //ZXing.Net.Mobile.Forms.iOS.Platform.Init();
-            //Rg.Plugins.Popup.Popup.Init();
+            //Rg.Plugins.Popup.Popup.Init(); => readme.txt-ben le van irva hogy nem a  Brupper intezi a hivast
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
             return base.CreateViewPresenter();
@@ -65,6 +67,24 @@ namespace Brupper.Forms.Platforms.iOS
 
                 return base.FormsApplication;
             }
+        }
+
+        //public override IEnumerable<Assembly> GetViewAssemblies()
+        //{
+        //    var list = new List<Assembly>();
+        //    list.AddRange(base.GetViewAssemblies());
+        //    list.Add(typeof(Brupper.Forms.Pages.Base.MvxPopupPage<>).Assembly);
+
+        //    return list.ToArray();
+        //}
+
+        public override IEnumerable<Assembly> GetViewModelAssemblies()
+        {
+            var list = new List<Assembly>();
+            list.AddRange(base.GetViewModelAssemblies());
+            list.Add(typeof(Brupper.ViewModels.Popups.MvxPopupViewModel).Assembly);
+
+            return list.ToArray();
         }
     }
 }
