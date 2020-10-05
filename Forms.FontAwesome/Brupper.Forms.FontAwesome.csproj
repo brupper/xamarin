@@ -13,9 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\fa-brands-400.ttf" />
-    <None Remove="Resources\Fonts\fa-regular-400.ttf" />
-    <None Remove="Resources\Fonts\fa-solid-900.ttf" />
     <EmbeddedResource Include="Resources\Fonts\fa-brands-400.ttf" />
     <EmbeddedResource Include="Resources\Fonts\fa-regular-400.ttf" />
     <EmbeddedResource Include="Resources\Fonts\fa-solid-900.ttf" />
