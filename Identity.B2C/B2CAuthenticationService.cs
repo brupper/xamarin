@@ -34,7 +34,9 @@ namespace B2C
             // default redirectURI; each platform specific project will have to override it with its own
             var builder = PublicClientApplicationBuilder.Create(settings.ClientID)
                 .WithB2CAuthority(settings.AuthoritySignInSignUp)
+#if !ANDROID
                 .WithIosKeychainSecurityGroup(B2CConstants.IOSKeyChainGroup)
+#endif
                 .WithRedirectUri($"msal{settings.ClientID}://auth");
 
             // Android implementation is based on https://github.com/jamesmontemagno/CurrentActivityPlugin
@@ -44,7 +46,13 @@ namespace B2C
             Mvx.IoCProvider.TryResolve<IParentWindowLocatorService>(out var windowLocatorService);
             if (windowLocatorService != null)
             {
-                builder = builder.WithParentActivityOrWindow(() => windowLocatorService?.GetCurrentParentWindow());
+                builder = builder.WithParentActivityOrWindow(() =>
+                    windowLocatorService?.GetCurrentParentWindow()
+#if ANDROID
+                    as Android.App.Activity
+#endif
+
+                );
             }
 
             publicClientApplication = builder.Build();
