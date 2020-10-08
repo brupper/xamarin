@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+    x:Class="Brupper.Froms.Views.IsTestEnvironmentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    mc:Ignorable="d"
+    x:Name="This"    
+    Rotation="45"
+    TranslationX="32"
+    TranslationY="20"
+    WidthRequest="140"
+    HeightRequest="32"
+    HorizontalOptions="End"
+    VerticalOptions="Start"
+    IsClippedToBounds="True"
+    >
+
+    <BoxView BackgroundColor="#F25022" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="32" />
+    <Label Text="TEST" TextColor="White" FontSize="24" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"  HorizontalTextAlignment="Center"/>
+
+</Grid>

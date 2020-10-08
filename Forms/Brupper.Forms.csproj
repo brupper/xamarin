@@ -79,5 +79,11 @@
     <ProjectReference Include="..\Core\Brupper.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Views\IsTestEnvironmentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 
 </Project>
