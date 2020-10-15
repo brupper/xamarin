@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Forms.FontAwesome", "Forms.FontAwesome\Brupper.Forms.FontAwesome.csproj", "{A7045824-0717-44A1-B3A2-6F6D98E7C83D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Push", "Push\Brupper.Push.csproj", "{D6DE7051-220F-40C9-A0CD-70E5F5069EFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{A7045824-0717-44A1-B3A2-6F6D98E7C83D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7045824-0717-44A1-B3A2-6F6D98E7C83D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7045824-0717-44A1-B3A2-6F6D98E7C83D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6DE7051-220F-40C9-A0CD-70E5F5069EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6DE7051-220F-40C9-A0CD-70E5F5069EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6DE7051-220F-40C9-A0CD-70E5F5069EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6DE7051-220F-40C9-A0CD-70E5F5069EFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

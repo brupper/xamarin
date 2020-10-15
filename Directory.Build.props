@@ -18,7 +18,7 @@
     <RepositoryUrl>https://github.com/brupper/xamarin</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <Version>0.0.5</Version>
+    <Version>0.0.6</Version>
 
     <!--<Nullable>enable</Nullable>-->
     <LangVersion>8.0</LangVersion>
@@ -42,7 +42,7 @@
 	
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild Condition=" '$(IsTestProject)' != 'true'">true</GeneratePackageOnBuild>
-    <PackageOutputPath>../.nuget/</PackageOutputPath>
+    <PackageOutputPath>$(SolutionDir)\.artifacts</PackageOutputPath>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsTestProject)' != 'true' and '$(TF_BUILD)' == 'true'">
