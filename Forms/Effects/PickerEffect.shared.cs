@@ -3,37 +3,21 @@ using Xamarin.Forms;
 
 namespace Brupper.Forms.Effects
 {
-    public class EntryEffect : RoutingEffect
+    public class PickerEffect : RoutingEffect
     {
-        #region Constructors
+        #region Constructor
 
-        public EntryEffect()
-            : base($"Brupper.{nameof(EntryEffect)}")
+        public PickerEffect()
+            : base($"Brupper.{nameof(PickerEffect)}")
         {
         }
 
-        #endregion
-
-        #region UseTextInputLayoutProperty
-
-        public static readonly BindableProperty UseTextInputLayoutProperty
-                = BindableProperty.CreateAttached("UseTextInputLayout", typeof(bool), typeof(EntryEffect), false, propertyChanged: OnPropertyChanged);
-
-        public static bool GetUseTextInputLayout(BindableObject bindable)
-        {
-            return (bool)bindable.GetValue(UseTextInputLayoutProperty);
-        }
-
-        public static void SetUseTextInputLayout(BindableObject bindable, bool value)
-        {
-            bindable.SetValue(UseTextInputLayoutProperty, value);
-        }
         #endregion
 
         #region BackgroundColorProperty
 
         public static readonly BindableProperty BackgroundColorProperty
-                = BindableProperty.CreateAttached("BackgroundColor", typeof(Color), typeof(EntryEffect), Color.White, propertyChanged: OnPropertyChanged);
+                = BindableProperty.CreateAttached("BackgroundColor", typeof(Color), typeof(PickerEffect), Color.White, propertyChanged: OnPropertyChanged);
 
         public static Color GetBackgroundColor(BindableObject bindable)
         {
@@ -50,7 +34,7 @@ namespace Brupper.Forms.Effects
         #region BorderColorProperty
 
         public static readonly BindableProperty BorderColorProperty
-                = BindableProperty.CreateAttached("BorderColor", typeof(Color), typeof(EntryEffect), Color.White, propertyChanged: OnPropertyChanged);
+                = BindableProperty.CreateAttached("BorderColor", typeof(Color), typeof(PickerEffect), Color.White, propertyChanged: OnPropertyChanged);
 
         public static Color GetBorderColor(BindableObject bindable)
         {
@@ -67,7 +51,7 @@ namespace Brupper.Forms.Effects
         #region CornerRadiusProperty
 
         public static readonly BindableProperty CornerRadiusProperty
-                = BindableProperty.CreateAttached("CornerRadius", typeof(int), typeof(EntryEffect), 0, propertyChanged: OnPropertyChanged);
+                = BindableProperty.CreateAttached("CornerRadius", typeof(int), typeof(PickerEffect), 0, propertyChanged: OnPropertyChanged);
 
         public static int GetCornerRadius(BindableObject bindable)
         {
@@ -84,7 +68,7 @@ namespace Brupper.Forms.Effects
         #region BorderWidthProperty
 
         public static readonly BindableProperty BorderWidthProperty
-                = BindableProperty.CreateAttached("BorderWidth", typeof(int), typeof(EntryEffect), 0, propertyChanged: OnPropertyChanged);
+                = BindableProperty.CreateAttached("BorderWidth", typeof(int), typeof(PickerEffect), 0, propertyChanged: OnPropertyChanged);
 
         public static int GetBorderWidth(BindableObject bindable)
         {
@@ -104,10 +88,10 @@ namespace Brupper.Forms.Effects
         {
             if (bindable is VisualElement view)
             {
-                var entryEffect = view.Effects.FirstOrDefault(x => x is EntryEffect);
-                if (entryEffect == null)
+                var effect = view.Effects.FirstOrDefault(x => x is PickerEffect);
+                if (effect == null)
                 {
-                    view.Effects.Add(new EntryEffect());
+                    view.Effects.Add(new PickerEffect());
                 }
             }
         }

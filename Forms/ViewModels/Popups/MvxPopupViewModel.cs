@@ -26,6 +26,9 @@ namespace Brupper.ViewModels.Popups
 
         public IMvxAsyncCommand BackCommand { get; }
 
+        public IMvxAsyncCommand BackPressedCommand
+            => BackCommand;
+
         ICommand IPopupDialogViewModel.BackPressedCommand
             => BackCommand;
 
