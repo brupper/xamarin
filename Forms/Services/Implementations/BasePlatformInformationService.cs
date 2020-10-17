@@ -1,4 +1,6 @@
-﻿using Brupper.Forms.Services.Interfaces;
+﻿using Brupper.Forms.Models;
+using Brupper.Forms.Services.Interfaces;
+using System.Threading.Tasks;
 
 namespace Brupper.Forms.Services.Implementations
 {
@@ -11,6 +13,8 @@ namespace Brupper.Forms.Services.Implementations
         public abstract string GetMachineName();
         public abstract string GetCarrier();
         public abstract string GetOSVersion();
+
+        public abstract Task<DetailedDeviceInformation> GetDeviceInformationAsync();
 
         public override string ToString()
         {

@@ -7,4 +7,16 @@
     {
        object GetCurrentParentWindow();
     }
+
+#if ANDROID
+    public class AndroidParentWindowLocatorService : IParentWindowLocatorService
+    {
+        public object GetCurrentParentWindow()
+        {
+            var activity = MvvmCross.Mvx.IoCProvider.Resolve<MvvmCross.Platforms.Android.IMvxAndroidCurrentTopActivity>().Activity;
+            return activity;
+        }
+    }
+#endif
+
 }

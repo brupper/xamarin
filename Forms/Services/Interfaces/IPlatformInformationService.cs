@@ -1,4 +1,7 @@
-﻿namespace Brupper.Forms.Services.Interfaces
+﻿using Brupper.Forms.Models;
+using System.Threading.Tasks;
+
+namespace Brupper.Forms.Services.Interfaces
 {
     public interface IPlatformInformationService
     {
@@ -15,5 +18,7 @@
         string GetCarrier();
 
         string GetOSVersion();
+
+        Task<DetailedDeviceInformation> GetDeviceInformationAsync();
     }
 }

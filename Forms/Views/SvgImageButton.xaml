@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ff="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    x:Class="Brupper.Forms.Views.SvgImageButton"
+    x:Name="View"
+    HeightRequest="64"
+    WidthRequest="64"
+    VerticalOptions="Center"
+    HorizontalOptions="Start">
+
+    <Frame x:Name="MiddleFrame" Padding="0" BackgroundColor="#FFFFFF" HorizontalOptions="FillAndExpand" HasShadow="True">
+
+        <ff:SvgCachedImage x:Name="Icon"
+                       Source="{Binding Source, Source={x:Reference View}}"
+                       Aspect="AspectFit"
+                       DownsampleToViewSize="True" 
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="CenterAndExpand"
+        />
+
+        <Frame.GestureRecognizers>
+            <TapGestureRecognizer BindingContext="{x:Reference View}" Tapped="Handle_Tapped" />
+        </Frame.GestureRecognizers>
+    </Frame>
+</Grid>

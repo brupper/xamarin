@@ -1,8 +1,10 @@
-﻿using Brupper.Forms.Services.Implementations;
+﻿using Brupper.Forms.Models;
+using Brupper.Forms.Services.Implementations;
 using Brupper.Forms.Services.Interfaces;
 using CoreTelephony;
 using Foundation;
 using System;
+using System.Threading.Tasks;
 using UIKit;
 
 namespace Brupper.Forms.Platforms.iOS.Services
@@ -35,5 +37,10 @@ namespace Brupper.Forms.Platforms.iOS.Services
         }
 
         public override string GetOSVersion() => NSProcessInfo.ProcessInfo.OperatingSystemVersionString;
+
+        public override Task<DetailedDeviceInformation> GetDeviceInformationAsync()
+        {
+            throw new NotImplementedException("oooooooooooooooooooooooooooooooo");
+        }
     }
 }

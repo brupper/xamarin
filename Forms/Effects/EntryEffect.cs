@@ -14,6 +14,22 @@ namespace Brupper.Forms.Effects
 
         #endregion
 
+        #region UseTextInputLayoutProperty
+
+        public static readonly BindableProperty UseTextInputLayoutProperty
+                = BindableProperty.CreateAttached("UseTextInputLayout", typeof(bool), typeof(EntryEffect), false, propertyChanged: OnPropertyChanged);
+
+        public static bool GetUseTextInputLayout(BindableObject bindable)
+        {
+            return (bool)bindable.GetValue(UseTextInputLayoutProperty);
+        }
+
+        public static void SetUseTextInputLayout(BindableObject bindable, bool value)
+        {
+            bindable.SetValue(UseTextInputLayoutProperty, value);
+        }
+        #endregion
+
         #region BackgroundColorProperty
 
         public static readonly BindableProperty BackgroundColorProperty

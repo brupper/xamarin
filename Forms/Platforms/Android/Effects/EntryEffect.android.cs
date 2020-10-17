@@ -1,4 +1,5 @@
 ﻿using Android.Graphics.Drawables;
+using Android.Runtime;
 using Brupper.Forms.Effects;
 using System.ComponentModel;
 using Xamarin.Forms;
@@ -8,6 +9,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportEffect(typeof(Brupper.Forms.Platforms.Android.Effects.EntryEffect), nameof(EntryEffect))]
 namespace Brupper.Forms.Platforms.Android.Effects
 {
+    [Preserve(AllMembers = true)]
     public class EntryEffect : PlatformEffect
     {
         protected override void OnAttached()
@@ -42,5 +44,4 @@ namespace Brupper.Forms.Platforms.Android.Effects
             }
         }
     }
-
 }

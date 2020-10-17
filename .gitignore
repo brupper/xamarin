@@ -335,3 +335,5 @@ ASALocalRun/
 /Source/Form/Platforms/Android/Resources/Resource.designer.cs
 /.nuget/*.nupkg
 /.nuget/*.snupkg
+/.artifacts/*.nupkg
+/.artifacts/*.snupkg

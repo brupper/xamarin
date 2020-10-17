@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Brupper.Forms.FontAwesome</AssemblyName>
+    <RootNamespace>Brupper.Forms.FontAwesome</RootNamespace>
+    <Description>This package contains Brupper to use with Xamarin.Forms</Description>
+    <PackageId>Brupper.Forms.FontAwesome</PackageId>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\fa-brands-400.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\fa-regular-400.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\fa-solid-900.ttf" />
+  </ItemGroup>
+
+</Project>
