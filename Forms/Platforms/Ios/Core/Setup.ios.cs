@@ -32,6 +32,7 @@ namespace Brupper.Forms.Platforms.iOS
             Mvx.IoCProvider.RegisterSingleton<IPlatformInformationService>(platformInformationService);
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPermissionHelper, PermissionHelper>();
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IOutputRendererServices, OutputRendererServices>();
+            Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IImageResizer, ImageResizer>();
         }
 
         protected override IMvxLogProvider CreateLogProvider() => new AppCenterTrace(base.CreateLogProvider());
