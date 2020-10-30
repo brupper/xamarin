@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -52,6 +53,50 @@ namespace Brupper.Forms
                 md.MasterBehavior = MasterBehavior.Popover;
                 md.IsPresented = !md.IsPresented;
             }
+        }
+
+        /// <summary> Js to get the height of HTML content. The .toString() is extremely important! </summary>
+        public const string JavaSciptGetHeight = "document.body.getBoundingClientRect().height.toString() || document.body.clientHeight.toString()";
+
+        /// <summary> We have to normalize height of the WebView and this script helps to get the HTML size. (Window height) </summary>
+        public const string JavaSciptGetWindowHeight = "document.documentElement.clientHeight.toString() || window.innerHeight.toString()";
+
+        /// <summary> Js to get the height of HTML content. The .toString() is extremely important! </summary>
+        public const string JavaSciptGetWidth = "document.body.getBoundingClientRect().width.toString() || document.body.clientWidth.toString()";
+
+        /// <summary> We have to normalize height of the WebView and this script helps to get the HTML size. (Window height) </summary>
+        public const string JavaSciptGetWindowWidth = "document.documentElement.clientWidth.toString() || window.innerWidth.toString()";
+
+        /// <summary> Offset for webview's dynamic height. Vertical scrollbar must not show. </summary>
+        public const int HtmlContentHeightPaddingOffset = 18;
+
+        /// <summary> We have to normalize height of the WebView to remove ugly scrollbars. </summary>
+        public static async Task<double> NormalizeHeightOfWebView(this WebView webView)
+        {
+            if (webView.Source == null)
+            {
+                return 0;
+            }
+
+            var heightString = await webView.EvaluateJavaScriptAsync(ViewExtensions.JavaSciptGetHeight) ?? string.Empty;
+            var windowHeightString = await webView.EvaluateJavaScriptAsync(ViewExtensions.JavaSciptGetWindowHeight) ?? string.Empty;
+
+            double height, windowHeight;
+            //TODO: use invariant culture.
+            if ((double.TryParse(heightString, out height) || double.TryParse(heightString.Replace('.', ','), out height))
+                && (double.TryParse(windowHeightString, out windowHeight) || double.TryParse(windowHeightString.Replace('.', ','), out windowHeight)))
+            {
+                if (webView.HeightRequest != height
+                    && Math.Abs(webView.HeightRequest - height) >= ViewExtensions.HtmlContentHeightPaddingOffset)
+                {
+                    height += ViewExtensions.HtmlContentHeightPaddingOffset;
+                    webView.HeightRequest = height;
+                    return height;
+                }
+
+                //TODO: normalize somehow: webView.HeightRequest = webView.Height > 0 && windowHeight > 0 ? height * (webView.Height / windowHeight) : height;
+            }
+            return webView.Height;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Brupper.Forms.Platforms.Android.PlatformServices;
 using Brupper.Forms.Platforms.Android.Services;
 using Brupper.Forms.Presenters;
+using Brupper.Forms.Services;
 using Brupper.Forms.Services.Interfaces;
 using MvvmCross;
 using MvvmCross.Commands;
@@ -31,6 +32,9 @@ namespace Brupper.Forms.Platforms.Android
             var platformInformationService = new PlatformInformationService();
             Mvx.IoCProvider.RegisterSingleton<IPlatformInformationService>(platformInformationService);
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPermissionHelper, PermissionHelper>();
+            Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IOutputRendererServices, OutputRendererServices>();
+            Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IImageResizer, ImageResizer>();
+            
         }
 
         protected override IMvxLogProvider CreateLogProvider() => new AppCenterTrace(base.CreateLogProvider());

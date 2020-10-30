@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<base:MvxPopupPage 
+    x:TypeArguments="viewModels:InformationViewModel"
+    x:DataType="viewModels:InformationViewModel"
+    x:Class="Brupper.Forms.Pages.Popups.InformationPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:base="clr-namespace:Brupper.Forms.Pages.Base;assembly=Brupper.Forms"
+    xmlns:viewModels="clr-namespace:Brupper.ViewModels.Popups;assembly=Brupper.Forms"
+    xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    mc:Ignorable="d"
+    ios:Page.UseSafeArea="true"
+    CloseWhenBackgroundIsClicked="True">
+
+    <base:MvxPopupPage.Resources>
+        <ResourceDictionary>
+
+            <!-- https://xamgirl.com/awesome-xamarin-forms-properties-that-you-probably-didnt-know-about/ -->
+            <Style TargetType="Frame" x:Key="MenuItem">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="IsClippedToBounds" Value="True" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="Margin" Value="8" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="ios:VisualElement.IsShadowEnabled" Value="True"  />
+                <Setter Property="ios:VisualElement.ShadowColor" Value="Gray"  />
+                <Setter Property="ios:VisualElement.ShadowOpacity" Value="0.7"  />
+                <Setter Property="ios:VisualElement.ShadowRadius" Value="10"  />
+                <Setter Property="ios:VisualElement.ShadowOffset" Value="10,10"  />
+            </Style>
+
+        </ResourceDictionary>
+    </base:MvxPopupPage.Resources>
+
+    <Grid VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="16">
+        <Frame Style="{StaticResource MenuItem}" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+
+            <ScrollView HorizontalOptions="FillAndExpand">
+                <StackLayout Spacing="16" Padding="8">
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="2">
+                        <Label Text="{Binding Header}" Margin="12,0,12,0" TextColor="Black" FontSize="{StaticResource TextSizeHeadline}" />
+                        <BoxView HeightRequest="1" HorizontalOptions="FillAndExpand" Color="Black" Opacity="0.4" />
+                    </StackLayout>
+
+                    <StackLayout x:Name="List" Spacing="12" IsVisible="{Binding HasLines}" BindableLayout.ItemsSource="{Binding Lines}" VerticalOptions="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <!--TextType="Html"-->
+                                <Label x:Name="Self" Text="{Binding BindingContext, Source={x:Reference Self}}"
+                                       TextColor="Black"
+                                       VerticalOptions="Center"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalOptions="Center" 
+                                       HorizontalTextAlignment="Center" 
+                                />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+
+                    <StackLayout IsVisible="{Binding IsHtml}" Spacing="0">
+                        <!--Figured out the iOS bug I had, needed to set the HeightRequest initially in the PCL code to something small, like 20. This way a ScrollView would be created.-->
+                        <WebView x:Name="Browser" Source="{Binding HtmlSource}" HeightRequest="700" />
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding BackPressedCommand}" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
+        <svg:SvgCachedImage IsVisible="{Binding IsError}" Source="resource://InspEx.UI.Resources.Images.error.svg" HorizontalOptions="EndAndExpand" VerticalOptions="Start" Margin="12" WidthRequest="64" />
+
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding BackPressedCommand}" />
+        </Grid.GestureRecognizers>
+    </Grid>
+
+</base:MvxPopupPage>
