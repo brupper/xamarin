@@ -12,7 +12,7 @@ namespace Brupper.Data.Entities
 
     public class BaseEntity : IBaseEntity
     {
-        public string Id { get; set; }
+        public virtual string Id { get; set; }
 
         #region INotifyPropertyChanged
 

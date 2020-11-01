@@ -15,8 +15,8 @@ namespace Brupper.Data.EF
     {
         private bool disposed;
 
-        internal ADataContext context;
-        internal DbSet<TEntity> dbSet;
+        protected ADataContext context;
+        protected DbSet<TEntity> dbSet;
 
         #region Constructor
 
