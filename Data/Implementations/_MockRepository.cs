@@ -71,6 +71,13 @@ namespace Brupper.Data
             await SaveAsync();
         }
 
+        public Task InsertOrUpdateAsync(TEntity entity)
+        {
+            if (!dbSet.Contains(entity))
+                dbSet.Add(entity);
+            return SaveAsync();
+        }
+
         public virtual async Task DeleteAsync(object id)
         {
 #pragma warning disable CS0253 // Possible unintended reference comparison; right hand side needs cast
