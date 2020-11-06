@@ -337,3 +337,4 @@ ASALocalRun/
 /.nuget/*.snupkg
 /.artifacts/*.nupkg
 /.artifacts/*.snupkg
+/.artifacts/publish.cmd
