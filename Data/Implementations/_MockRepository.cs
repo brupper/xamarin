@@ -13,7 +13,7 @@ namespace Brupper.Data
     {
         private bool disposed;
 
-        internal static readonly List<TEntity> dbSet = new List<TEntity>();
+        protected static readonly List<TEntity> dbSet = new List<TEntity>();
 
         #region Constructor
 
@@ -69,6 +69,13 @@ namespace Brupper.Data
         {
             dbSet.Add(entity);
             await SaveAsync();
+        }
+
+        public Task InsertOrUpdateAsync(TEntity entity)
+        {
+            if (!dbSet.Contains(entity))
+                dbSet.Add(entity);
+            return SaveAsync();
         }
 
         public virtual async Task DeleteAsync(object id)

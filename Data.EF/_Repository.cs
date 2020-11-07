@@ -73,6 +73,19 @@ namespace Brupper.Data.EF
             await SaveAsync();
         }
 
+        public virtual async Task InsertOrUpdateAsync(TEntity entity)
+        {
+            var oldEntity = await dbSet.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            if (oldEntity == null)
+            {
+                await InsertAsync(entity);
+            }
+            else
+            {
+                await UpdateAsync(entity);
+            }
+        }
+
         public virtual async Task DeleteAsync(object id)
         {
             TEntity entityToDelete = await dbSet.FindAsync(id);

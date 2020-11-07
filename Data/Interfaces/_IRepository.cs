@@ -26,11 +26,13 @@ namespace Brupper.Data
 
         Task InsertAsync(TEntity entity);
 
+        Task InsertOrUpdateAsync(TEntity entity);
+
+        Task UpdateAsync(TEntity entityToUpdate);
+
         Task DeleteAsync(object id);
 
         Task DeleteAsync(TEntity entityToDelete);
-
-        Task UpdateAsync(TEntity entityToUpdate);
 
         Task SaveAsync();
     }
