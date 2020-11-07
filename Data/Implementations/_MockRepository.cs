@@ -13,7 +13,7 @@ namespace Brupper.Data
     {
         private bool disposed;
 
-        internal static readonly List<TEntity> dbSet = new List<TEntity>();
+        protected static readonly List<TEntity> dbSet = new List<TEntity>();
 
         #region Constructor
 
