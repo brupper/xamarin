@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using XfView = Xamarin.Forms.View;
 
 namespace Brupper.Forms
 {
@@ -97,6 +99,51 @@ namespace Brupper.Forms
                 //TODO: normalize somehow: webView.HeightRequest = webView.Height > 0 && windowHeight > 0 ? height * (webView.Height / windowHeight) : height;
             }
             return webView.Height;
+        }
+
+        /// <summary> . </summary>
+        public static XfView CreateContentForItem(this object itemTemplate, object item, ICommand itemTappedCommand, BindableObject parent = null)
+        {
+            XfView itemView = null;
+
+            if (itemTemplate is DataTemplateSelector selector)
+            {
+                var view = selector.SelectTemplate(item, parent).CreateContent();
+                if (view is ViewCell cell)
+                {
+                    itemView = cell.View;
+                }
+                else
+                {
+                    itemView = view as View;
+                }
+            }
+            else if (itemTemplate is DataTemplate template)
+            {
+                itemView = template.CreateContent() as XfView;
+            }
+
+
+            if (itemView == null)
+            {
+                throw new ArgumentException("Can not create View.");
+            }
+
+            if (item != null)
+            {
+                itemView.BindingContext = item;
+            }
+
+            if (itemTappedCommand != null)
+            {
+                var tapRecognizer = new TapGestureRecognizer
+                {
+                    Command = itemTappedCommand,
+                    CommandParameter = item
+                };
+                itemView.GestureRecognizers.Add(tapRecognizer);
+            }
+            return itemView;
         }
     }
 }
