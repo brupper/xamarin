@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 // ReSharper disable once CheckNamespace
 namespace Brupper.Data.Azure
 {
-    public interface IBaseReadonlyRepository<T>
+    public interface ITableReadonlyRepository<T>
     {
         string Identifier { get; }
         Task InitializeStoreAsync();
@@ -13,7 +13,7 @@ namespace Brupper.Data.Azure
         Task<bool> SyncAsync();
     }
 
-    public interface IBaseRepository<T> : IBaseReadonlyRepository<T>
+    public interface ITableRepository<T> : ITableReadonlyRepository<T>
     {
         Task<bool> InsertAsync(T item);
         Task<bool> UpdateAsync(T item);

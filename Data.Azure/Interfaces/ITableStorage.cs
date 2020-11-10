@@ -18,18 +18,18 @@ namespace Brupper.Data.Azure
         Task<T> GetAsync<T>(string partitionKey, string rowKey) where T : class, ITableEntity;
 
         /// <summary> Adds the or update entity. </summary>
-        Task<object> AddOrUpdateAsync<T>(T entity) where T : class, ITableEntity, new();
+        Task<T> AddOrUpdateAsync<T>(T entity) where T : class, ITableEntity, new();
 
-        Task<object> DeleteAsync<T>(T entity) where T : class, ITableEntity, new();
+        Task<T> DeleteAsync<T>(T entity) where T : class, ITableEntity, new();
 
-        Task<object> AddAsync<T>(T entity) where T : class, ITableEntity, new();
+        Task<T> AddAsync<T>(T entity) where T : class, ITableEntity, new();
 
         /// <summary> Insert a batch of entities. Support adding more than 100 entities. </summary>
         Task<IEnumerable<T>> AddBatchAsync<T>(IEnumerable<ITableEntity> entities, BatchOperationOptions options) where T : class, ITableEntity, new();
 
-        Task<object> UpdateAsync<T>(T entity) where T : class, ITableEntity, new();
+        Task<T> UpdateAsync<T>(T entity) where T : class, ITableEntity, new();
 
-        Task<object> UpdatePartialAsync<T>(T entity) where T : class, ITableEntity, new();
+        Task<T> UpdatePartialAsync<T>(T entity) where T : class, ITableEntity, new();
     }
 
     public class BatchOperationOptions

@@ -10,9 +10,9 @@ namespace Brupper.Data.Azure.Implementations
 {
     public class AzureTableStorage : ITableStorage
     {
-        private readonly CloudTableClient client;
-        private static readonly ConcurrentDictionary<string, CloudTable> tables = new ConcurrentDictionary<string, CloudTable>();
-        private static readonly ConcurrentDictionary<Type, string> boundTypeInfos = new ConcurrentDictionary<Type, string>();
+        protected readonly CloudTableClient client;
+        protected static readonly ConcurrentDictionary<string, CloudTable> tables = new ConcurrentDictionary<string, CloudTable>();
+        protected static readonly ConcurrentDictionary<Type, string> boundTypeInfos = new ConcurrentDictionary<Type, string>();
 
         public AzureTableStorage(IConfiguration configuration)
         {
@@ -65,7 +65,7 @@ namespace Brupper.Data.Azure.Implementations
                 await QueryAsync(table, query).ConfigureAwait(false);
         }
 
-        public async Task<object> AddOrUpdateAsync<T>(T entity)
+        public async Task<T> AddOrUpdateAsync<T>(T entity)
             where T : class, ITableEntity, new()
         {
             var tableName = GetTableName<T>();
@@ -75,10 +75,10 @@ namespace Brupper.Data.Azure.Implementations
 
             TableResult result = await table.ExecuteAsync(insertOrReplaceOperation).ConfigureAwait(false);
 
-            return result.Result;
+            return result.Result as T;
         }
 
-        public async Task<object> DeleteAsync<T>(T entity)
+        public async Task<T> DeleteAsync<T>(T entity)
             where T : class, ITableEntity, new()
         {
             var tableName = GetTableName<T>();
@@ -88,10 +88,10 @@ namespace Brupper.Data.Azure.Implementations
 
             TableResult result = await table.ExecuteAsync(deleteOperation).ConfigureAwait(false);
 
-            return result.Result;
+            return result.Result as T;
         }
 
-        public async Task<object> AddAsync<T>(T entity)
+        public async Task<T> AddAsync<T>(T entity)
             where T : class, ITableEntity, new()
         {
             var tableName = GetTableName<T>();
@@ -101,7 +101,7 @@ namespace Brupper.Data.Azure.Implementations
 
             TableResult result = await table.ExecuteAsync(insertOperation).ConfigureAwait(false);
 
-            return result.Result;
+            return result.Result as T;
         }
 
         public async Task<IEnumerable<T>> AddBatchAsync<T>(IEnumerable<ITableEntity> entities, BatchOperationOptions options = null)
@@ -149,7 +149,7 @@ namespace Brupper.Data.Azure.Implementations
             return results.SelectMany(tableResults => tableResults, (tr, r) => r.Result as T);
         }
 
-        public async Task<object> UpdateAsync<T>(T entity)
+        public async Task<T> UpdateAsync<T>(T entity)
             where T : class, ITableEntity, new()
         {
             var tableName = GetTableName<T>();
@@ -159,11 +159,11 @@ namespace Brupper.Data.Azure.Implementations
 
             TableResult result = await table.ExecuteAsync(replaceOperation).ConfigureAwait(false);
 
-            return result.Result;
+            return result.Result as T;
         }
 
 
-        public async Task<object> UpdatePartialAsync<T>(T entity)
+        public async Task<T> UpdatePartialAsync<T>(T entity)
             where T : class, ITableEntity, new()
         {
             var tableName = GetTableName<T>();
@@ -174,10 +174,10 @@ namespace Brupper.Data.Azure.Implementations
 
             var result = await table.ExecuteAsync(replaceOperation).ConfigureAwait(false);
 
-            return result.Result;
+            return result.Result as T;
         }
 
-        private async Task<CloudTable> EnsureTableAsync(string tableName)
+        protected async Task<CloudTable> EnsureTableAsync(string tableName)
         {
             if (!tables.ContainsKey(tableName))
             {
@@ -189,7 +189,7 @@ namespace Brupper.Data.Azure.Implementations
             return tables[tableName];
         }
 
-        private async Task<IEnumerable<T>> QueryAsync<T>(CloudTable table, TableQuery<T> query)
+        protected async Task<IEnumerable<T>> QueryAsync<T>(CloudTable table, TableQuery<T> query)
             where T : class, ITableEntity, new()
         {
             var entities = new List<T>();
@@ -205,7 +205,7 @@ namespace Brupper.Data.Azure.Implementations
             return entities;
         }
 
-        private async Task<IEnumerable<T>> QueryAsyncWithTakeCount<T>(CloudTable table, TableQuery<T> query)
+        protected async Task<IEnumerable<T>> QueryAsyncWithTakeCount<T>(CloudTable table, TableQuery<T> query)
             where T : class, ITableEntity, new()
         {
             var entities = new List<T>();
@@ -228,7 +228,7 @@ namespace Brupper.Data.Azure.Implementations
             return entities;
         }
 
-        private static string GetTableName<T>()
+        protected static string GetTableName<T>()
         {
             var type = typeof(T);
             if (!boundTypeInfos.TryGetValue(typeof(T), out string tableName))
