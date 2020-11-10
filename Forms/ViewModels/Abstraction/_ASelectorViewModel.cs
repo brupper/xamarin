@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Brupper.ViewModels
+namespace Brupper.ViewModels.Abstraction
 {
     public class SelectorParam<T>
     {

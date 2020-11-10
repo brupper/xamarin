@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Brupper.ViewModels
+namespace Brupper.ViewModels.Abstraction
 {
     public class EditorViewModelViewModelParam<TEntity>
     {

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Brupper.ViewModels
+namespace Brupper.ViewModels.Abstraction
 {
     public abstract class AItemsViewModel<TEntity, TRepository, TEditViewModel> : AItemsSearchViewModel<TEntity>
         where TEntity : BaseEntity, new()

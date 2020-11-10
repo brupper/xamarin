@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 
-namespace Brupper.ViewModels
+namespace Brupper.ViewModels.Abstraction
 {
     public abstract partial class ViewModelBase : MvxNavigationViewModel, IPopupDialogViewModel
     {
