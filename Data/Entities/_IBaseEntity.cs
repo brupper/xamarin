@@ -12,6 +12,11 @@ namespace Brupper.Data.Entities
 
     public class BaseEntity : IBaseEntity
     {
+        public BaseEntity()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
         public virtual string Id { get; set; }
 
         #region INotifyPropertyChanged
