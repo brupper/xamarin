@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Brupper.Forms.Services.Interfaces
 {
-    public interface IPlatformInformationService
+    public interface IPlatformInformationService : Brupper.Diagnostics.IDiagnosticsPlatformInformationProvider
     {
         string GetDeviceId();
 

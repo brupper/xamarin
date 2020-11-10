@@ -1,4 +1,4 @@
-﻿using Brupper.Data.Azure.Models;
+﻿using Brupper.Data.Azure.Entities;
 using Microsoft.WindowsAzure.Storage;
 using Newtonsoft.Json;
 using System;
@@ -14,7 +14,7 @@ using Xamarin.Essentials.Interfaces;
 
 namespace Brupper.Data.Azure.Implementations
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T>
+    public abstract class TableRepository<T> : ITableRepository<T>
         where T : class, IBaseDataObject, new()
     {
         protected static readonly List<T> localCache = new List<T>();
@@ -29,7 +29,7 @@ namespace Brupper.Data.Azure.Implementations
 
         #region Constructor
 
-        protected BaseRepository(ITableStorage table,
+        protected TableRepository(ITableStorage table,
             IConnectivity connectivityService,
             IFileSystem fileSystemService)
         {

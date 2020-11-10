@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace Brupper.Data.Azure.Models
+namespace Brupper.Data.Azure.Entities
 {
     public interface IBaseDataObject : ITableEntity
     {

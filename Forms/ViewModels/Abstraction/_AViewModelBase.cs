@@ -1,5 +1,4 @@
-﻿using Brupper;
-using Brupper.Forms.Services.Interfaces;
+﻿using Brupper.Forms.Services.Interfaces;
 using Brupper.ViewModels.Popups;
 using MvvmCross;
 using MvvmCross.Commands;
@@ -12,9 +11,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 
-namespace InspEx.UI.ViewModels
+namespace Brupper.ViewModels.Abstraction
 {
-    public abstract class ViewModelBase : MvxNavigationViewModel, IPopupDialogViewModel
+    public abstract partial class ViewModelBase : MvxNavigationViewModel, IPopupDialogViewModel
     {
         #region Fields
 
@@ -25,7 +24,6 @@ namespace InspEx.UI.ViewModels
         private string syncMessage;
         private IMvxTextProvider textProvider;
         private IMvxAsyncCommand backPressedCommand;
-        private IMvxAsyncCommand cameraCommand;
 
         #endregion
 
@@ -86,9 +84,6 @@ namespace InspEx.UI.ViewModels
 
         ICommand IPopupDialogViewModel.BackPressedCommand => BackPressedCommand;
 
-        public IMvxAsyncCommand CameraCommand
-            => cameraCommand ?? (cameraCommand = new MvxAsyncCommand(ExecuteCameraCommandAsync));
-
         #endregion
 
         #region Overrides
@@ -103,7 +98,28 @@ namespace InspEx.UI.ViewModels
 
         #region Protected Methods
 
-        protected virtual Task ExecuteCameraCommandAsync() => Task.CompletedTask;
+        protected async Task InvokeOnMainThreadAsync(Task action, bool maskExceptions = true)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    await action;
+                    tcs.TrySetResult(true);
+                }
+                catch (Exception e)
+                {
+                    if (!maskExceptions)
+                        tcs.TrySetException(e);
+                    else
+                        tcs.TrySetResult(false);
+                }
+            });
+
+            await tcs.Task;
+        }
 
         protected virtual Task ExecuteBackPressedCommandAsync()
             => NavigationService.Close(this);
@@ -212,5 +228,4 @@ namespace InspEx.UI.ViewModels
 
         #endregion
     }
-
 }
