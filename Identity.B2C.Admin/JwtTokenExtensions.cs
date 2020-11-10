@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -78,6 +79,6 @@ namespace Brupper.Identity.B2C
         public static string GetEmail(this JwtSecurityToken securityToken) => securityToken?.Claims?.FirstOrDefault(x => x.Type == "emails")?.Value; //TODO: B2CJwtRegisteredClaimNames.Emails
 
         public static string GetMail(this Microsoft.Graph.User user)
-            => user?.Identities?.FirstOrDefault(x => x.SignInType == "emailAddress")?.IssuerAssignedId + " " + user?.Mail + "" + string.Join(", ", user?.OtherMails);
+            => $"{user?.Identities?.FirstOrDefault(x => x.SignInType == "emailAddress")?.IssuerAssignedId} {user?.Mail} {string.Join(" ", user?.OtherMails ?? new List<string> { "" })}";
     }
 }

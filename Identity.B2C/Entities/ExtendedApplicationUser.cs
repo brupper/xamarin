@@ -2,16 +2,19 @@
 using System;
 using System.Collections.Generic;
 
-namespace Brupper.Identity.B2C.Models
+namespace Brupper.Identity.B2C.Entities
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public partial class ExtendedUser : GraphUser
+    public partial class ExtendedApplicationUser : ApplicationUser
     {
         /// <summary> The User constructor </summary>
-        public ExtendedUser()
+        public ExtendedApplicationUser()
         {
             ODataType = "microsoft.graph.user";
         }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, PropertyName = "@odata.type", Required = Newtonsoft.Json.Required.Default)]
+        public string ODataType { get; set; }
 
         /// <summary> Gets or sets account enabled. true if the account is enabled; otherwise, false. This property is required when a user is created. Supports $filter.</summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, PropertyName = "accountEnabled", Required = Newtonsoft.Json.Required.Default)]
