@@ -2,6 +2,8 @@
 {
     public interface IApplicationUser
     {
+        string UserId { get; set; }
+
         string Email { get; set; }
 
         string UserName { get; set; }

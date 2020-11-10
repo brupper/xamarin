@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Brupper.Identity.B2C" Version="0.0.13" />
+    <PackageReference Include="Brupper.Identity.B2C" Version="0.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.9" />

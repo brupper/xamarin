@@ -7,6 +7,7 @@ namespace Brupper.Identity.B2C.Entities
     {
         #region Fields
 
+        private string userId;
         private string email;
         private string userName;
         private string phoneNumber;
@@ -23,6 +24,9 @@ namespace Brupper.Identity.B2C.Entities
         private string bankAccount;
 
         #endregion
+
+        /// <summary> . </summary>
+        public virtual string UserId { get => userId; set => SetProperty(ref userId, value); }
 
         /// <summary> . </summary>
         public virtual string Email { get => email; set => SetProperty(ref email, value); }
