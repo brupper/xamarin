@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -213,6 +216,41 @@ namespace Brupper.IO
                 fileWriteLock.Release();
             }
         }
+
+        #region ZIP
+
+        public byte[] ZipFiles(string[] filesToZip, string zipFilePath)
+        {
+            try
+            {
+                if (File.Exists(zipFilePath))
+                {
+                    File.Delete(zipFilePath);
+                }
+
+                using (var zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
+                {
+                    foreach (var file in filesToZip)
+                    {
+                        if (File.Exists(file))
+                        {
+                            zipArchive.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
+                        }
+                    }
+                }
+
+                return File.ReadAllBytes(zipFilePath);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+
+            return null;
+        }
+
+
+        #endregion
 
         public abstract string LocalStoragePath { get; }
 

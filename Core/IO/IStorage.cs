@@ -52,5 +52,8 @@ namespace Brupper.IO
 
         /// <summary> Gets a list of folder names contained in the desired path. </summary>
         IEnumerable<string> GetDataFolders(string folderName);
+
+        /// <summary> Zips. </summary>
+        byte[] ZipFiles(string[] filesToZip, string zipFilePath);
     }
 }

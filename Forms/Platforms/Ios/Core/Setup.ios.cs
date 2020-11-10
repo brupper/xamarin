@@ -1,4 +1,6 @@
-﻿using Brupper.Forms.Platforms.iOS.Services;
+﻿using Brupper.Diagnostics;
+using Brupper.Forms.Diagnostics;
+using Brupper.Forms.Platforms.iOS.Services;
 using Brupper.Forms.Presenters;
 using Brupper.Forms.Services;
 using Brupper.Forms.Services.Interfaces;
@@ -30,6 +32,13 @@ namespace Brupper.Forms.Platforms.iOS
 
             var platformInformationService = new PlatformInformationService();
             Mvx.IoCProvider.RegisterSingleton<IPlatformInformationService>(platformInformationService);
+
+            Mvx.IoCProvider.RegisterSingleton<IDiagnosticsPlatformInformationProvider>(platformInformationService);
+            Mvx.IoCProvider.ConstructAndRegisterSingleton<IDiagnosticsStorage, FormsStorage>();
+            Logger.Init<FormsLogger>(Mvx.IoCProvider.IoCConstruct<FormsLogger>());
+            Logger.Current.RegisterProvider<AppCenterLogProvider>(LogTagLevels.Medium);
+            Mvx.IoCProvider.RegisterSingleton<ILogger>(() => Logger.Current);
+
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPermissionHelper, PermissionHelper>();
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IOutputRendererServices, OutputRendererServices>();
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IImageResizer, ImageResizer>();
