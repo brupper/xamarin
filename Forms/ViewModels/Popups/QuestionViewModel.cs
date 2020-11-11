@@ -1,4 +1,4 @@
-﻿using Brupper.Forms.Models;
+﻿using Brupper.Forms.UiModels;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
@@ -13,14 +13,14 @@ namespace Brupper.ViewModels.Popups
     {
         public string LocalizedQuestion { get; set; }
 
-        public DialogButtonModel OkButton { get; set; }
-            = new DialogButtonModel { TranslateKey = "general_ok" };
+        public DialogButtonUiModel OkButton { get; set; }
+            = new DialogButtonUiModel { TranslateKey = "general_ok" };
 
-        public DialogButtonModel CancelButton { get; set; }
-            = new DialogButtonModel { TranslateKey = "general_cancel" };
+        public DialogButtonUiModel CancelButton { get; set; }
+            = new DialogButtonUiModel { TranslateKey = "general_cancel" };
 
-        public IEnumerable<DialogButtonModel> AdditionalButtons { get; set; }
-            = Enumerable.Empty<DialogButtonModel>();
+        public IEnumerable<DialogButtonUiModel> AdditionalButtons { get; set; }
+            = Enumerable.Empty<DialogButtonUiModel>();
 
     }
 
@@ -33,7 +33,7 @@ namespace Brupper.ViewModels.Popups
 
         private string _question;
         private IMvxAsyncCommand _acceptCommand;
-        private MvxObservableCollection<DialogButtonModel> buttons = new MvxObservableCollection<DialogButtonModel>();
+        private MvxObservableCollection<DialogButtonUiModel> buttons = new MvxObservableCollection<DialogButtonUiModel>();
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace Brupper.ViewModels.Popups
 
         #region Properties
 
-        public MvxObservableCollection<DialogButtonModel> Buttons
+        public MvxObservableCollection<DialogButtonUiModel> Buttons
         {
             get => buttons;
             set => SetProperty(ref buttons, value);

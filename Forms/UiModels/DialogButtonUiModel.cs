@@ -1,8 +1,8 @@
 ﻿using System.Windows.Input;
 
-namespace Brupper.Forms.Models
+namespace Brupper.Forms.UiModels
 {
-    public class DialogButtonModel
+    public class DialogButtonUiModel
     {
         public ICommand Command { get; set; }
 

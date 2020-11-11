@@ -7,7 +7,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-    xmlns:models="clr-namespace:Brupper.Forms.Models;assembly=Brupper.Forms"
+    xmlns:models="clr-namespace:Brupper.Forms.UiModels;assembly=Brupper.Forms"
     xmlns:base="clr-namespace:Brupper.Forms.Pages.Base;assembly=Brupper.Forms"
     xmlns:popups="clr-namespace:Brupper.ViewModels.Popups;assembly=Brupper.Forms"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
@@ -55,7 +55,7 @@
                     <StackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Buttons}" Orientation="Horizontal" HorizontalOptions="Center">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Button x:DataType="models:DialogButtonModel"
+                                <Button x:DataType="models:DialogButtonUiModel"
                                     Text="{Binding TranslateKey, Converter={StaticResource TranslateConverter}}" 
                                     Command="{Binding Command}"
                                     CommandParameter="{Binding .}" />
