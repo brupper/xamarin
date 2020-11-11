@@ -25,6 +25,7 @@ namespace Brupper.ViewModels.Abstraction
 
         protected SelectorParam<TSubject> parameter;
 
+        private TSubject selected;
         private IMvxAsyncCommand acceptCommand;
         private IMvxCommand<TSubject> selectExistingCommand;
 
@@ -42,15 +43,37 @@ namespace Brupper.ViewModels.Abstraction
 
         #region Properties
 
+        public override TSubject SelectedItem
+        {
+            get => selected;
+            set
+            {
+                var originalValue = selected;
+                if (SetProperty(ref selected, value)) // TODO: null fallback value ?? new TSubject()
+                {
+                    if (originalValue != null)
+                    {
+                        originalValue.PropertyChanged -= SelectedItem_PropertyChanged;
+                    }
+                    if (SelectedItem != null)
+                    {
+                        SelectedItem.PropertyChanged += SelectedItem_PropertyChanged;
+                    }
+                }
+            }
+        }
+
         public TaskCompletionSource<object> CloseCompletionSource { get; set; }
 
-        public IMvxAsyncCommand AcceptCommand => acceptCommand ?? (acceptCommand = new MvxAsyncCommand(ExecuteAcceptCommand));
+        public IMvxAsyncCommand AcceptCommand => acceptCommand ?? (acceptCommand = new MvxAsyncCommand(ExecuteAcceptCommand, CanExecuteAcceptCommand));
 
         public IMvxCommand<TSubject> SelectExistingCommand => selectExistingCommand ?? (selectExistingCommand = new MvxCommand<TSubject>(ExecuteSelectExistingCommand));
 
         #endregion
 
         #region Execute commands
+
+        protected virtual bool CanExecuteAcceptCommand() => true;
 
         protected virtual Task ExecuteAcceptCommand() => NavigationService.Close(this, SelectedItem);
 
