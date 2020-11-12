@@ -1,7 +1,8 @@
-﻿using Brupper.Forms.Models;
+﻿using Brupper.Forms.UiModels;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,27 +14,35 @@ namespace Brupper.ViewModels.Popups
     {
         public string LocalizedQuestion { get; set; }
 
-        public DialogButtonModel OkButton { get; set; }
-            = new DialogButtonModel { TranslateKey = "general_ok" };
+        public DialogButtonUiModel OkButton { get; set; }
+            = new DialogButtonUiModel { TranslateKey = "general_ok" };
 
-        public DialogButtonModel CancelButton { get; set; }
-            = new DialogButtonModel { TranslateKey = "general_cancel" };
+        public DialogButtonUiModel CancelButton { get; set; }
+            = new DialogButtonUiModel { TranslateKey = "general_cancel" };
 
-        public IEnumerable<DialogButtonModel> AdditionalButtons { get; set; }
-            = Enumerable.Empty<DialogButtonModel>();
-
+        public IEnumerable<DialogButtonUiModel> AdditionalButtons { get; set; }
+            = Enumerable.Empty<DialogButtonUiModel>();
     }
 
-    public class QuestionViewModel : MvxPopupViewModel<QuestionViewModelParam, bool>
+    public class QuestionViewModelResult
+    {
+        public DialogButtonUiModel SelectedButton { get; set; }
+
+        public bool Result { get; set; }
+    }
+
+    public class QuestionViewModel : MvxPopupViewModel<QuestionViewModelParam, QuestionViewModelResult>
     {
         #region Fields
 
+        private QuestionViewModelParam parameter;
         private ICommand internalOkCommand;
         private ICommand internalCancelCommand;
 
-        private string _question;
-        private IMvxAsyncCommand _acceptCommand;
-        private MvxObservableCollection<DialogButtonModel> buttons = new MvxObservableCollection<DialogButtonModel>();
+        private string question;
+        private IMvxAsyncCommand acceptCommand;
+        private IMvxAsyncCommand<DialogButtonUiModel> buttonCommand;
+        private MvxObservableCollection<DialogButtonUiModel> buttons = new MvxObservableCollection<DialogButtonUiModel>();
 
         #endregion
 
@@ -45,7 +54,7 @@ namespace Brupper.ViewModels.Popups
 
         #region Properties
 
-        public MvxObservableCollection<DialogButtonModel> Buttons
+        public MvxObservableCollection<DialogButtonUiModel> Buttons
         {
             get => buttons;
             set => SetProperty(ref buttons, value);
@@ -53,17 +62,21 @@ namespace Brupper.ViewModels.Popups
 
         public string Question
         {
-            get => _question;
-            set => SetProperty(ref _question, value);
+            get => question;
+            set => SetProperty(ref question, value);
         }
 
         public IMvxAsyncCommand AcceptCommand
-            => _acceptCommand ?? (_acceptCommand = new MvxAsyncCommand(ExecuteAcceptCommand));
+            => acceptCommand ?? (acceptCommand = new MvxAsyncCommand(ExecuteAcceptCommand));
+
+        public IMvxAsyncCommand<DialogButtonUiModel> ButtonCommand
+            => buttonCommand ?? (buttonCommand = new MvxAsyncCommand<DialogButtonUiModel>(ExecuteButtonCommandAsync));
 
         #endregion
 
         public override void Prepare(QuestionViewModelParam parameter)
         {
+            this.parameter = parameter;
             Question = parameter.LocalizedQuestion;
 
             if (parameter.OkButton != null)
@@ -89,13 +102,29 @@ namespace Brupper.ViewModels.Popups
         protected override Task ExecuteBackCommandAsync()
         {
             internalCancelCommand?.Execute(null);
-            return navigationService.Close(this, false);
+            return navigationService.Close(this, new QuestionViewModelResult { SelectedButton = parameter.CancelButton, Result = false });
         }
 
         private Task ExecuteAcceptCommand()
         {
             internalOkCommand?.Execute(null);
-            return navigationService.Close(this, true);
+            return navigationService.Close(this, new QuestionViewModelResult { SelectedButton = parameter.OkButton, Result = true });
+        }
+
+        private Task ExecuteButtonCommandAsync(DialogButtonUiModel button)
+        {
+            if (button == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            button.Command?.Execute(button);
+            if (button.ShouldClosePopup)
+            {
+                return navigationService.Close(this, new QuestionViewModelResult { SelectedButton = button, Result = true });
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

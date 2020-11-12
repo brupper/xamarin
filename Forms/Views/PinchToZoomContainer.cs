@@ -12,8 +12,8 @@ namespace Brupper.Forms.Views
 
         public double CurrentScale { get; private set; } = MIN_SCALE;
         public double StartScale { get; private set; } = MIN_SCALE;
-        public double XOffset { get; internal set; } = 0;
-        public double YOffset { get; internal set; } = 0;
+        public double XOffset { get; set; } = 0;
+        public double YOffset { get; set; } = 0;
 
         public PinchToZoomContainer()
         {

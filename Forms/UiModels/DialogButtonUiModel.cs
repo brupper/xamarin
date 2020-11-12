@@ -1,9 +1,11 @@
 ﻿using System.Windows.Input;
 
-namespace Brupper.Forms.Models
+namespace Brupper.Forms.UiModels
 {
-    public class DialogButtonModel
+    public class DialogButtonUiModel
     {
+        public bool ShouldClosePopup { get; set; } = true;
+
         public ICommand Command { get; set; }
 
         public string TranslateKey { get; set; }

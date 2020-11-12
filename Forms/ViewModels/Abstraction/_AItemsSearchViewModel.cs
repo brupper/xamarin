@@ -25,7 +25,7 @@ namespace Brupper.ViewModels.Abstraction
         private int currentPage;
         private MvxObservableCollection<TEntity> filteredItems = new MvxObservableCollection<TEntity>(); // Xamarin Bug: obsarvable collections can not be null by default
         private string filterText;
-        private TEntity selectedCustomer;
+        private TEntity selected;
         private IMvxAsyncCommand<string> searchCommand;
         private MvxAsyncCommand refreshCommand;
 
@@ -55,10 +55,10 @@ namespace Brupper.ViewModels.Abstraction
             set => SetProperty(ref currentPage, value);
         }
 
-        public TEntity SelectedItem
+        public virtual TEntity SelectedItem
         {
-            get => selectedCustomer;
-            set => SetProperty(ref selectedCustomer, value);
+            get => selected;
+            set => SetProperty(ref selected, value);
         }
 
         /// <summary> Items to be bind to the UI </summary>
