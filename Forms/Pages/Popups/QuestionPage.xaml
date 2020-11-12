@@ -3,6 +3,7 @@
     x:TypeArguments="popups:QuestionViewModel"
     x:DataType="popups:QuestionViewModel"
     x:Class="Brupper.Forms.Pages.Popups.QuestionPage"
+    x:Name="This"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -44,20 +45,14 @@
             <ScrollView HorizontalOptions="FillAndExpand">
                 <StackLayout Spacing="16" Padding="8">
 
-                    <Label x:Name="Self" Text="{Binding Question}"
-                                       TextColor="Black"
-                                       VerticalOptions="Center"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalOptions="Center" 
-                                       HorizontalTextAlignment="Center" 
-                                />
+                    <Label x:Name="Self" Text="{Binding Question}" TextColor="Black" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center"  HorizontalTextAlignment="Center" />
 
                     <StackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Buttons}" Orientation="Horizontal" HorizontalOptions="Center">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <Button x:DataType="models:DialogButtonUiModel"
                                     Text="{Binding TranslateKey, Converter={StaticResource TranslateConverter}}" 
-                                    Command="{Binding Command}"
+                                    Command="{Binding ButtonCommand, Source={x:Reference This}}"
                                     CommandParameter="{Binding .}" />
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
