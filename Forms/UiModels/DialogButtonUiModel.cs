@@ -9,5 +9,7 @@ namespace Brupper.Forms.UiModels
         public ICommand Command { get; set; }
 
         public string TranslateKey { get; set; }
+
+        public bool Result { get; set; }
     }
 }

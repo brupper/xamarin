@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <base:MvxPopupPage 
-    x:TypeArguments="popups:AlertViewModel"
+    x:TypeArguments="viewModels:AlertViewModel"
+    x:DataType="viewModels:AlertViewModel"
     x:Class="Brupper.Forms.Pages.Popups.AlertPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Brupper.Forms.Pages.Base;assembly=Brupper.Forms"
-    xmlns:popups="clr-namespace:Brupper.ViewModels.Popups"
+    xmlns:viewModels="clr-namespace:Brupper.ViewModels.Popups"
     x:Name="This">
     <Grid>
         <Grid.RowDefinitions>

@@ -2,11 +2,9 @@
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Brupper.ViewModels.Popups
 {
@@ -15,29 +13,20 @@ namespace Brupper.ViewModels.Popups
         public string LocalizedQuestion { get; set; }
 
         public DialogButtonUiModel OkButton { get; set; }
-            = new DialogButtonUiModel { TranslateKey = "general_ok" };
+            = new DialogButtonUiModel { TranslateKey = "general_ok", Result = true, ShouldClosePopup = true };
 
         public DialogButtonUiModel CancelButton { get; set; }
-            = new DialogButtonUiModel { TranslateKey = "general_cancel" };
+            = new DialogButtonUiModel { TranslateKey = "general_cancel", Result = false, ShouldClosePopup = true };
 
         public IEnumerable<DialogButtonUiModel> AdditionalButtons { get; set; }
             = Enumerable.Empty<DialogButtonUiModel>();
     }
 
-    public class QuestionViewModelResult
-    {
-        public DialogButtonUiModel SelectedButton { get; set; }
-
-        public bool Result { get; set; }
-    }
-
-    public class QuestionViewModel : MvxPopupViewModel<QuestionViewModelParam, QuestionViewModelResult>
+    public class QuestionViewModel : MvxPopupViewModel<QuestionViewModelParam, DialogButtonUiModel>
     {
         #region Fields
 
         private QuestionViewModelParam parameter;
-        private ICommand internalOkCommand;
-        private ICommand internalCancelCommand;
 
         private string question;
         private IMvxAsyncCommand acceptCommand;
@@ -66,9 +55,6 @@ namespace Brupper.ViewModels.Popups
             set => SetProperty(ref question, value);
         }
 
-        public IMvxAsyncCommand AcceptCommand
-            => acceptCommand ?? (acceptCommand = new MvxAsyncCommand(ExecuteAcceptCommand));
-
         public IMvxAsyncCommand<DialogButtonUiModel> ButtonCommand
             => buttonCommand ?? (buttonCommand = new MvxAsyncCommand<DialogButtonUiModel>(ExecuteButtonCommandAsync));
 
@@ -81,15 +67,11 @@ namespace Brupper.ViewModels.Popups
 
             if (parameter.OkButton != null)
             {
-                internalOkCommand = parameter.OkButton.Command;
-                parameter.OkButton.Command = AcceptCommand;
                 Buttons.Add(parameter.OkButton);
             }
 
             if (parameter.CancelButton != null)
             {
-                internalCancelCommand = parameter.CancelButton.Command;
-                parameter.CancelButton.Command = BackPressedCommand;
                 Buttons.Add(parameter.CancelButton);
             }
 
@@ -101,14 +83,8 @@ namespace Brupper.ViewModels.Popups
 
         protected override Task ExecuteBackCommandAsync()
         {
-            internalCancelCommand?.Execute(null);
-            return navigationService.Close(this, new QuestionViewModelResult { SelectedButton = parameter.CancelButton, Result = false });
-        }
-
-        private Task ExecuteAcceptCommand()
-        {
-            internalOkCommand?.Execute(null);
-            return navigationService.Close(this, new QuestionViewModelResult { SelectedButton = parameter.OkButton, Result = true });
+            parameter.CancelButton?.Command?.Execute(null);
+            return navigationService.Close(this, parameter.CancelButton);
         }
 
         private Task ExecuteButtonCommandAsync(DialogButtonUiModel button)
@@ -121,7 +97,7 @@ namespace Brupper.ViewModels.Popups
             button.Command?.Execute(button);
             if (button.ShouldClosePopup)
             {
-                return navigationService.Close(this, new QuestionViewModelResult { SelectedButton = button, Result = true });
+                return navigationService.Close(this, button);
             }
 
             return Task.CompletedTask;
