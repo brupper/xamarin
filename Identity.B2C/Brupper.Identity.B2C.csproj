@@ -1,17 +1,25 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
-
-  <PropertyGroup Condition=" '$(TargetsToBuild)' == 'All' ">
-    <TargetFrameworks>netstandard2.0;monoandroid10.0</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetsToBuild)' != 'All' ">
-    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.0;monoandroid10.0;</TargetFrameworks>
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>xamarin.ios10;monoandroid10.0;netstandard2.1;netstandard2.0;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.17.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="B2CAuthenticationService.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('netcoreapp'))">
     <PackageReference Include="MvvmCross" Version="7.0.0" />
+    <Compile Include="B2CAuthenticationService.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp'))">
+    <Compile Remove="B2CAuthenticationService.cs" />
   </ItemGroup>
 
 </Project>

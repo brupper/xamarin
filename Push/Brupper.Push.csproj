@@ -42,7 +42,7 @@
     <None Include="..\azure-notificationhubs-xamarin\src\Microsoft.Azure.NotificationHubs.Client\NotificationHubMessageDelegate.ios.cs" Link="NotificationHubs\NotificationHubMessageDelegate.ios.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard')) ">
     <Compile Include="Platforms\Netstandard\**\*.cs" />
     <Compile Include="..\azure-notificationhubs-xamarin\src\Microsoft.Azure.NotificationHubs.Client\NotificationHub.net.cs" Link="NotificationHubs\NotificationHub.net.cs" />
   </ItemGroup>

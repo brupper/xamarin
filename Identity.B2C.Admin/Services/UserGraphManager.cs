@@ -39,6 +39,7 @@ namespace Brupper.Identity.B2C
             e.Surname,
             e.Identities,
             e.BusinessPhones,
+            e.CreatedDateTime,
         });
 
         #region Constructor
