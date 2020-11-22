@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Microsoft.Identity.Client" Version="4.17.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +14,8 @@
 
   <ItemGroup Condition="!$(TargetFramework.StartsWith('netcoreapp'))">
     <PackageReference Include="MvvmCross" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.22.0" />
+
     <Compile Include="B2CAuthenticationService.cs" />
   </ItemGroup>
 

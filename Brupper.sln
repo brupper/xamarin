@@ -38,6 +38,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{D1EA169E-4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Data.EF", "Data.EF\Brupper.Data.EF.csproj", "{CFD38AE1-E5E8-4572-9DAA-F986BD493A0E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{60405477-AE33-4660-9818-7922AC4D1066}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brupper.Identity.B2C.Admin", "Identity.B2C.Admin\Brupper.Identity.B2C.Admin.csproj", "{155AB9EA-FA4A-499B-8053-B63F27F651E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +84,10 @@ Global
 		{CFD38AE1-E5E8-4572-9DAA-F986BD493A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFD38AE1-E5E8-4572-9DAA-F986BD493A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFD38AE1-E5E8-4572-9DAA-F986BD493A0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{155AB9EA-FA4A-499B-8053-B63F27F651E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{155AB9EA-FA4A-499B-8053-B63F27F651E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{155AB9EA-FA4A-499B-8053-B63F27F651E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{155AB9EA-FA4A-499B-8053-B63F27F651E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +102,7 @@ Global
 		{D6DE7051-220F-40C9-A0CD-70E5F5069EFC} = {F4B80768-9B8F-4AD2-BC2C-C00A274E9950}
 		{98ED2481-F889-4432-8E50-0AE03A2BD321} = {B27F4C7E-95E3-4329-B4BB-DB1C4D9382F2}
 		{CFD38AE1-E5E8-4572-9DAA-F986BD493A0E} = {B27F4C7E-95E3-4329-B4BB-DB1C4D9382F2}
+		{155AB9EA-FA4A-499B-8053-B63F27F651E2} = {60405477-AE33-4660-9818-7922AC4D1066}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EEF8BC6B-B3F8-4900-B9AC-4794612FD4CD}
