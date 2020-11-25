@@ -51,6 +51,9 @@ namespace B2C
 #if ANDROID
                     as Android.App.Activity
 #endif
+#if APPLE
+                    as UIKit.UIViewController
+#endif
 
                 );
             }

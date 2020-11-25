@@ -26,6 +26,7 @@ namespace Brupper.Identity.B2C
             e.UserPrincipalName,
             e.OnPremisesUserPrincipalName,
             e.Id,
+            e.AdditionalData,
             e.Mail,
             e.OtherMails,// https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview#create-a-sign-up-or-sign-in-policy
             e.Country,
@@ -39,6 +40,7 @@ namespace Brupper.Identity.B2C
             e.Surname,
             e.Identities,
             e.BusinessPhones,
+            e.CreatedDateTime,
         });
 
         #region Constructor

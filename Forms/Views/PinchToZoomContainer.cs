@@ -42,7 +42,11 @@ namespace Brupper.Forms.Views
 
             if (e.Status == GestureStatus.Running)
             {
-                CurrentScale += (e.Scale - 1) * StartScale;
+                var nextScale = CurrentScale + (e.Scale - 1) * StartScale;
+
+                if (MAX_SCALE < nextScale) { return; } // max zoom level...
+
+                CurrentScale = nextScale;
                 CurrentScale = Math.Max(1, CurrentScale);
 
                 double renderedX = Content.X + XOffset;
@@ -150,13 +154,18 @@ namespace Brupper.Forms.Views
             //}
 
             double multiplicator = Math.Pow(2, 1.0 / 10.0);
+
+            var nextScale = CurrentScale * multiplicator;
+
+            if (MAX_SCALE < nextScale) { return; } // max zoom level...
+
             StartScale = Content.Scale;
             Content.AnchorX = 0;
             Content.AnchorY = 0;
 
             for (int i = 0; i < 10; i++)
             {
-                CurrentScale *= multiplicator;
+                CurrentScale = nextScale;
                 double renderedX = Content.X + XOffset;
                 double deltaX = renderedX / Width;
                 double deltaWidth = Width / (Content.Width * StartScale);

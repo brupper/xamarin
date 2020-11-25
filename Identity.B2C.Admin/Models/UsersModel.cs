@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 using Newtonsoft.Json;
 
 namespace Brupper.Identity
@@ -9,9 +6,6 @@ namespace Brupper.Identity
     {
         public UserModel[] Users { get; set; }
 
-        public static UsersModel Parse(string JSON)
-        {
-            return JsonConvert.DeserializeObject(JSON, typeof(UsersModel)) as UsersModel;
-        }
+        public static UsersModel Parse(string json) => JsonConvert.DeserializeObject<UsersModel>(json);
     }
 }
