@@ -75,7 +75,7 @@ namespace Brupper.ViewModels.Abstraction
 
         protected virtual bool CanExecuteAcceptCommand() => true;
 
-        protected virtual Task ExecuteAcceptCommand() => NavigationService.Close(this, SelectedItem);
+        protected virtual Task ExecuteAcceptCommand() => this.Close(this, SelectedItem);
 
         protected virtual void ExecuteSelectExistingCommand(TSubject arg)
         {
@@ -106,7 +106,7 @@ namespace Brupper.ViewModels.Abstraction
             cachedEntities.AddRange(parameter?.Items ?? Enumerable.Empty<TSubject>());
         }
 
-        protected override Task ExecuteBackPressedCommandAsync() => NavigationService.Close(this, SelectedItem);
+        protected override Task ExecuteBackPressedCommandAsync() => this.Close(this, SelectedItem);
 
         #endregion
 

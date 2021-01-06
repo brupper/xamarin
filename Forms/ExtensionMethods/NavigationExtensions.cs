@@ -1,11 +1,7 @@
 ﻿using Brupper.Forms.ViewModels;
 using MvvmCross;
-using MvvmCross.Localization;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 public static class NavigationExtensions
@@ -36,5 +32,23 @@ public static class NavigationExtensions
         viewModel.CanViewDestroy = true;
 
         return result;
+    }
+
+    public static async Task<bool> Close(this IMvxViewModel viewModel, IMvxViewModel viewModel2)
+    {
+        if (viewModel is ISupportBrupperViewModel support)
+        {
+            support.CanViewDestroy = true;
+        }
+        return await Mvx.IoCProvider.Resolve<IMvxNavigationService>().Close(viewModel2);
+    }
+
+    public static Task<bool> Close<TResult>(this IMvxViewModelResult<TResult> viewModel, IMvxViewModelResult<TResult> viewModel2, TResult result)
+    {
+        if (viewModel is ISupportBrupperViewModel support)
+        {
+            support.CanViewDestroy = true;
+        }
+        return Mvx.IoCProvider.Resolve<IMvxNavigationService>().Close(viewModel2, result);
     }
 }

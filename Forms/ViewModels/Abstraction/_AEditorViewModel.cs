@@ -1,12 +1,10 @@
 ﻿using Brupper.Data;
 using Brupper.Data.Entities;
-using Brupper.ViewModels.Popups;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Brupper.ViewModels.Abstraction
@@ -26,7 +24,7 @@ namespace Brupper.ViewModels.Abstraction
         #region Fields
 
         protected EditorViewModelViewModelParam<TEntity> param;
-        protected bool createNew;
+        private bool createNew;
 
         private MvxAsyncCommand saveCommand;
         private MvxAsyncCommand deleteCommand;
@@ -42,7 +40,8 @@ namespace Brupper.ViewModels.Abstraction
             IMvxLogProvider logProvider
             , IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
-        { }
+        {
+        }
 
         #endregion
 
@@ -52,7 +51,7 @@ namespace Brupper.ViewModels.Abstraction
 
         public IMvxAsyncCommand DeleteCommand => deleteCommand ?? (deleteCommand = new MvxAsyncCommand(ExecuteDeleteCommand));
 
-        public TEntity Entity
+        public virtual TEntity Entity
         {
             get => entity;
             set => SetProperty(ref entity, value);
@@ -70,44 +69,28 @@ namespace Brupper.ViewModels.Abstraction
             set => SetProperty(ref saveTitle, value);
         }
 
-        public bool IsEditing => !createNew;
+        public virtual bool IsEditing => !createNew;
 
         #endregion
 
         #region Execute commands
 
         protected override Task ExecuteBackPressedCommandAsync()
-            => NavigationService.Close(this, param.StateHolder);
+        {
+            return this.Close(this, param.StateHolder);
+        }
 
         protected virtual async Task ExecuteSaveCommand()
         {
             try
             {
                 IsBusy = true;
-
-                if (!(await ValidateEntityAsync()))
-                {
-                    await ShowValidationErrorsAsync();
-                    return;
-                }
-
-                using (var repository = Mvx.IoCProvider.Resolve<TRepository>())
-                {
-                    if (createNew)
-                    {
-                        await repository.InsertAsync(Entity);
-                    }
-                    else
-                    {
-                        await repository.UpdateAsync(Entity);
-                    }
-
-                    await NavigationService.Close(this, param.StateHolder);
-                }
+                await TryExecuteSaveCommandAsync();
             }
             catch (Exception e)
             {
-                Microsoft.AppCenter.Crashes.Crashes.TrackError(e);
+                Logger.TrackError(e);
+                await ShowAlertWithKey("general_error_save");
             }
             finally
             {
@@ -122,13 +105,14 @@ namespace Brupper.ViewModels.Abstraction
                 IsBusy = true;
 
                 using (var repository = Mvx.IoCProvider.Resolve<TRepository>())
-                    await repository.DeleteAsync(Entity);
+                    await repository.DeleteAsync(Entity).ConfigureAwait(false);
 
-                await NavigationService.Close(this, param.StateHolder);
+                await this.Close(this, param.StateHolder);
             }
             catch (Exception e)
             {
-                Microsoft.AppCenter.Crashes.Crashes.TrackError(e);
+                Logger.TrackError(e);
+                await ShowAlertWithKey("general_error_delete");
             }
             finally
             {
@@ -159,17 +143,28 @@ namespace Brupper.ViewModels.Abstraction
 
         #endregion
 
-        protected virtual Task<bool> ValidateEntityAsync()
-        {
-            //TODO: Entity.IsValid
-            return Task.FromResult(true);
-        }
+        protected abstract Task<bool> ValidateShowValidationErrorsAsync();
 
-        protected virtual Task ShowValidationErrorsAsync()
-            => NavigationService.Navigate<InformationViewModel, InformationViewModelParam>(new InformationViewModelParam
+        protected virtual async Task TryExecuteSaveCommandAsync()
+        {
+            if (!(await ValidateShowValidationErrorsAsync()))
             {
-                Header = TextProvider.GetText(null, null, "error_header"),
-                Lines = new List<string> { TextProvider.GetText(null, null, "entity_validation_error") },
-            });
+                return;
+            }
+
+            using (var repository = Mvx.IoCProvider.Resolve<TRepository>())
+            {
+                if (IsEditing)
+                {
+                    await repository.UpdateAsync(Entity).ConfigureAwait(false);
+                }
+                else
+                {
+                    await repository.InsertAsync(Entity).ConfigureAwait(false);
+                }
+
+                await this.Close(this, param.StateHolder);
+            }
+        }
     }
 }
