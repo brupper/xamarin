@@ -1,6 +1,4 @@
-﻿using Brupper.Diagnostics;
-using Brupper.Forms.Diagnostics;
-using Brupper.Forms.Platforms.Android.PlatformServices;
+﻿using Brupper.Forms.Platforms.Android.PlatformServices;
 using Brupper.Forms.Platforms.Android.Services;
 using Brupper.Forms.Presenters;
 using Brupper.Forms.Services;
@@ -38,6 +36,9 @@ namespace Brupper.Forms.Platforms.Android
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPermissionHelper, PermissionHelper>();
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IOutputRendererServices, OutputRendererServices>();
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IImageResizer, ImageResizer>();
+
+            if (ApplicationContext is IApplicationStateListener stateListener)
+                Mvx.IoCProvider.RegisterSingleton(stateListener);
         }
 
         protected override IMvxLogProvider CreateLogProvider() => new AppCenterTrace(base.CreateLogProvider());

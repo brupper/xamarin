@@ -1,7 +1,6 @@
 ﻿using MvvmCross;
 using MvvmCross.Localization;
 using System;
-using System.Globalization;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,14 +9,28 @@ namespace Brupper.Forms
     [ContentProperty("Text")]
     public class TranslateExtension : IMarkupExtension
     {
+        #region Fields
+
         private readonly IMvxTextProvider textProvider;
 
-        public string Text { get; set; }
+        #endregion
+
+        #region Constructors
 
         public TranslateExtension()
         {
             textProvider = Mvx.IoCProvider.GetSingleton<IMvxTextProvider>();
         }
+
+        #endregion
+
+        #region Properties
+
+        public string Text { get; set; }
+
+        #endregion
+
+        #region Implementation of IMarkupExtension
 
         public object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -26,19 +39,20 @@ namespace Brupper.Forms
                 return string.Empty;
             }
 
-            var translation = textProvider.GetText(null, null, Text);
+            var localizedText = textProvider.GetText(null, null, Text);
             //var translation = Labels.ResourceManager.GetString(Text);
-            if (translation == null)
+            if (localizedText == null)
             {
 #if DEBUG
-                throw new ArgumentException(
-                    $"Key '{Text}' was not found in resources for culture '{(CultureInfo.CurrentUICulture.Name ?? "<???>")}'.");
+                throw new ArgumentNullException($"'{Text}' was not found in Recources for culture '{CultureInfo.CurrentUICulture.Name ?? "-"}'");
 #else
-				translation = Text; // HACK: returns the key, which GETS DISPLAYED TO THE USER
+                localizedText = Text;
 #endif
             }
 
-            return translation;
+            return localizedText;
         }
+
+        #endregion
     }
 }

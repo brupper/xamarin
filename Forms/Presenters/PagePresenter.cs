@@ -48,7 +48,7 @@ namespace Brupper.Forms.Presenters
             if (PopupNavigation.Instance.PopupStack.Count > 0)
             {
 
-                await mainPage.Navigation.PopPopupAsync();
+                await mainPage.Navigation.PopPopupAsync(attribute.Animated);
             }
 
             return true;
@@ -67,6 +67,11 @@ namespace Brupper.Forms.Presenters
 
             return base.ShowContentPage(view, attribute, request);
         }
-    }
 
+        public override Task<bool> ShowCarouselPage(Type view, MvvmCross.Forms.Presenters.Attributes.MvxCarouselPagePresentationAttribute attribute, MvxViewModelRequest request)
+        {
+            attribute.Position = MvvmCross.Forms.Presenters.Attributes.CarouselPosition.Root;
+            return base.ShowCarouselPage(view, attribute, request);
+        }
+    }
 }

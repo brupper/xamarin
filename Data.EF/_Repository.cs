@@ -92,13 +92,13 @@ namespace Brupper.Data.EF
             await DeleteAsync(entityToDelete);
         }
 
-        public virtual async Task DeleteAsync(TEntity entityToDelete)
+        public virtual async Task DeleteAsync(TEntity entity)
         {
-            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            if (context.Entry(entity).State == EntityState.Detached)
             {
-                dbSet.Attach(entityToDelete);
+                dbSet.Attach(entity);
             }
-            dbSet.Remove(entityToDelete);
+            dbSet.Remove(entity);
 
             await SaveAsync();
         }

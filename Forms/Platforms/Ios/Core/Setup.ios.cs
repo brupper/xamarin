@@ -1,6 +1,4 @@
-﻿using Brupper.Diagnostics;
-using Brupper.Forms.Diagnostics;
-using Brupper.Forms.Platforms.iOS.Services;
+﻿using Brupper.Forms.Platforms.iOS.Services;
 using Brupper.Forms.Presenters;
 using Brupper.Forms.Services;
 using Brupper.Forms.Services.Interfaces;
@@ -37,6 +35,9 @@ namespace Brupper.Forms.Platforms.iOS
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPermissionHelper, PermissionHelper>();
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IOutputRendererServices, OutputRendererServices>();
             Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IImageResizer, ImageResizer>();
+
+            if (ApplicationDelegate is IApplicationStateListener stateListener)
+                Mvx.IoCProvider.RegisterSingleton<IApplicationStateListener>(stateListener);
         }
 
         protected override IMvxLogProvider CreateLogProvider() => new AppCenterTrace(base.CreateLogProvider());

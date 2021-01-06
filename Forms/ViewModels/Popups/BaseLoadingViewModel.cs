@@ -63,13 +63,13 @@ namespace Brupper.ViewModels.Popups
                 var timeout = context.TimeoutInMilliseconds;
                 var targetTask = context.RunningTask;
 
-                await Task.Delay(25);
+                await Task.Delay(25).ConfigureAwait(false);
                 if (targetTask != null)
                 {
                     isRunning = true;
                     try
                     {
-                        if (await Task.WhenAny(targetTask, Task.Delay(timeout)) == targetTask)
+                        if (await Task.WhenAny(targetTask, Task.Delay(timeout)).ConfigureAwait(false) == targetTask)
                         {
                             // task completed within timeout
                         }
@@ -101,13 +101,13 @@ namespace Brupper.ViewModels.Popups
                         isRunning = false;
                     }
                 }
-                await Task.Delay(25);
+                await Task.Delay(25).ConfigureAwait(false);
 
-                await ExecuteBackCommandAsync();
+                await ExecuteBackCommandAsync().ConfigureAwait(false);
 
                 if (alertParam != null)
                 {
-                    await navigationService.Navigate<AlertViewModel, AlertViewModelParameter>(alertParam);
+                    await navigationService.Navigate<AlertViewModel, AlertViewModelParameter>(alertParam).ConfigureAwait(false);
                 }
             }).ConfigureAwait(false);
             return base.Initialize();
