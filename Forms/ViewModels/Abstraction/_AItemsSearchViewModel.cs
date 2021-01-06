@@ -171,7 +171,7 @@ namespace Brupper.ViewModels.Abstraction
 
         #endregion
 
-        protected override async Task ReloadAsync()
+        protected virtual async Task ReloadAsync()
         {
             try
             {
