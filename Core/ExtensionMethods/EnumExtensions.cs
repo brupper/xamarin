@@ -69,4 +69,30 @@ public static class EnumExtensions
                 yield return value;
         }
     }
+
+    //public static Dictionary<TEnum, DisplayAttribute> GetOrderedValueMapping<TEnum>()
+    //{
+    //    var mapping = new List<(TEnum, DisplayAttribute)>();
+    //    var enumValues = Enum.GetValues(typeof(TEnum));
+
+    //    foreach (TEnum item in enumValues)
+    //    {
+    //        var display = item.GetDisplayAttribute();
+
+    //        mapping.Add((item, display));
+    //    }
+
+    //    mapping = mapping.OrderBy(x => x.Item2?.GetOrder() ?? 0).ToList();
+
+    //    return mapping.ToDictionary(x => x.Item1, y => y.Item2);
+    //}
+
+    //public static DisplayAttribute GetDisplayAttribute(this object item)
+    //{
+    //    var field = item.GetType().GetField(item.ToString());
+    //    return (field?
+    //        .GetCustomAttributes(typeof(DisplayAttribute), true)
+    //        .FirstOrDefault() as DisplayAttribute);
+    //}
+
 }

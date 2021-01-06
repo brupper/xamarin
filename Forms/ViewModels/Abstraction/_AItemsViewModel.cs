@@ -1,6 +1,5 @@
 ﻿using Brupper.Data;
 using Brupper.Data.Entities;
-using Microsoft.AppCenter.Crashes;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Logging;
@@ -63,14 +62,12 @@ namespace Brupper.ViewModels.Abstraction
             {
                 IsBusy = true;
 
-                var param = CreateEditorParameter();
-                var stateHolder = await NavigationService.Navigate<TEditViewModel, EditorViewModelViewModelParam<TEntity>, SimpleStateHolder>(param);
-
-                await ExecuteRefreshCommand();
+                await TryExecuteCreateCommand();
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                Logger.TrackError(e);
+                await ShowAlertWithKey(null);
             }
             finally
             {
@@ -83,16 +80,12 @@ namespace Brupper.ViewModels.Abstraction
             try
             {
                 IsBusy = true;
-
-                var param = CreateEditorParameter();
-                param.Data = entity;
-                var stateHolder = await NavigationService.Navigate<TEditViewModel, EditorViewModelViewModelParam<TEntity>, SimpleStateHolder>(param);
-
-                await ExecuteRefreshCommand();
+                await TryExecuteEditCommand(entity);
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                Logger.TrackError(e);
+                await ShowAlertWithKey(null);
             }
             finally
             {
@@ -105,21 +98,12 @@ namespace Brupper.ViewModels.Abstraction
             try
             {
                 IsBusy = true;
-
-                using (var repository = Mvx.IoCProvider.Resolve<TRepository>())
-                {
-                    await repository.DeleteAsync(entity);
-                }
-
-                FilteredItems.Remove(entity);
-                filteredEntities.Remove(entity);
-                cachedEntities.Remove(entity);
-
-                FilteredItems = new MvxObservableCollection<TEntity>(filteredEntities.Take(PageSize));
+                await TryExecuteDeleteCommand(entity);
             }
             catch (Exception e)
             {
-                Crashes.TrackError(e);
+                Logger.TrackError(e);
+                await ShowAlertWithKey("general_error_delete");
             }
             finally
             {
@@ -133,16 +117,30 @@ namespace Brupper.ViewModels.Abstraction
 
         protected virtual Task ExecutePreviousPageCommandAsync()
         {
-            if (!CanExecutePreviousPageCommand())
+            try
             {
+                IsBusy = true;
+
+                if (!CanExecutePreviousPageCommand())
+                {
+                    return Task.CompletedTask;
+                }
+
+                CurrentPage -= 1;
+                FilteredItems = new MvxObservableCollection<TEntity>(filteredEntities.Skip(PageSize * CurrentPage).Take(PageSize));
+
+                RefreshButtonStates();
                 return Task.CompletedTask;
             }
-
-            CurrentPage -= 1;
-            FilteredItems = new MvxObservableCollection<TEntity>(filteredEntities.Skip(PageSize * CurrentPage).Take(PageSize));
-
-            RefreshButtonStates();
-            return Task.CompletedTask;
+            catch (Exception e)
+            {
+                Logger.TrackError(e);
+                return ShowAlertWithKey(null);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         /// <summary> Csak akkor van ertelme kovetkezo oldalnak, ha: tobb mint egy oldalny adat van es NEM az utolso oldalon vagyunk </summary>
@@ -151,24 +149,38 @@ namespace Brupper.ViewModels.Abstraction
 
         protected virtual Task ExecuteNextPageCommandAsync()
         {
-            if (!CanExecuteNextPageCommand())
+            try
             {
+                IsBusy = true;
+
+                if (!CanExecuteNextPageCommand())
+                {
+                    return Task.CompletedTask;
+                }
+
+                CurrentPage += 1;
+                var nextSet = filteredEntities.Skip(PageSize * CurrentPage).Take(PageSize);
+                if (nextSet.Any())
+                {
+                    FilteredItems = new MvxObservableCollection<TEntity>(nextSet);
+                }
+                else
+                {
+                    CurrentPage -= 1; // cancel
+                }
+
+                RefreshButtonStates();
                 return Task.CompletedTask;
             }
-
-            CurrentPage += 1;
-            var nextSet = filteredEntities.Skip(PageSize * CurrentPage).Take(PageSize);
-            if (nextSet.Any())
+            catch (Exception e)
             {
-                FilteredItems = new MvxObservableCollection<TEntity>(nextSet);
+                Logger.TrackError(e);
+                return ShowAlertWithKey(null);
             }
-            else
+            finally
             {
-                CurrentPage -= 1; // cancel
+                IsBusy = false;
             }
-
-            RefreshButtonStates();
-            return Task.CompletedTask;
         }
 
         #endregion
@@ -205,7 +217,7 @@ namespace Brupper.ViewModels.Abstraction
             using (var repository = Mvx.IoCProvider.Resolve<TRepository>())
             {
                 var entities = await repository.FilterAsync(filterTextParam, cancellationToken: searchCancellationToken);
-                return entities;
+                return entities.ToList();
             }
         }
 
@@ -218,6 +230,39 @@ namespace Brupper.ViewModels.Abstraction
         protected virtual EditorViewModelViewModelParam<TEntity> CreateEditorParameter()
         {
             return new EditorViewModelViewModelParam<TEntity>();
+        }
+
+        protected virtual async Task TryExecuteCreateCommand()
+        {
+            var param = CreateEditorParameter();
+            var stateHolder = await NavigationService.Navigate<TEditViewModel, EditorViewModelViewModelParam<TEntity>, SimpleStateHolder>(param);
+
+            using (stateHolder)
+                await ExecuteRefreshCommand().ConfigureAwait(false);
+        }
+
+        protected virtual async Task TryExecuteEditCommand(TEntity entity)
+        {
+            var param = CreateEditorParameter();
+            param.Data = entity;
+            var stateHolder = await NavigationService.Navigate<TEditViewModel, EditorViewModelViewModelParam<TEntity>, SimpleStateHolder>(param);
+
+            using (stateHolder)
+                await ExecuteRefreshCommand().ConfigureAwait(false);
+        }
+
+        protected virtual async Task TryExecuteDeleteCommand(TEntity entity)
+        {
+            using (var repository = Mvx.IoCProvider.Resolve<TRepository>())
+            {
+                await repository.DeleteAsync(entity).ConfigureAwait(false);
+            }
+
+            FilteredItems.Remove(entity);
+            filteredEntities.Remove(entity);
+            cachedEntities.Remove(entity);
+
+            FilteredItems = new MvxObservableCollection<TEntity>(filteredEntities.Take(PageSize));
         }
     }
 }

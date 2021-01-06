@@ -8,6 +8,8 @@ namespace Brupper.Forms.Converters
 {
     public class TranslateConverter : IValueConverter
     {
+        public const string NotFoundPrefix = "<???";
+
         #region Fields
 
         private IMvxTextProvider textProvider;
@@ -16,12 +18,13 @@ namespace Brupper.Forms.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string resourceId = value as string;
+            var resourceId = value as string;
+
             if (value == null || string.IsNullOrEmpty(resourceId) && !(value is Enum))
             {
-                return string.Empty;
+                return $"{NotFoundPrefix} - ???>";
             }
-            else if (value is Enum)
+            else if (value is Enum numericValue)
             {
                 resourceId = $"{value.GetType().Name}.{value}";
             }
@@ -38,20 +41,15 @@ namespace Brupper.Forms.Converters
                     textProvider = Mvx.IoCProvider.GetSingleton<IMvxTextProvider>();
                 }
 
+                //var localizedText = Resources.Labels.ResourceManager.GetString(resourceId);
                 var localizedText = textProvider.GetText(null, null, resourceId);
-                if (localizedText == null)
+                if (!string.IsNullOrEmpty(localizedText))
                 {
-#if DEBUG
-                    throw new ArgumentNullException($"'{resourceId}' was not found in Recources for culture '{CultureInfo.CurrentUICulture.Name ?? "-"}'");
-#else
-                    localizedText = "<??? - resourceId>"; // resource's not found
-#endif
+                    return localizedText;
                 }
-
-                return localizedText;
             }
 
-            return "<???>"; // resource's not found
+            return $"{NotFoundPrefix} - {resourceId}>"; // resource's not found
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,11 +1,9 @@
-﻿using Microsoft.AppCenter.Crashes;
-using MvvmCross.Commands;
+﻿using MvvmCross.Commands;
 using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,7 +76,7 @@ namespace Brupper.ViewModels.Abstraction
             set
             {
                 SetProperty(ref filterText, value);
-                _ = ExecuteSearchCommandAsync(FilterText);
+                _ = ExecuteSearchCommandAsync(FilterText).ConfigureAwait(false);
             }
         }
 
@@ -111,81 +109,73 @@ namespace Brupper.ViewModels.Abstraction
 
         protected virtual async Task ExecuteRefreshCommand()
         {
-            if (IsBusy)
+            try
             {
-                // TODO: return; // a PullToRefresh is ezt hivogatja, ha pl popupot jelenitunk meg....
+                if (IsBusy)
+                {
+                    // TODO: return; // a PullToRefresh is ezt hivogatja, ha pl popupot jelenitunk meg....
+                }
+
+                IsBusy = true;
+                int allItemCount = filteredEntities.Count;
+                await ReloadAsync().ConfigureAwait(false);
+
+                await FilterEntities();
+
+                if (allItemCount != filteredEntities.Count)
+                {
+                    CurrentPage = 0;
+                }
+                if (filteredEntities.Any())
+                {
+                    FilteredItems = new MvxObservableCollection<TEntity>(filteredEntities.Skip(PageSize * CurrentPage).Take(PageSize));
+                }
+                else
+                {
+                    FilteredItems = new MvxObservableCollection<TEntity>();
+                }
             }
-
-            IsBusy = true;
-
-            int allItemCount = cachedEntities.Count;
-
-            await ReloadAsync().ConfigureAwait(false);
-
-            if (allItemCount != cachedEntities.Count)
+            catch (Exception exception)
             {
-                CurrentPage = 0;
+                Logger.TrackError(exception);
+                await ShowAlertWithKey("general_error_search");
             }
-
-            if (filteredEntities.Any())
+            finally
             {
-                FilteredItems = new MvxObservableCollection<TEntity>(filteredEntities.Skip(PageSize * CurrentPage).Take(PageSize));
+                IsBusy = false;
             }
-            else
-            {
-                FilteredItems = new MvxObservableCollection<TEntity>();
-            }
-
-            IsBusy = false;
         }
 
         protected virtual async Task ExecuteSearchCommandAsync(string filterTextParam)
         {
-            if (string.IsNullOrEmpty(filterTextParam))
-            {
-                filteredEntities.Clear();
-                filteredEntities.AddRange(cachedEntities);
-
-                CurrentPage = 0;
-                FilteredItems = new MvxObservableCollection<TEntity>(filteredEntities.Take(PageSize));
-                return;
-            }
-
-            if (filterTextParam?.Length < 3)
-            {
-                return;
-            }
-
-            searchCancellationTokenSource?.Cancel();
-            searchCancellationTokenSource = new CancellationTokenSource();
-            var searchCancellationToken = searchCancellationTokenSource.Token;
-
             try
             {
-                var entities = await InternalFilterAsync(searchCancellationToken, filterTextParam);
-                filteredEntities.Clear();
-                filteredEntities.AddRange(entities);
+                IsBusy = true;
+
+                await FilterEntities();
 
                 CurrentPage = 0;
                 FilteredItems = new MvxObservableCollection<TEntity>(filteredEntities.Take(PageSize));
             }
             catch (Exception exception)
             {
-                Debug.WriteLine(exception);
-                Crashes.TrackError(exception);
+                Logger.TrackError(exception);
+                await ShowAlertWithKey("general_error_list_refresh");
             }
             finally
             {
+                IsBusy = false;
                 RefreshButtonStates();
             }
         }
 
         #endregion
 
-        protected virtual Task ReloadAsync()
+        protected virtual async Task ReloadAsync()
         {
             try
             {
+                IsBusy = true;
                 filteredEntities.Clear();
                 filteredEntities.AddRange(cachedEntities);
             }
@@ -193,19 +183,38 @@ namespace Brupper.ViewModels.Abstraction
             {
                 cachedEntities.Clear();
                 filteredEntities.Clear();
-
-                Logger?.TraceException(exception.Message, exception);
+                Logger.TrackError(exception);
+                await ShowAlertWithKey(null);
             }
             finally
             {
+                IsBusy = false;
                 RefreshButtonStates();
             }
-
-            return Task.CompletedTask;
         }
 
         protected abstract Task<IEnumerable<TEntity>> InternalFilterAsync(CancellationToken searchCancellationToken, string filterTextParam);
 
         protected virtual void RefreshButtonStates() { }
+
+        private async Task FilterEntities()
+        {
+            if (FilterText?.Length >= 3)
+            {
+                searchCancellationTokenSource?.Cancel();
+                searchCancellationTokenSource = new CancellationTokenSource();
+                var searchCancellationToken = searchCancellationTokenSource.Token;
+
+                var entities = await InternalFilterAsync(searchCancellationToken, FilterText);
+                filteredEntities.Clear();
+                filteredEntities.AddRange(entities);
+            }
+            else
+            {
+                filteredEntities.Clear();
+                filteredEntities.AddRange(cachedEntities);
+            }
+
+        }
     }
 }

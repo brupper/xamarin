@@ -29,7 +29,6 @@ namespace Brupper.ViewModels.Popups
         private QuestionViewModelParam parameter;
 
         private string question;
-        private IMvxAsyncCommand acceptCommand;
         private IMvxAsyncCommand<DialogButtonUiModel> buttonCommand;
         private MvxObservableCollection<DialogButtonUiModel> buttons = new MvxObservableCollection<DialogButtonUiModel>();
 

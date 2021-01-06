@@ -1,4 +1,5 @@
 ﻿using Brupper.Forms.Services.Interfaces;
+using Brupper.Forms.UiModels;
 using Brupper.ViewModels.Popups;
 using MvvmCross;
 using MvvmCross.Commands;
@@ -19,7 +20,7 @@ namespace Brupper.ViewModels.Abstraction
 
         public event EventHandler<string> Alert;
 
-        private bool isBusy;
+        private int isBusyCount;
         private string message;
         private string syncMessage;
         private IMvxTextProvider textProvider;
@@ -33,7 +34,6 @@ namespace Brupper.ViewModels.Abstraction
             : base(logProvider, navigationService)
         {
             Logger = logProvider.GetLogFor<AppCenterTrace>();
-
         }
 
         #endregion
@@ -59,12 +59,12 @@ namespace Brupper.ViewModels.Abstraction
             }
         }
 
-        protected internal bool CanViewDestroy { get; set; } = true;
+        protected internal virtual bool CanViewDestroy { get; set; } = true;
 
         public bool IsBusy
         {
-            get => isBusy;
-            set => SetProperty(ref isBusy, value);
+            get => isBusyCount > 0;
+            set => SetProperty(ref isBusyCount, isBusyCount + (value ? 1 : -1));
         }
 
         public string Message
@@ -122,7 +122,9 @@ namespace Brupper.ViewModels.Abstraction
         }
 
         protected virtual Task ExecuteBackPressedCommandAsync()
-            => NavigationService.Close(this);
+        {
+            return this.Close(this);
+        }
 
         #region MvxMessenger message handling
 
@@ -144,6 +146,16 @@ namespace Brupper.ViewModels.Abstraction
 
             return true;
         }
+
+        public Task ShowAlert(string message, bool error = true)
+            => NavigationService.Navigate<QuestionViewModel, QuestionViewModelParam, DialogButtonUiModel>(new QuestionViewModelParam
+            {
+                LocalizedQuestion = $"{TextProvider.GetText(null, null, "general_error_header")}\n\n{message}",
+                CancelButton = null
+            });
+
+        public Task ShowAlertWithKey(string key = null, bool error = true) 
+            => ShowAlert(TextProvider.GetText(null, null, key ?? "general_error"), error);
 
         #endregion
     }

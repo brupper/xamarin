@@ -18,6 +18,6 @@
     >
 
     <BoxView BackgroundColor="#F25022" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="32" />
-    <Label Text="TEST" TextColor="White" FontSize="24" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"  HorizontalTextAlignment="Center"/>
+    <Label Text="{Binding Text, Source={x:Reference This}}" TextColor="White" FontSize="24" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"  HorizontalTextAlignment="Center"/>
 
 </Grid>
