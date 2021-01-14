@@ -1,7 +1,6 @@
 ﻿using Brupper.Identity.B2C.Entities;
 using Microsoft.Graph;
 using Newtonsoft.Json;
-using System;
 using System.Linq;
 
 namespace Brupper.Identity.B2C
@@ -19,7 +18,7 @@ namespace Brupper.Identity.B2C
             var destination = JsonConvert.DeserializeObject<ApplicationUser>(JsonConvert.SerializeObject(source));
             destination.UserId = source.Id;
             destination.Email = source.GetMail();
-            destination.UserName = $"{source.GivenName} {source.GivenName} {source.Surname} {source.DisplayName}";
+            destination.UserName = $"{source.GivenName} {source.Surname} {source.DisplayName}".TrimStart().TrimEnd();
             destination.PhoneNumber = source.MobilePhone ?? source.BusinessPhones?.FirstOrDefault();
             destination.CompanyName = source.CompanyName;
             destination.Country = source.Country;
