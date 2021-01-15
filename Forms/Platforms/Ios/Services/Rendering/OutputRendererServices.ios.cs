@@ -12,9 +12,11 @@ namespace Brupper.Forms.Platforms.iOS.Services
 {
     public class OutputRendererServices : Forms.Services.Concretes.AOutputRendererServices
     {
+        /// <inheritdoc />
         public OutputRendererServices(IFileSystem fileSystem)
             : base(fileSystem) { }
 
+        /// <inheritdoc />
         public override Task OpenPdfAsync(string filePath)
         {
             try
@@ -38,6 +40,7 @@ namespace Brupper.Forms.Platforms.iOS.Services
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc />
         public override Task<string> SaveIntoPdfAsync(string html, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             var source = new TaskCompletionSource<string>();
@@ -65,6 +68,7 @@ namespace Brupper.Forms.Platforms.iOS.Services
             return source.Task;
         }
 
+        /// <inheritdoc />
         public override Task<string> SaveIntoPngAsync(string html, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             var source = new TaskCompletionSource<string>();
@@ -93,6 +97,7 @@ namespace Brupper.Forms.Platforms.iOS.Services
         }
 
         // https://stackoverflow.com/questions/53505364/how-to-generate-the-thumbnail-of-the-pdf-first-page-in-xamarin-forms
+        /// <inheritdoc />
         public void ConvertToImage(Stream pdfFileStream)
         {
             var stream = new MemoryStream();

@@ -9,27 +9,27 @@ namespace Brupper.Forms.Services.Concretes
     {
         protected readonly IFileSystem fileSystem;
 
-        /// <summary> . </summary>
+        /// <inheritdoc />
         public virtual string DocumentsFolder
             => fileSystem.AppDataDirectory;
         //=> Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        /// <summary> . </summary>
+        /// <inheritdoc />
         public AOutputRendererServices(IFileSystem fileSystem)
         {
             this.fileSystem = fileSystem;
         }
 
-        /// <summary> . </summary>
+        /// <inheritdoc />
         public virtual Task OpenPdfAsync(string filePath) => Launcher.OpenAsync(new OpenFileRequest
         {
             File = new ReadOnlyFile(filePath),
         });
 
-        /// <summary> . </summary>
+        /// <inheritdoc />
         public abstract Task<string> SaveIntoPdfAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1);
 
-        /// <summary> . </summary>
+        /// <inheritdoc />
         public abstract Task<string> SaveIntoPngAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1);
     }
 }

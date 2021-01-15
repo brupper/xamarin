@@ -1,5 +1,4 @@
-﻿using Brupper.Forms.Platforms.Android.PlatformServices;
-using Brupper.Forms.Platforms.Android.Services;
+﻿using Brupper.Forms.Platforms.Android.Services;
 using Brupper.Forms.Presenters;
 using Brupper.Forms.Services;
 using Brupper.Forms.Services.Interfaces;

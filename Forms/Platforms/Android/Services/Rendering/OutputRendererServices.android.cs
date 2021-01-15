@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
-namespace Brupper.Forms.Platforms.Android.PlatformServices
+namespace Brupper.Forms.Platforms.Android.Services
 {
     public class OutputRendererServices : Forms.Services.Concretes.AOutputRendererServices
     {
