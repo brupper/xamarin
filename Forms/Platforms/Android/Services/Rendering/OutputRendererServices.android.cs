@@ -82,28 +82,36 @@ namespace Brupper.Forms.Platforms.Android.Services
 
             var file = System.IO.Path.Combine(global::Android.App.Application.Context.GetExternalFilesDir(null).AbsolutePath, fileName);
 
-            var context = GetApplicationContext();
+            // AVOID: Java.Lang.RuntimeException: WebView cannot be initialized on a thread that has no Looper.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    var context = GetApplicationContext();
 
-            WebView.EnableSlowWholeDocumentDraw();
-            var view = new global::Android.Webkit.WebView(context);
-            view.Settings.JavaScriptEnabled = true;
-            view.Settings.OffscreenPreRaster = true;
-            view.SetBackgroundColor(global::Android.Graphics.Color.White);
-            view.SetInitialScale(100); // density fix
-            view.SetPadding(0, 0, 0, 0);
-            view.LoadDataWithBaseURL("", htmlContent, "text/html", "UTF-8", null);
-            view.ClearCache(true);
-            view.Settings.UseWideViewPort = true;
-            view.Settings.LoadWithOverviewMode = true;
-            /*
-            int widthMeasureSpec = global::Android.Views.View.MeasureSpec.MakeMeasureSpec(0, global::Android.Views.MeasureSpecMode.Unspecified);
-            int heightMeasureSpec = global::Android.Views.View.MeasureSpec.MakeMeasureSpec(0, global::Android.Views.MeasureSpecMode.Unspecified);
-            view.Measure(widthMeasureSpec, heightMeasureSpec);
-            */
-            var size = new PaperSize(kind);
-            view.Layout(0, 0, size.Width, size.Height * numberOfPages); // Experimental size for n A4 pages
+                    WebView.EnableSlowWholeDocumentDraw();
+                    var view = new global::Android.Webkit.WebView(context);
+                    view.Settings.JavaScriptEnabled = true;
+                    view.Settings.OffscreenPreRaster = true;
+                    view.SetBackgroundColor(global::Android.Graphics.Color.White);
+                    view.SetInitialScale(100); // density fix
+                    view.SetPadding(0, 0, 0, 0);
+                    view.LoadDataWithBaseURL("", htmlContent, "text/html", "UTF-8", null);
+                    view.ClearCache(true);
+                    view.Settings.UseWideViewPort = true;
+                    view.Settings.LoadWithOverviewMode = true;
+                    /*
+                    int widthMeasureSpec = global::Android.Views.View.MeasureSpec.MakeMeasureSpec(0, global::Android.Views.MeasureSpecMode.Unspecified);
+                    int heightMeasureSpec = global::Android.Views.View.MeasureSpec.MakeMeasureSpec(0, global::Android.Views.MeasureSpecMode.Unspecified);
+                    view.Measure(widthMeasureSpec, heightMeasureSpec);
+                    */
+                    var size = new PaperSize(kind);
+                    view.Layout(0, 0, size.Width, size.Height * numberOfPages); // Experimental size for n A4 pages
 
-            view.SetWebViewClient(webviewclientCreator(source, file));
+                    view.SetWebViewClient(webviewclientCreator(source, file));
+                }
+                catch (Exception e) { source.SetException(e); }
+            });
 
             return source.Task;
         }
