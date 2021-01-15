@@ -114,9 +114,6 @@ namespace Brupper.Forms.Platforms.Android.PlatformServices
             return source.Task;
         }
 
-        private global::Android.Content.Context GetApplicationContext()
-        {
-            return MvvmCross.Mvx.IoCProvider.Resolve<MvvmCross.Platforms.Android.IMvxAndroidCurrentTopActivity>().Activity;
-        }
+        protected virtual global::Android.Content.Context GetApplicationContext() => MvvmCross.Mvx.IoCProvider.Resolve<MvvmCross.Platforms.Android.IMvxAndroidCurrentTopActivity>().Activity;
     }
 }

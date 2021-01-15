@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
 namespace Brupper.Forms.Services.Concretes
@@ -16,7 +17,10 @@ namespace Brupper.Forms.Services.Concretes
             this.fileSystem = fileSystem;
         }
 
-        public abstract Task OpenPdfAsync(string filePath);
+        public Task OpenPdfAsync(string filePath) => Launcher.OpenAsync(new OpenFileRequest
+        {
+            File = new ReadOnlyFile(filePath),
+        });
 
         public abstract Task<string> SaveIntoPdfAsync(string htmlContent, string fileName);
 
