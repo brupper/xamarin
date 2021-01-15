@@ -1,4 +1,5 @@
-﻿using CoreGraphics;
+﻿using Brupper.Forms.Models.Rendering;
+using CoreGraphics;
 using Foundation;
 using System;
 using System.Diagnostics;
@@ -12,10 +13,9 @@ namespace Brupper.Forms.Platforms.iOS.Services
     public class OutputRendererServices : Forms.Services.Concretes.AOutputRendererServices
     {
         public OutputRendererServices(IFileSystem fileSystem)
-            : base(fileSystem)
-        { }
+            : base(fileSystem) { }
 
-        public override async Task OpenPdfAsync(string filePath)
+        public override Task OpenPdfAsync(string filePath)
         {
             try
             {
@@ -35,10 +35,10 @@ namespace Brupper.Forms.Platforms.iOS.Services
                 Microsoft.AppCenter.Crashes.Crashes.TrackError(e);
             }
 
-            await Task.Yield();
+            return Task.CompletedTask;
         }
 
-        public override Task<string> SaveIntoPdfAsync(string html, string fileName)
+        public override Task<string> SaveIntoPdfAsync(string html, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             var source = new TaskCompletionSource<string>();
             var webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
@@ -65,7 +65,7 @@ namespace Brupper.Forms.Platforms.iOS.Services
             return source.Task;
         }
 
-        public override Task<string> SaveIntoPngAsync(string html, string fileName)
+        public override Task<string> SaveIntoPngAsync(string html, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             var source = new TaskCompletionSource<string>();
             var webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));

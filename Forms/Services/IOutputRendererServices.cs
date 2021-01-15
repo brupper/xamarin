@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Brupper.Forms.Models.Rendering;
+using System.Threading.Tasks;
 
 namespace Brupper.Forms.Services
 {
@@ -6,9 +7,9 @@ namespace Brupper.Forms.Services
     {
         string DocumentsFolder { get; }
 
-        Task<string> SaveIntoPdfAsync(string htmlContent, string fileName);
+        Task<string> SaveIntoPdfAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1);
 
-        Task<string> SaveIntoPngAsync(string htmlContent, string fileName);
+        Task<string> SaveIntoPngAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1);
 
         Task OpenPdfAsync(string filePath);
     }
