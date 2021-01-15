@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Brupper.Forms.Platforms.Android.PlatformServices
+namespace Brupper.Forms.Platforms.Android.Services
 {
     // https://stackoverflow.com/questions/37340813/xamarin-free-html-or-doc-to-pdf-conversion
     public class PngExportWebViewCallBack : WebViewClient

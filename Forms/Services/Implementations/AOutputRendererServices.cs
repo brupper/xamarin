@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Brupper.Forms.Models.Rendering;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
 namespace Brupper.Forms.Services.Concretes
@@ -7,19 +9,27 @@ namespace Brupper.Forms.Services.Concretes
     {
         protected readonly IFileSystem fileSystem;
 
-        public string DocumentsFolder
+        /// <inheritdoc />
+        public virtual string DocumentsFolder
             => fileSystem.AppDataDirectory;
         //=> Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+        /// <inheritdoc />
         public AOutputRendererServices(IFileSystem fileSystem)
         {
             this.fileSystem = fileSystem;
         }
 
-        public abstract Task OpenPdfAsync(string filePath);
+        /// <inheritdoc />
+        public virtual Task OpenPdfAsync(string filePath) => Launcher.OpenAsync(new OpenFileRequest
+        {
+            File = new ReadOnlyFile(filePath),
+        });
 
-        public abstract Task<string> SaveIntoPdfAsync(string htmlContent, string fileName);
+        /// <inheritdoc />
+        public abstract Task<string> SaveIntoPdfAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1);
 
-        public abstract Task<string> SaveIntoPngAsync(string htmlContent, string fileName);
+        /// <inheritdoc />
+        public abstract Task<string> SaveIntoPngAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1);
     }
 }

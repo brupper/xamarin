@@ -1,122 +1,121 @@
 ﻿using Android.Webkit;
+using Brupper.Forms.Models.Rendering;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
-namespace Brupper.Forms.Platforms.Android.PlatformServices
+namespace Brupper.Forms.Platforms.Android.Services
 {
     public class OutputRendererServices : Forms.Services.Concretes.AOutputRendererServices
     {
         public OutputRendererServices(IFileSystem fileSystem)
-            : base(fileSystem)
-        { }
+            : base(fileSystem) { }
 
-        public override async Task OpenPdfAsync(string filePath)
-        {
-            await Launcher.OpenAsync(new OpenFileRequest
-            {
-                File = new ReadOnlyFile(filePath),
-            });
+        //public override async Task OpenPdfAsync(string filePath)
+        //{
+        //    var bytes = File.ReadAllBytes(filePath);
 
-            //var bytes = File.ReadAllBytes(filePath);
+        //    //Copy the private file's data to the EXTERNAL PUBLIC location
+        //    string externalStorageState = global::Android.OS.Environment.ExternalStorageState;
+        //    string application = "";
 
-            ////Copy the private file's data to the EXTERNAL PUBLIC location
-            //string externalStorageState = global::Android.OS.Environment.ExternalStorageState;
-            //string application = "";
+        //    string extension = Path.GetExtension(filePath);
+        //    switch (extension.ToLower())
+        //    {
+        //        case ".doc":
+        //        case ".docx":
+        //            application = "application/msword";
+        //            break;
+        //        case ".pdf":
+        //            application = "application/pdf";
+        //            break;
+        //        case ".xls":
+        //        case ".xlsx":
+        //            application = "application/vnd.ms-excel";
+        //            break;
+        //        case ".jpg":
+        //        case ".jpeg":
+        //        case ".png":
+        //            application = "image/jpeg";
+        //            break;
+        //        default:
+        //            application = "*/*";
+        //            break;
+        //    }
+        //    var externalPath = global::Android.OS.Environment.ExternalStorageDirectory.Path + "/invoices" + extension;
+        //    File.WriteAllBytes(externalPath, bytes);
 
-            //string extension = Path.GetExtension(filePath);
-            //switch (extension.ToLower())
-            //{
-            //    case ".doc":
-            //    case ".docx":
-            //        application = "application/msword";
-            //        break;
-            //    case ".pdf":
-            //        application = "application/pdf";
-            //        break;
-            //    case ".xls":
-            //    case ".xlsx":
-            //        application = "application/vnd.ms-excel";
-            //        break;
-            //    case ".jpg":
-            //    case ".jpeg":
-            //    case ".png":
-            //        application = "image/jpeg";
-            //        break;
-            //    default:
-            //        application = "*/*";
-            //        break;
-            //}
-            //var externalPath = global::Android.OS.Environment.ExternalStorageDirectory.Path + "/invoices" + extension;
-            //File.WriteAllBytes(externalPath, bytes);
+        //    var file = new Java.IO.File(externalPath);
+        //    file.SetReadable(true);
 
-            //var file = new Java.IO.File(externalPath);
-            //file.SetReadable(true);
+        //    var uri = Android.Net.Uri.FromFile(file);
+        //    var intent = new Intent(Intent.ActionView);
+        //    intent.SetDataAndType(uri, application);
+        //    intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
 
-            //var uri = Android.Net.Uri.FromFile(file);
-            //var intent = new Intent(Intent.ActionView);
-            //intent.SetDataAndType(uri, application);
-            //intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
+        //    try
+        //    {
+        //        GetApplicationContext().StartActivity(intent);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Android.Widget.Toast.MakeText(GetApplicationContext(), "No Application Available to View PDF", Android.Widget.ToastLength.Short).Show();
+        //    }
+        //}
 
-            //try
-            //{
-            //    GetApplicationContext().StartActivity(intent);
-            //}
-            //catch (Exception)
-            //{
-            //    Android.Widget.Toast.MakeText(GetApplicationContext(), "No Application Available to View PDF", Android.Widget.ToastLength.Short).Show();
-            //}
-        }
-
-        public override Task<string> SaveIntoPdfAsync(string htmlContent, string fileName)
+        public override Task<string> SaveIntoPdfAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             fileName = $"{DateTime.Now:yyyyMMdd}_{fileName}.pdf";
-            return InternalSave(htmlContent, fileName, (source, absolutePath) => new PdfExportWebViewCallBack(source, absolutePath));
+            return InternalSave(htmlContent, fileName, kind, numberOfPages, (source, absolutePath) => new PdfExportWebViewCallBack(source, absolutePath, numberOfPages, new PaperSize(kind)));
         }
 
-        public override Task<string> SaveIntoPngAsync(string htmlContent, string fileName)
+        public override Task<string> SaveIntoPngAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             fileName = $"{DateTime.Now:yyyyMMdd}_{fileName}.png";
-            return InternalSave(htmlContent, fileName, (source, absolutePath) => new PngExportWebViewCallBack(source, absolutePath));
+            return InternalSave(htmlContent, fileName, kind, numberOfPages, (source, absolutePath) => new PngExportWebViewCallBack(source, absolutePath));
         }
 
-
-        private Task<string> InternalSave(string htmlContent, string fileName, Func<TaskCompletionSource<string>, string, WebViewClient> webviewclientCreator)
+        protected virtual Task<string> InternalSave(string htmlContent, string fileName, PaperKind kind, int numberOfPages, Func<TaskCompletionSource<string>, string, WebViewClient> webviewclientCreator)
         {
             var source = new TaskCompletionSource<string>();
 
-            //var file = Path.Combine(DocumentsFolder, fileName);
             var file = System.IO.Path.Combine(global::Android.App.Application.Context.GetExternalFilesDir(null).AbsolutePath, fileName);
 
-            var context = GetApplicationContext();
+            // AVOID: Java.Lang.RuntimeException: WebView cannot be initialized on a thread that has no Looper.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    var context = GetApplicationContext();
 
-            WebView.EnableSlowWholeDocumentDraw();
-            var view = new global::Android.Webkit.WebView(context);
-            view.Settings.JavaScriptEnabled = true;
-            view.Settings.OffscreenPreRaster = true;
-            view.SetBackgroundColor(global::Android.Graphics.Color.White);
-            view.SetInitialScale(100); // density fix
-            view.SetPadding(0, 0, 0, 0);
-            view.LoadDataWithBaseURL("", htmlContent, "text/html", "UTF-8", null);
-            view.ClearCache(true);
-            view.Settings.UseWideViewPort = true;
-            view.Settings.LoadWithOverviewMode = true;
+                    WebView.EnableSlowWholeDocumentDraw();
+                    var view = new global::Android.Webkit.WebView(context);
+                    view.Settings.JavaScriptEnabled = true;
+                    view.Settings.OffscreenPreRaster = true;
+                    view.SetBackgroundColor(global::Android.Graphics.Color.White);
+                    view.SetInitialScale(100); // density fix
+                    view.SetPadding(0, 0, 0, 0);
+                    view.LoadDataWithBaseURL("", htmlContent, "text/html", "UTF-8", null);
+                    view.ClearCache(true);
+                    view.Settings.UseWideViewPort = true;
+                    view.Settings.LoadWithOverviewMode = true;
+                    /*
+                    int widthMeasureSpec = global::Android.Views.View.MeasureSpec.MakeMeasureSpec(0, global::Android.Views.MeasureSpecMode.Unspecified);
+                    int heightMeasureSpec = global::Android.Views.View.MeasureSpec.MakeMeasureSpec(0, global::Android.Views.MeasureSpecMode.Unspecified);
+                    view.Measure(widthMeasureSpec, heightMeasureSpec);
+                    */
+                    var size = new PaperSize(kind);
+                    view.Layout(0, 0, size.Width, (size.Height == 0 ? size.Width /*fallback*/ : size.Height) * numberOfPages); // Experimental size for n A4 pages
 
-            int widthMeasureSpec = global::Android.Views.View.MeasureSpec.MakeMeasureSpec(0, global::Android.Views.MeasureSpecMode.Unspecified);
-            int heightMeasureSpec = global::Android.Views.View.MeasureSpec.MakeMeasureSpec(0, global::Android.Views.MeasureSpecMode.Unspecified);
-            view.Measure(widthMeasureSpec, heightMeasureSpec);
-            //view.Layout(0, 0, view.MeasuredWidth, view.MeasuredHeight);
-            view.Layout(0, 0, 200, 200); // minel kisebb annal jobb, a magassag szelesssege ugy is a EvaluateJavascript altal vissza adott ertekek hatarozzak meg
-
-            view.SetWebViewClient(webviewclientCreator(source, file));
+                    view.SetWebViewClient(webviewclientCreator(source, file));
+                }
+                catch (Exception e) { source.SetException(e); }
+            });
 
             return source.Task;
         }
 
-        private global::Android.Content.Context GetApplicationContext()
-        {
-            return MvvmCross.Mvx.IoCProvider.Resolve<MvvmCross.Platforms.Android.IMvxAndroidCurrentTopActivity>().Activity;
-        }
+        protected virtual global::Android.Content.Context GetApplicationContext() => MvvmCross.Mvx.IoCProvider.Resolve<MvvmCross.Platforms.Android.IMvxAndroidCurrentTopActivity>().Activity;
     }
 }

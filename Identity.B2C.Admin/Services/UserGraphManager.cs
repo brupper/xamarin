@@ -343,13 +343,13 @@ namespace Brupper.Identity.B2C
         public async Task<bool> IsLicenseAdministrator(string userId)
         {
             // https://docs.microsoft.com/en-us/graph/api/directoryrole-list-members?view=graph-rest-1.0&tabs=csharp
-            const string licenseAdminId = "897f7ee2-0307-41fc-be5e-be8181529153"; // - License Administrator
+            const string licenseAdminTemplateId = "4d6ac14f-3453-41d0-bef9-a3e0c569773a"; // - License Administrator
 
             var roleAssignments = await graphClient.Users[userId].MemberOf.Request().GetAsync();
             // var roles = await graphClient.DirectoryRoles.Request().GetAsync();
             //var members = await graphClient.DirectoryRoles[licenseAdminId].Members.Request().GetAsync();
 
-            return roleAssignments.Any(x => x.Id == licenseAdminId);
+            return roleAssignments.OfType<DirectoryRole>().Any(x => x.RoleTemplateId == licenseAdminTemplateId);
         }
     }
 }

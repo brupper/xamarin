@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using AndroidX.Core.App;
 
-namespace Brupper.Forms.Platforms.Android.PlatformServices
+namespace Brupper.Forms.Platforms.Android.Services
 {
     internal class PermissionHelper : IPermissionHelper
     {

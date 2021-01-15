@@ -1,4 +1,5 @@
 ﻿using Microsoft.AppCenter.Crashes;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using System;
 using System.Threading;
@@ -6,8 +7,17 @@ using System.Threading.Tasks;
 
 namespace Brupper.ViewModels.Popups
 {
-    public class LoadingViewModelParameter
+    public class LoadingViewModelParameter : Core.Models.NotifyPropertyChanged
     {
+        private string message;
+        private bool canBeCancelled;
+
+        public bool CanBeCancelled { get => canBeCancelled; set => SetProperty(ref canBeCancelled, value); }
+
+        public string Message { get => message; set => SetProperty(ref message, value); }
+
+        public Action Cancel { get; set; }
+
         public Task RunningTask { get; set; }
             = Task.CompletedTask;
 
@@ -20,8 +30,9 @@ namespace Brupper.ViewModels.Popups
 
     public abstract class BaseLoadingViewModel : MvxPopupViewModel<LoadingViewModelParameter>
     {
+        private IMvxCommand cancelCommand;
         private bool isRunning = true;
-        private LoadingViewModelParameter context = new LoadingViewModelParameter();
+        protected LoadingViewModelParameter context = new LoadingViewModelParameter();
 
         #region Constructor
 
@@ -114,5 +125,13 @@ namespace Brupper.ViewModels.Popups
         }
 
         #endregion
+
+        public IMvxCommand CancelCommand => cancelCommand ?? (cancelCommand = new MvxCommand(() =>
+        {
+            if ((context?.CanBeCancelled ?? false))
+            {
+                context.Cancel?.Invoke();
+            }
+        }));
     }
 }
