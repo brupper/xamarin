@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using UIKit;
+using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 
 namespace Brupper.Forms.Platforms.iOS.Services
@@ -44,26 +45,35 @@ namespace Brupper.Forms.Platforms.iOS.Services
         public override Task<string> SaveIntoPdfAsync(string html, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             var source = new TaskCompletionSource<string>();
-            var webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
 
-            try
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                var files = Directory.GetFiles(DocumentsFolder, $"*{fileName}*");
-                //if (files.Length > 1)
-                foreach (var item in files)
+                try
                 {
-                    File.Delete(item);
+                    var webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
+
+                    try
+                    {
+                        var files = Directory.GetFiles(DocumentsFolder, $"*{fileName}*");
+                        //if (files.Length > 1)
+                        foreach (var item in files)
+                        {
+                            File.Delete(item);
+                        }
+                    }
+                    catch (Exception e) { Microsoft.AppCenter.Crashes.Crashes.TrackError(e); }
+
+                    var file = Path.Combine(DocumentsFolder, $"{DateTime.Now:yyyyMMdd}_{fileName}.pdf");
+
+                    webView.Delegate = new PdfExportWebViewCallBack(source, file);
+                    webView.ScalesPageToFit = true;
+                    webView.UserInteractionEnabled = false;
+                    webView.BackgroundColor = UIColor.White;
+                    webView.LoadHtmlString(html, null);
+
                 }
-            }
-            catch (Exception e) { Microsoft.AppCenter.Crashes.Crashes.TrackError(e); }
-
-            var file = Path.Combine(DocumentsFolder, $"{DateTime.Now:yyyyMMdd}_{fileName}.pdf");
-
-            webView.Delegate = new PdfExportWebViewCallBack(source, file);
-            webView.ScalesPageToFit = true;
-            webView.UserInteractionEnabled = false;
-            webView.BackgroundColor = UIColor.White;
-            webView.LoadHtmlString(html, null);
+                catch (Exception e) { source.SetException(e); }
+            });
 
             return source.Task;
         }
@@ -72,27 +82,34 @@ namespace Brupper.Forms.Platforms.iOS.Services
         public override Task<string> SaveIntoPngAsync(string html, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             var source = new TaskCompletionSource<string>();
-            var webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
 
-            try
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                var files = Directory.GetFiles(DocumentsFolder, $"*{fileName}*");
-                //if (files.Length > 1)
-                foreach (var item in files)
+                try
                 {
-                    File.Delete(item);
+                    var webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
+
+                    try
+                    {
+                        var files = Directory.GetFiles(DocumentsFolder, $"*{fileName}*");
+                        //if (files.Length > 1)
+                        foreach (var item in files)
+                        {
+                            File.Delete(item);
+                        }
+                    }
+                    catch (Exception e) { Microsoft.AppCenter.Crashes.Crashes.TrackError(e); }
+
+                    var file = Path.Combine(DocumentsFolder, $"{DateTime.Now:yyyyMMdd}_{fileName}.png");
+
+                    webView.Delegate = new PngExportWebViewCallBack(source, file);
+                    webView.ScalesPageToFit = true;
+                    webView.UserInteractionEnabled = false;
+                    webView.BackgroundColor = UIColor.White;
+                    webView.LoadHtmlString(html, null);
                 }
-            }
-            catch (Exception e) { Microsoft.AppCenter.Crashes.Crashes.TrackError(e); }
-
-            var file = Path.Combine(DocumentsFolder, $"{DateTime.Now:yyyyMMdd}_{fileName}.png");
-
-            webView.Delegate = new PngExportWebViewCallBack(source, file);
-            webView.ScalesPageToFit = true;
-            webView.UserInteractionEnabled = false;
-            webView.BackgroundColor = UIColor.White;
-            webView.LoadHtmlString(html, null);
-
+                catch (Exception e) { source.SetException(e); }
+            });
             return source.Task;
         }
 

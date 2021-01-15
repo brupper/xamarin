@@ -106,7 +106,7 @@ namespace Brupper.Forms.Platforms.Android.Services
                     view.Measure(widthMeasureSpec, heightMeasureSpec);
                     */
                     var size = new PaperSize(kind);
-                    view.Layout(0, 0, size.Width, size.Height * numberOfPages); // Experimental size for n A4 pages
+                    view.Layout(0, 0, size.Width, (size.Height == 0 ? size.Width /*fallback*/ : size.Height) * numberOfPages); // Experimental size for n A4 pages
 
                     view.SetWebViewClient(webviewclientCreator(source, file));
                 }
