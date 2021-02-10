@@ -64,7 +64,7 @@ namespace Plugin.Toasts
                 if (string.IsNullOrEmpty(channelId) && channelOptions != null)
                     channelOptions.Name = DefaultChannelName;
 
-                if (!Channels.Contains(channelId))
+                if (!Channels.Contains(channelId) && channelOptions != null)
                 {
                     // Create new channel.
                     var newChannel = new NotificationChannel(channelId, channelOptions.Name, NotificationImportance.High);
@@ -76,8 +76,10 @@ namespace Plugin.Toasts
                     }
 
                     // Register channel.
-                    var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager;
-                    notificationManager.CreateNotificationChannel(newChannel);
+                    using (var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
+                    {
+                        notificationManager?.CreateNotificationChannel(newChannel);
+                    }
 
                     // Save Id for reference.
                     Channels.Add(channelId);
@@ -89,24 +91,27 @@ namespace Plugin.Toasts
 
         public IList<INotification> GetDeliveredNotifications()
         {
-            IList<INotification> list = new List<INotification>();
-            if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.M)
+            var list = new List<INotification>();
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
             {
                 return new List<INotification>();
             }
 
-            NotificationManager notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager;
+            using (var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
+                if (notificationManager != null)
+                    foreach (var notification in notificationManager.GetActiveNotifications())
+                    {
+                        list.Add(new Plugin.Toasts.Notification
+                        {
+                            Id = notification.Id.ToString(),
+                            Title = notification.Notification.Extras.GetString("android.title"),
+                            Description = notification.Notification.Extras.GetString("android.text"),
+                            Delivered =
+                                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(notification.Notification
+                                    .When)
+                        });
+                    }
 
-            foreach (var notification in notificationManager.GetActiveNotifications())
-            {
-                list.Add(new Notification()
-                {
-                    Id = notification.Id.ToString(),
-                    Title = notification.Notification.Extras.GetString("android.title"),
-                    Description = notification.Notification.Extras.GetString("android.text"),
-                    Delivered = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(notification.Notification.When)
-                });
-            }
             return list;
         }
 
@@ -121,7 +126,7 @@ namespace Plugin.Toasts
                     options.AndroidOptions.HexColor = "#" + options.AndroidOptions.HexColor;
                 }
 
-                var notification = new ScheduledNotification()
+                var notification = new ScheduledNotification
                 {
                     AndroidOptions = (AndroidOptions)options.AndroidOptions,
                     ClearFromHistory = options.ClearFromHistory,
@@ -137,10 +142,12 @@ namespace Plugin.Toasts
                 intent.PutExtra(NotificationForceOpenApp, options.AndroidOptions.ForceOpenAppOnNotificationTap);
 
                 var pendingIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + int.Parse(id)), intent, PendingIntentFlags.CancelCurrent);
-                var timeTriggered = ConvertToMilliseconds(options.DelayUntil.Value);
-                var alarmManager = Application.Context.GetSystemService(Context.AlarmService) as AlarmManager;
-
-                alarmManager.Set(AlarmType.RtcWakeup, timeTriggered, pendingIntent);
+                if (options.DelayUntil != null)
+                {
+                    var timeTriggered = ConvertToMilliseconds(options.DelayUntil.Value);
+                    var alarmManager = Application.Context.GetSystemService(Context.AlarmService) as AlarmManager;
+                    alarmManager?.Set(AlarmType.RtcWakeup, timeTriggered, pendingIntent);
+                }
             }
         }
 
@@ -166,8 +173,8 @@ namespace Plugin.Toasts
             INotificationResult notificationResult = null;
             if (options != null)
             {
-                var notificationId = 0;
-                var id = "";
+                int notificationId;
+                string id;
                 lock (@lock)
                 {
                     notificationId = count;
@@ -182,13 +189,14 @@ namespace Plugin.Toasts
                 else if (_androidOptions.SmallIconDrawable.HasValue)
                     smallIcon = _androidOptions.SmallIconDrawable.Value;
                 else
-                    smallIcon = Android.Resource.Drawable.IcDialogInfo; // As last resort
+                    smallIcon = Brupper.Push.Resource.Drawable.ic_stat_notify_dot; // As last resort
+                //smallIcon = 0;
 
                 if (options.DelayUntil.HasValue)
                 {
                     options.AndroidOptions.SmallDrawableIcon = smallIcon;
                     ScheduleNotification(id, options);
-                    return new NotificationResult() { Action = NotificationAction.NotApplicable, Id = notificationId };
+                    return new NotificationResult { Action = NotificationAction.NotApplicable, Id = notificationId };
                 }
 
                 // Show Notification Right Now
@@ -197,28 +205,34 @@ namespace Plugin.Toasts
 
                 var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), dismissIntent, 0);
 
-                var clickIntent = new Intent(OnClickIntent);
+                //var clickIntent = new Intent(OnClickIntent);
+                var clickIntent = new Intent(Application.Context, activity.GetType());
                 clickIntent.PutExtra(NotificationId, notificationId);
                 clickIntent.PutExtra(NotificationForceOpenApp, options.AndroidOptions.ForceOpenAppOnNotificationTap);
+                clickIntent.SetFlags(ActivityFlags.NewTask);
 
                 // Add custom args
                 if (options.CustomArgs != null)
                     foreach (var arg in options.CustomArgs)
                         clickIntent.PutExtra(arg.Key, arg.Value);
 
-                var pendingClickIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), clickIntent, 0);
+                //var pendingClickIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), clickIntent, 0);
+                var pendingClickIntent = PendingIntent.GetActivity(Application.Context, (StartId + notificationId), clickIntent, PendingIntentFlags.UpdateCurrent);
 
                 if (!string.IsNullOrEmpty(options.AndroidOptions.HexColor) && options.AndroidOptions.HexColor.Substring(0, 1) != "#")
                 {
                     options.AndroidOptions.HexColor = "#" + options.AndroidOptions.HexColor;
                 }
 
-                Android.App.Notification.Builder builder = new Android.App.Notification.Builder(Application.Context)
+#pragma warning disable CS0618 // Type or member is obsolete
+                var builder = new global::Android.App.Notification.Builder(Application.Context)
                     .SetContentTitle(options.Title)
                     .SetContentText(options.Description)
                     .SetSmallIcon(smallIcon) // Must have small icon to display
+                                             //.SetLargeIcon(Resource.Mipmap.icon_round) // todo
                     .SetPriority((int)NotificationPriority.High) // Must be set to High to get Heads-up notification
                     .SetDefaults(NotificationDefaults.All) // Must also include vibrate to get Heads-up notification
+#pragma warning restore CS0618 // Type or member is obsolete
                     .SetAutoCancel(true) // To allow click event to trigger delete Intent
                     .SetContentIntent(pendingClickIntent) // Must have Intent to accept the click                   
                     .SetDeleteIntent(pendingDismissIntent)
@@ -227,7 +241,7 @@ namespace Plugin.Toasts
                 try
                 {
                     // Notification Channel
-                    if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
                     {
                         var notificationChannelId = GetOrCreateChannel(options.AndroidOptions.ChannelOptions);
                         if (!string.IsNullOrEmpty(notificationChannelId))
@@ -236,19 +250,23 @@ namespace Plugin.Toasts
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                    // ignored
+                }
+
                 // System.MissingMethodException: Method 'Android.App.Notification/Builder.SetChannelId' not found.
                 // I know this is bad, but I can't replicate it on any version, and many people are experiencing it.
 
-                Android.App.Notification notification = builder.Build();
+                var notification = builder.Build();
 
-                NotificationManager notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager;
+                var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager;
 
-                notificationManager.Notify(notificationId, notification);
+                notificationManager?.Notify(notificationId, notification);
 
                 if (options.DelayUntil.HasValue)
                 {
-                    return new NotificationResult() { Action = NotificationAction.NotApplicable, Id = notificationId };
+                    return new NotificationResult { Action = NotificationAction.NotApplicable, Id = notificationId };
                 }
 
                 var timer = new Timer(x => TimerFinished(id, options.ClearFromHistory, options.AllowTapInNotificationCenter), null, TimeSpan.FromSeconds(7), TimeSpan.FromMilliseconds(-1));
@@ -286,9 +304,9 @@ namespace Plugin.Toasts
 
         public void CancelAll()
         {
-            using (NotificationManager notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
+            using (var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
             {
-                notificationManager.CancelAll();
+                notificationManager?.CancelAll();
             }
         }
 
@@ -301,27 +319,21 @@ namespace Plugin.Toasts
             {
                 using (NotificationManager notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
                 {
-                    notificationManager.Cancel(Convert.ToInt32(id));
+                    notificationManager?.Cancel(Convert.ToInt32(id));
                 }
             }
 
             if (!allowTapInNotificationCenter || cancel)
                 if (ResetEvent.ContainsKey(id))
                 {
-                    if (EventResult != null)
-                    {
-                        EventResult.Add(id, new NotificationResult() { Action = NotificationAction.Timeout, Id = int.Parse(id) });
-                    }
+                    EventResult?.Add(id, new NotificationResult() { Action = NotificationAction.Timeout, Id = int.Parse(id) });
                     if (ResetEvent != null && ResetEvent.ContainsKey(id))
                     {
                         ResetEvent[id].Set();
                     }
                 }
-
         }
-
     }
-
 
     /// <summary> forked from: https://github.com/EgorBo/Toasts.Forms.Plugin </summary>
     public class NotificationReceiver : BroadcastReceiver
