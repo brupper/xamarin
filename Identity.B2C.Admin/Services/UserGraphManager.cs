@@ -340,16 +340,23 @@ namespace Brupper.Identity.B2C
         //    }
         //}
 
-        public async Task<bool> IsLicenseAdministrator(string userId)
+        public async Task<bool> IsLicenseAdministratorAsync(string userId)
         {
             // https://docs.microsoft.com/en-us/graph/api/directoryrole-list-members?view=graph-rest-1.0&tabs=csharp
             const string licenseAdminTemplateId = "4d6ac14f-3453-41d0-bef9-a3e0c569773a"; // - License Administrator
 
-            var roleAssignments = await graphClient.Users[userId].MemberOf.Request().GetAsync();
-            // var roles = await graphClient.DirectoryRoles.Request().GetAsync();
-            //var members = await graphClient.DirectoryRoles[licenseAdminId].Members.Request().GetAsync();
+            var roleAssignments = await graphClient.Users[userId].MemberOf.Request().GetAsync().ConfigureAwait(false);
 
             return roleAssignments.OfType<DirectoryRole>().Any(x => x.RoleTemplateId == licenseAdminTemplateId);
+        }
+
+        public async Task<bool> IsUserInRoleAsync(string userId, string role)
+        {
+            var roleAssignments = await graphClient.Users[userId].MemberOf.Request().GetAsync().ConfigureAwait(false);
+            // var roles = await graphClient.DirectoryRoles.Request().GetAsync().ConfigureAwait(false);
+            //var members = await graphClient.DirectoryRoles[licenseAdminId].Members.Request().GetAsync().ConfigureAwait(false);
+
+            return roleAssignments.OfType<DirectoryRole>().Any(x => x.RoleTemplateId == role || x.DisplayName == role);
         }
     }
 }

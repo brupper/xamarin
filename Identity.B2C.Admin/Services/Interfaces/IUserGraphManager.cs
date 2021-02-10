@@ -11,6 +11,8 @@ namespace Brupper.Identity.B2C
         Task<User> GetUserBySignInNameAsync(string userId);
         Task DeleteUserByIdAsync(string userId);
 
-        Task<bool> IsLicenseAdministrator(string userId);
+        Task<bool> IsLicenseAdministratorAsync(string userId);
+
+        Task<bool> IsUserInRoleAsync(string userId, string role);
     }
 }
