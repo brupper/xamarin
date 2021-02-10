@@ -2,7 +2,6 @@
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Plugin.Toasts;
 using Plugin.Toasts.Interfaces;
 using System;
 using System.Collections.Concurrent;
@@ -11,8 +10,9 @@ using System.IO;
 using System.Threading;
 using System.Xml.Serialization;
 
-namespace Brupper.Push.Platforms.Android.Services
+namespace Plugin.Toasts
 {
+    /// <summary> forked from: https://github.com/EgorBo/Toasts.Forms.Plugin </summary>
     public class NotificationBuilder
     {
         public static string PackageName { get; set; }
@@ -64,7 +64,7 @@ namespace Brupper.Push.Platforms.Android.Services
                 if (string.IsNullOrEmpty(channelId) && channelOptions != null)
                     channelOptions.Name = DefaultChannelName;
 
-                if (!Channels.Contains(channelId) && channelOptions != null)
+                if (!Channels.Contains(channelId))
                 {
                     // Create new channel.
                     var newChannel = new NotificationChannel(channelId, channelOptions.Name, NotificationImportance.High);
@@ -76,10 +76,8 @@ namespace Brupper.Push.Platforms.Android.Services
                     }
 
                     // Register channel.
-                    using (var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
-                    {
-                        notificationManager?.CreateNotificationChannel(newChannel);
-                    }
+                    var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager;
+                    notificationManager.CreateNotificationChannel(newChannel);
 
                     // Save Id for reference.
                     Channels.Add(channelId);
@@ -91,27 +89,24 @@ namespace Brupper.Push.Platforms.Android.Services
 
         public IList<INotification> GetDeliveredNotifications()
         {
-            var list = new List<INotification>();
-            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+            IList<INotification> list = new List<INotification>();
+            if (Android.OS.Build.VERSION.SdkInt < Android.OS.BuildVersionCodes.M)
             {
                 return new List<INotification>();
             }
 
-            using (var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
-                if (notificationManager != null)
-                    foreach (var notification in notificationManager.GetActiveNotifications())
-                    {
-                        list.Add(new Plugin.Toasts.Notification
-                        {
-                            Id = notification.Id.ToString(),
-                            Title = notification.Notification.Extras.GetString("android.title"),
-                            Description = notification.Notification.Extras.GetString("android.text"),
-                            Delivered =
-                                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(notification.Notification
-                                    .When)
-                        });
-                    }
+            NotificationManager notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager;
 
+            foreach (var notification in notificationManager.GetActiveNotifications())
+            {
+                list.Add(new Notification()
+                {
+                    Id = notification.Id.ToString(),
+                    Title = notification.Notification.Extras.GetString("android.title"),
+                    Description = notification.Notification.Extras.GetString("android.text"),
+                    Delivered = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(notification.Notification.When)
+                });
+            }
             return list;
         }
 
@@ -126,7 +121,7 @@ namespace Brupper.Push.Platforms.Android.Services
                     options.AndroidOptions.HexColor = "#" + options.AndroidOptions.HexColor;
                 }
 
-                var notification = new ScheduledNotification
+                var notification = new ScheduledNotification()
                 {
                     AndroidOptions = (AndroidOptions)options.AndroidOptions,
                     ClearFromHistory = options.ClearFromHistory,
@@ -142,12 +137,10 @@ namespace Brupper.Push.Platforms.Android.Services
                 intent.PutExtra(NotificationForceOpenApp, options.AndroidOptions.ForceOpenAppOnNotificationTap);
 
                 var pendingIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + int.Parse(id)), intent, PendingIntentFlags.CancelCurrent);
-                if (options.DelayUntil != null)
-                {
-                    var timeTriggered = ConvertToMilliseconds(options.DelayUntil.Value);
-                    var alarmManager = Application.Context.GetSystemService(Context.AlarmService) as AlarmManager;
-                    alarmManager?.Set(AlarmType.RtcWakeup, timeTriggered, pendingIntent);
-                }
+                var timeTriggered = ConvertToMilliseconds(options.DelayUntil.Value);
+                var alarmManager = Application.Context.GetSystemService(Context.AlarmService) as AlarmManager;
+
+                alarmManager.Set(AlarmType.RtcWakeup, timeTriggered, pendingIntent);
             }
         }
 
@@ -173,8 +166,8 @@ namespace Brupper.Push.Platforms.Android.Services
             INotificationResult notificationResult = null;
             if (options != null)
             {
-                int notificationId;
-                string id;
+                var notificationId = 0;
+                var id = "";
                 lock (@lock)
                 {
                     notificationId = count;
@@ -189,13 +182,13 @@ namespace Brupper.Push.Platforms.Android.Services
                 else if (_androidOptions.SmallIconDrawable.HasValue)
                     smallIcon = _androidOptions.SmallIconDrawable.Value;
                 else
-                    smallIcon = Resource.Drawable.ic_stat_notify_dot; // As last resort
+                    smallIcon = Android.Resource.Drawable.IcDialogInfo; // As last resort
 
                 if (options.DelayUntil.HasValue)
                 {
                     options.AndroidOptions.SmallDrawableIcon = smallIcon;
                     ScheduleNotification(id, options);
-                    return new NotificationResult { Action = NotificationAction.NotApplicable, Id = notificationId };
+                    return new NotificationResult() { Action = NotificationAction.NotApplicable, Id = notificationId };
                 }
 
                 // Show Notification Right Now
@@ -204,34 +197,28 @@ namespace Brupper.Push.Platforms.Android.Services
 
                 var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), dismissIntent, 0);
 
-                //var clickIntent = new Intent(OnClickIntent);
-                var clickIntent = new Intent(Application.Context, activity.GetType());
+                var clickIntent = new Intent(OnClickIntent);
                 clickIntent.PutExtra(NotificationId, notificationId);
                 clickIntent.PutExtra(NotificationForceOpenApp, options.AndroidOptions.ForceOpenAppOnNotificationTap);
-                clickIntent.SetFlags(ActivityFlags.NewTask);
 
                 // Add custom args
                 if (options.CustomArgs != null)
                     foreach (var arg in options.CustomArgs)
                         clickIntent.PutExtra(arg.Key, arg.Value);
 
-                //var pendingClickIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), clickIntent, 0);
-                var pendingClickIntent = PendingIntent.GetActivity(Application.Context, (StartId + notificationId), clickIntent, PendingIntentFlags.UpdateCurrent);
+                var pendingClickIntent = PendingIntent.GetBroadcast(Application.Context, (StartId + notificationId), clickIntent, 0);
 
                 if (!string.IsNullOrEmpty(options.AndroidOptions.HexColor) && options.AndroidOptions.HexColor.Substring(0, 1) != "#")
                 {
                     options.AndroidOptions.HexColor = "#" + options.AndroidOptions.HexColor;
                 }
 
-#pragma warning disable CS0618 // Type or member is obsolete
-                var builder = new global::Android.App.Notification.Builder(Application.Context)
+                Android.App.Notification.Builder builder = new Android.App.Notification.Builder(Application.Context)
                     .SetContentTitle(options.Title)
                     .SetContentText(options.Description)
                     .SetSmallIcon(smallIcon) // Must have small icon to display
-                                             //.SetLargeIcon(Resource.Mipmap.icon_round) // todo
                     .SetPriority((int)NotificationPriority.High) // Must be set to High to get Heads-up notification
                     .SetDefaults(NotificationDefaults.All) // Must also include vibrate to get Heads-up notification
-#pragma warning restore CS0618 // Type or member is obsolete
                     .SetAutoCancel(true) // To allow click event to trigger delete Intent
                     .SetContentIntent(pendingClickIntent) // Must have Intent to accept the click                   
                     .SetDeleteIntent(pendingDismissIntent)
@@ -240,7 +227,7 @@ namespace Brupper.Push.Platforms.Android.Services
                 try
                 {
                     // Notification Channel
-                    if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                    if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
                     {
                         var notificationChannelId = GetOrCreateChannel(options.AndroidOptions.ChannelOptions);
                         if (!string.IsNullOrEmpty(notificationChannelId))
@@ -249,23 +236,19 @@ namespace Brupper.Push.Platforms.Android.Services
                         }
                     }
                 }
-                catch
-                {
-                    // ignored
-                }
-
+                catch { }
                 // System.MissingMethodException: Method 'Android.App.Notification/Builder.SetChannelId' not found.
                 // I know this is bad, but I can't replicate it on any version, and many people are experiencing it.
 
-                var notification = builder.Build();
+                Android.App.Notification notification = builder.Build();
 
-                var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager;
+                NotificationManager notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager;
 
-                notificationManager?.Notify(notificationId, notification);
+                notificationManager.Notify(notificationId, notification);
 
                 if (options.DelayUntil.HasValue)
                 {
-                    return new NotificationResult { Action = NotificationAction.NotApplicable, Id = notificationId };
+                    return new NotificationResult() { Action = NotificationAction.NotApplicable, Id = notificationId };
                 }
 
                 var timer = new Timer(x => TimerFinished(id, options.ClearFromHistory, options.AllowTapInNotificationCenter), null, TimeSpan.FromSeconds(7), TimeSpan.FromMilliseconds(-1));
@@ -303,9 +286,9 @@ namespace Brupper.Push.Platforms.Android.Services
 
         public void CancelAll()
         {
-            using (var notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
+            using (NotificationManager notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
             {
-                notificationManager?.CancelAll();
+                notificationManager.CancelAll();
             }
         }
 
@@ -318,22 +301,29 @@ namespace Brupper.Push.Platforms.Android.Services
             {
                 using (NotificationManager notificationManager = Application.Context.GetSystemService(Context.NotificationService) as NotificationManager)
                 {
-                    notificationManager?.Cancel(Convert.ToInt32(id));
+                    notificationManager.Cancel(Convert.ToInt32(id));
                 }
             }
 
             if (!allowTapInNotificationCenter || cancel)
                 if (ResetEvent.ContainsKey(id))
                 {
-                    EventResult?.Add(id, new NotificationResult() { Action = NotificationAction.Timeout, Id = int.Parse(id) });
+                    if (EventResult != null)
+                    {
+                        EventResult.Add(id, new NotificationResult() { Action = NotificationAction.Timeout, Id = int.Parse(id) });
+                    }
                     if (ResetEvent != null && ResetEvent.ContainsKey(id))
                     {
                         ResetEvent[id].Set();
                     }
                 }
+
         }
+
     }
 
+
+    /// <summary> forked from: https://github.com/EgorBo/Toasts.Forms.Plugin </summary>
     public class NotificationReceiver : BroadcastReceiver
     {
         public override void OnReceive(Context context, Intent intent)
