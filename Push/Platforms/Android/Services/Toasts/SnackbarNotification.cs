@@ -8,8 +8,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Brupper.Push.Platforms.Android.Services
+namespace Plugin.Toasts
 {
+    /// <summary> forked from: https://github.com/EgorBo/Toasts.Forms.Plugin </summary>
     public class SnackbarNotification
     {
         private readonly IDictionary<string, ManualResetEvent> resetEvents = new ConcurrentDictionary<string, ManualResetEvent>();
@@ -42,9 +43,7 @@ namespace Brupper.Push.Platforms.Android.Services
                 snackbar.SetAction(options.AndroidOptions.DismissText, new EmptyOnClickListener(id, ToastClosed, new NotificationResult { Action = NotificationAction.Dismissed }));
 
             // Monitor callbacks
-#pragma warning disable 618
             snackbar.SetCallback(new ToastCallback(id, ToastClosed));
-#pragma warning restore 618
 
             // Setup reset events
             var resetEvent = new ManualResetEvent(false);
@@ -106,6 +105,7 @@ namespace Brupper.Push.Platforms.Android.Services
                 case DismissEventSwipe:
                     callback(id, new NotificationResult() { Action = NotificationAction.Dismissed });
                     break;
+                case DismissEventTimeout:
                 default:
                     callback(id, new NotificationResult() { Action = NotificationAction.Timeout });
                     break;

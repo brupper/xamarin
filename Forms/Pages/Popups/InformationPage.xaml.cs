@@ -15,7 +15,7 @@ namespace Brupper.Forms.Pages.Popups
             Device.StartTimer(TimeSpan.FromSeconds(2), () =>
             {
                 // Browser.Navigated does not work with local resources                
-                 Device.BeginInvokeOnMainThread(async () => { try { if (Browser.IsVisible) await Browser.NormalizeHeightOfWebView(); } catch { } });
+                 Device.BeginInvokeOnMainThread(async () => { try { if (Browser.IsVisible) await Browser.GetHeightOfWebViewAsync(); } catch { } });
 
                 return !stopRefreshTimer; // True = Repeat again, False = Stop the timer
             });

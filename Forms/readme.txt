@@ -12,6 +12,7 @@ Initialize Rg.Plugins.Popup:
     OnBackPressed() => if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed)) ... ;
 - iOS:
      Setup.cs => Rg.Plugins.Popup.Popup.Init(); 
+     !!! <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.10" />
 
 Initialize FFImageLoading:
 If you reference Brupper.Forms in your platform projects (iOS&Android)=> it automatically initialize FFImageLoading ;)

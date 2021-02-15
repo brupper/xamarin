@@ -2,7 +2,6 @@
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Plugin.Toasts;
 using Plugin.Toasts.Interfaces;
 using System;
 using System.Collections.Concurrent;
@@ -11,8 +10,9 @@ using System.IO;
 using System.Threading;
 using System.Xml.Serialization;
 
-namespace Brupper.Push.Platforms.Android.Services
+namespace Plugin.Toasts
 {
+    /// <summary> forked from: https://github.com/EgorBo/Toasts.Forms.Plugin </summary>
     public class NotificationBuilder
     {
         public static string PackageName { get; set; }
@@ -189,7 +189,8 @@ namespace Brupper.Push.Platforms.Android.Services
                 else if (_androidOptions.SmallIconDrawable.HasValue)
                     smallIcon = _androidOptions.SmallIconDrawable.Value;
                 else
-                    smallIcon = Resource.Drawable.ic_stat_notify_dot; // As last resort
+                    smallIcon = Brupper.Push.Resource.Drawable.ic_stat_notify_dot; // As last resort
+                //smallIcon = 0;
 
                 if (options.DelayUntil.HasValue)
                 {
@@ -334,6 +335,7 @@ namespace Brupper.Push.Platforms.Android.Services
         }
     }
 
+    /// <summary> forked from: https://github.com/EgorBo/Toasts.Forms.Plugin </summary>
     public class NotificationReceiver : BroadcastReceiver
     {
         public override void OnReceive(Context context, Intent intent)
