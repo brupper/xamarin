@@ -23,6 +23,8 @@ namespace Brupper.Push.Platforms.Android.Services
 
         public static void Init(Activity activity, IPlatformOptions androidOptions = null)
         {
+            Plugin.Toasts.ToastNotification.Init(activity, androidOptions);
+
             AndroidToastNotificationService.activity = activity;
             snackbarNotification = new SnackbarNotification();
             notificationBuilder = new NotificationBuilder();
