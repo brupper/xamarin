@@ -41,7 +41,8 @@ namespace Brupper.Data.Sqlite.Implementation
             {
                 try
                 {
-                    sqliteAsyncConnection = new SQLiteAsyncConnection(databasePath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create, storeDateTimeAsTicks, encryptionKey);
+                    // utoljara itt volt tamogatva: <PackageReference Include="sqlite-net-pcl" Version="1.5.231" />
+                    // TODO: sqliteAsyncConnection = new SQLiteAsyncConnection(databasePath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create, storeDateTimeAsTicks, encryptionKey);
                 }
                 catch (SQLiteException)
                 {
