@@ -10,7 +10,7 @@ namespace Brupper.Forms.Converters
 {
     public class HtmlLabelConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var formatted = new FormattedString();
 
@@ -96,7 +96,7 @@ namespace Brupper.Forms.Converters
             _ = Xamarin.Essentials.Browser.OpenAsync(new Uri(url));
         });
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

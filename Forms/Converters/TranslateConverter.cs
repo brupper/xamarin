@@ -16,7 +16,7 @@ namespace Brupper.Forms.Converters
 
         #endregion
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var resourceId = value as string;
 
@@ -52,7 +52,7 @@ namespace Brupper.Forms.Converters
             return $"{NotFoundPrefix} - {resourceId}>"; // resource's not found
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value;
         }

@@ -5,7 +5,7 @@ namespace Brupper.Forms.Converters
 {
     public class NegateBooleanConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public virtual object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is bool b)
             {
@@ -15,7 +15,7 @@ namespace Brupper.Forms.Converters
             return false;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public virtual object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return !(bool)value;
         }

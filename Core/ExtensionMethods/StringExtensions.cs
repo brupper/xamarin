@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -40,18 +41,31 @@ public static class StringExtensions
         return str;
     }
 
-    public static string RemoveDiacritics(this string stIn)
+    public static string RemoveDiacritics(this string text)
     {
-        var stFormD = stIn.Normalize(NormalizationForm.FormD);
+        var normalizedString = text.Normalize(NormalizationForm.FormD);
         var sb = new StringBuilder();
-        for (int ich = 0; ich < stFormD.Length; ich++)
+        for (int ich = 0; ich < normalizedString.Length; ich++)
         {
-            var uc = CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
+            var uc = CharUnicodeInfo.GetUnicodeCategory(normalizedString[ich]);
             if (uc == UnicodeCategory.UppercaseLetter || uc == UnicodeCategory.LowercaseLetter || uc == UnicodeCategory.DashPunctuation)
+            // if (unicodeCategory != UnicodeCategory.NonSpacingMark) 
             {
-                sb.Append(stFormD[ich]);
+                sb.Append(normalizedString[ich]);
             }
         }
         return (sb.ToString().Normalize(NormalizationForm.FormC));
+    }
+
+    public static string Base64Encode(this string plainText)
+    {
+        var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+        return System.Convert.ToBase64String(plainTextBytes);
+    }
+
+    public static string Base64Decode(this string base64EncodedData)
+    {
+        var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+        return Encoding.UTF8.GetString(base64EncodedBytes);
     }
 }

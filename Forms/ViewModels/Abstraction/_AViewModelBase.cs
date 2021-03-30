@@ -1,5 +1,6 @@
 ﻿using Brupper.Forms.Services.Interfaces;
 using Brupper.Forms.UiModels;
+using Brupper.Forms.ViewModels;
 using Brupper.ViewModels.Popups;
 using MvvmCross;
 using MvvmCross.Commands;
@@ -14,7 +15,7 @@ using Xamarin.Essentials;
 
 namespace Brupper.ViewModels.Abstraction
 {
-    public abstract partial class ViewModelBase : MvxNavigationViewModel, IPopupDialogViewModel
+    public abstract partial class ViewModelBase : MvxNavigationViewModel, IPopupDialogViewModel, ISupportBrupperViewModel
     {
         #region Fields
 
@@ -59,7 +60,7 @@ namespace Brupper.ViewModels.Abstraction
             }
         }
 
-        protected internal virtual bool CanViewDestroy { get; set; } = true;
+        public virtual bool CanViewDestroy { get; set; } = true;
 
         public bool IsBusy
         {
@@ -154,7 +155,7 @@ namespace Brupper.ViewModels.Abstraction
                 CancelButton = null
             });
 
-        public Task ShowAlertWithKey(string key = null, bool error = true) 
+        public Task ShowAlertWithKey(string key = null, bool error = true)
             => ShowAlert(TextProvider.GetText(null, null, key ?? "general_error"), error);
 
         #endregion

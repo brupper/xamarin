@@ -6,7 +6,7 @@ namespace Brupper.Froms.Converters
 {
     public class StackOrientationToScrollOrientationConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is StackOrientation orientation)
             {
@@ -23,7 +23,7 @@ namespace Brupper.Froms.Converters
             return ScrollOrientation.Both;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is ScrollOrientation orientation)
             {

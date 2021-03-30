@@ -1,13 +1,13 @@
-﻿using MvvmCross.Commands;
+﻿using Brupper.Forms.ViewModels;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-using Brupper.Forms.Pages.Base;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Brupper.ViewModels.Popups
 {
-    public abstract class MvxPopupViewModel : MvxViewModel, IPopupDialogViewModel
+    public abstract class MvxPopupViewModel : MvxViewModel, IPopupDialogViewModel, ISupportBrupperViewModel
     {
         protected readonly IMvxNavigationService navigationService;
 
@@ -31,6 +31,8 @@ namespace Brupper.ViewModels.Popups
 
         ICommand IPopupDialogViewModel.BackPressedCommand
             => BackCommand;
+
+        public virtual bool CanViewDestroy { get; set; } = true;
 
         #endregion
 
@@ -62,8 +64,10 @@ namespace Brupper.ViewModels.Popups
 
         public override void ViewDestroy(bool viewFinishing = true)
         {
-            if (viewFinishing && CloseCompletionSource != null && !CloseCompletionSource.Task.IsCompleted && !CloseCompletionSource.Task.IsFaulted)
+            if (CanViewDestroy && viewFinishing && CloseCompletionSource != null && !CloseCompletionSource.Task.IsCompleted && !CloseCompletionSource.Task.IsFaulted)
+            {
                 CloseCompletionSource.TrySetCanceled();
+            }
 
             base.ViewDestroy(viewFinishing);
         }
