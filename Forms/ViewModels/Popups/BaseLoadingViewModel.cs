@@ -1,5 +1,4 @@
-﻿using Microsoft.AppCenter.Crashes;
-using MvvmCross.Commands;
+﻿using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using System;
 using System.Threading;
@@ -46,6 +45,8 @@ namespace Brupper.ViewModels.Popups
 
         #region Properties
 
+        public LoadingViewModelParameter Context { get => context; set => SetProperty(ref context, value); }
+
         #endregion
 
         #region Overrides
@@ -70,14 +71,16 @@ namespace Brupper.ViewModels.Popups
         {
             Task.Run(async () =>
             {
+                await Task.Delay(25).ConfigureAwait(false);
+
                 AlertViewModelParameter alertParam = null;
                 var timeout = context.TimeoutInMilliseconds;
                 var targetTask = context.RunningTask;
 
-                await Task.Delay(25).ConfigureAwait(false);
                 if (targetTask != null)
                 {
                     isRunning = true;
+                    CanViewDestroy = false;
                     try
                     {
                         if (await Task.WhenAny(targetTask, Task.Delay(timeout)).ConfigureAwait(false) == targetTask)
@@ -105,22 +108,24 @@ namespace Brupper.ViewModels.Popups
                             Message = $":'( \n\n{exception}",
                             HasException = true,
                         };
-                        Crashes.TrackError(exception);
                     }
                     finally
                     {
                         isRunning = false;
+                        CanViewDestroy = true;
                     }
                 }
+
                 await Task.Delay(25).ConfigureAwait(false);
 
                 await ExecuteBackCommandAsync().ConfigureAwait(false);
 
                 if (alertParam != null)
                 {
-                    await navigationService.Navigate<AlertViewModel, AlertViewModelParameter>(alertParam).ConfigureAwait(false);
+                    using (var stateHolder = await navigationService.Navigate<AlertViewModel, AlertViewModelParameter, Brupper.SimpleStateHolder>(alertParam).ConfigureAwait(false)) ;
                 }
             }).ConfigureAwait(false);
+
             return base.Initialize();
         }
 

@@ -12,7 +12,7 @@ namespace Brupper.ViewModels.Popups
         public bool HasException { get; set; }
     }
 
-    public class AlertViewModel : MvxPopupViewModel<AlertViewModelParameter>
+    public class AlertViewModel : MvxPopupViewModel<AlertViewModelParameter, SimpleStateHolder>
     {
         private IMvxAsyncCommand okCommand;
         private AlertViewModelParameter model;
@@ -51,6 +51,8 @@ namespace Brupper.ViewModels.Popups
         }
 
         #endregion
+
+        protected override Task ExecuteBackCommandAsync() => navigationService.Close(this, new SimpleStateHolder(true));
 
         private async Task ExceuteOkCommand(CancellationToken arg)
         {
