@@ -22,7 +22,7 @@ namespace Brupper.Push.Android
         public const string DefaultChannel = "hu.brupper.default";
         public const string LaunchKey = "launchkey";
 
-        public const string CHANNEL_ID = "app_center_push";
+        public const string CHANNEL_ID = "azure_push";
         public const string CHANNEL_NAME = "Push";
         public const string DEFAULT_COLOR_METADATA_NAME = "com.google.firebase.messaging.default_notification_color";
         public const string DEFAULT_ICON_METADATA_NAME = "com.google.firebase.messaging.default_notification_icon";
