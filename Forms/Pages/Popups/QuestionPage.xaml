@@ -47,16 +47,16 @@
 
                     <Label x:Name="Self" Text="{Binding Question}" TextColor="Black" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center"  HorizontalTextAlignment="Center" />
 
-                    <StackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Buttons}" Orientation="Horizontal" HorizontalOptions="Center">
+                    <FlexLayout BindableLayout.ItemsSource="{Binding Buttons}" Wrap="Wrap" AlignItems="Center">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Button x:DataType="models:DialogButtonUiModel"
+                                <Button x:DataType="models:DialogButtonUiModel" FlexLayout.Basis="100%" Margin="0,6"
                                     Text="{Binding TranslateKey, Converter={StaticResource TranslateConverter}}" 
                                     Command="{Binding DataContext.ButtonCommand, Source={x:Reference This}}"
                                     CommandParameter="{Binding .}" />
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
-                    </StackLayout>
+                    </FlexLayout>
 
                 </StackLayout>
             </ScrollView>

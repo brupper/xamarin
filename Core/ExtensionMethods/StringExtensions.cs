@@ -57,6 +57,13 @@ public static class StringExtensions
         return (sb.ToString().Normalize(NormalizationForm.FormC));
     }
 
+    public static Func<string, bool> CreateStringComparisonFilter(this string filterTextParam) =>  new Func<string, bool>(x =>
+    {
+        return !string.IsNullOrEmpty(x)
+                && (x.IndexOf(filterTextParam, 0, StringComparison.CurrentCultureIgnoreCase) != -1
+                || (string.Compare(x, filterTextParam, CultureInfo.CurrentCulture, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) == 0));
+    });
+
     public static string Base64Encode(this string plainText)
     {
         var plainTextBytes = Encoding.UTF8.GetBytes(plainText);

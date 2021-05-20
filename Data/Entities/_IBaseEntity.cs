@@ -7,7 +7,7 @@ namespace Brupper.Data.Entities
 {
     public interface IBaseEntity : INotifyPropertyChanged
     {
-        string Id { get; set; }
+        string Id { get; }
     }
 
     public class BaseEntity : IBaseEntity

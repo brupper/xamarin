@@ -88,7 +88,13 @@ namespace Brupper.Data.Azure.Implementations
                     using (File.CreateText(filePath)) ;
                 }
 
-                var json = File.ReadAllText(filePath);
+                //var json = File.ReadAllText(filePath);
+                var json = string.Empty;
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var reader = new StreamReader(fs))
+                {
+                    json = await reader.ReadToEndAsync().ConfigureAwait(false);
+                }
 
                 var entities = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
                 if (entities.Any())
@@ -100,7 +106,7 @@ namespace Brupper.Data.Azure.Implementations
             catch (JsonException)
             {
                 // reset file
-                File.WriteAllText(filePath, string.Empty);
+                File.WriteAllText(filePath, string.Empty);                
             }
             catch (Exception exception)
             {
@@ -242,7 +248,8 @@ namespace Brupper.Data.Azure.Implementations
                 localCache.AddRange(remoteItems.Where(x => x.PartitionKey == reference.PartitionKeyInternal));
 
                 var filePath = Path.Combine(FileSystemService.AppDataDirectory, Identifier);
-                using (var fs = File.OpenWrite(filePath))
+                //using (var fs = File.OpenWrite(filePath))
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (var sw = new StreamWriter(fs))
                 {
                     var json = JsonConvert.SerializeObject(localCache);

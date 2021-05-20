@@ -13,12 +13,13 @@ namespace Brupper.Data.Azure
         Task<bool> SyncAsync();
     }
 
-    public interface ITableRepository<T> : ITableReadonlyRepository<T>
+    public interface ITableRepository<TEntity> : ITableReadonlyRepository<TEntity>//, IRepository<TEntity>
+        where TEntity : Data.Entities.IBaseEntity
     {
-        Task<bool> InsertAsync(T item);
-        Task<bool> UpdateAsync(T item);
-        Task<bool> RemoveAsync(T item);
-        Task<bool> RemoveItemsAsync(IEnumerable<T> items);
+        Task<bool> InsertAsync(TEntity item);
+        Task<bool> UpdateAsync(TEntity item);
+        Task<bool> RemoveAsync(TEntity item);
+        Task<bool> RemoveItemsAsync(IEnumerable<TEntity> items);
         Task<bool> DropTable();
     }
 }

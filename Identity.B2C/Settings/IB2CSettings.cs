@@ -31,6 +31,8 @@
         string AuthorityEditProfile { get; }
         string AuthorityPasswordReset { get; }
 
+        string InAppRedirectUri { get; }
+
         /// <summary> = "https://{AzureADB2CHostname}/{Tenant}/{PolicySignUpSignIn}/v2.0/.well-known/openid-configuration"; </summary>
         string StsDiscoveryEndpoint { get; }
     }
@@ -60,6 +62,8 @@
         /// <inheritdoc/>
         public abstract string PolicyResetPassword { get; }
 
+        public abstract string InAppRedirectUri { get; }
+
         /// <inheritdoc/>
         public virtual string[] Scopes
             => new[] { $"https://{Tenant}/api/read", "openid", "offline_access" };
@@ -83,5 +87,10 @@
         /// <inheritdoc/>
         public virtual string AuthorityPasswordReset
             => $"{AuthorityBase}{PolicyResetPassword}";
+
+        public virtual string GetPasswordResetUrl()
+        {
+            return $"https://{AzureADB2CHostname}/{Tenant}/oauth2/v2.0/authorize?p={PolicyResetPassword}&client_id={ClientID}&nonce=defaultNonce&redirect_uri={InAppRedirectUri}&scope=openid&response_type=id_token&prompt=login";
+        }
     }
 }
