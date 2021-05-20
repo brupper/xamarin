@@ -1,7 +1,7 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Brupper.Froms.Views
+namespace Brupper.Forms.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IsTestEnvironmentView

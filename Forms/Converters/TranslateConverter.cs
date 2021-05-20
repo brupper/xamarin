@@ -8,7 +8,8 @@ namespace Brupper.Forms.Converters
 {
     public class TranslateConverter : IValueConverter
     {
-        public const string NotFoundPrefix = "<???";
+        public const string NotFoundPrefix = "<??? - ";
+        public const string NotFoundPostfix = "???>";
 
         #region Fields
 
@@ -22,7 +23,7 @@ namespace Brupper.Forms.Converters
 
             if (value == null || string.IsNullOrEmpty(resourceId) && !(value is Enum))
             {
-                return $"{NotFoundPrefix} - ???>";
+                return $"{NotFoundPrefix}{NotFoundPostfix}";
             }
             else if (value is Enum numericValue)
             {
@@ -49,7 +50,7 @@ namespace Brupper.Forms.Converters
                 }
             }
 
-            return $"{NotFoundPrefix} - {resourceId}>"; // resource's not found
+            return $"{NotFoundPrefix}{resourceId}>"; // resource's not found
         }
 
         public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

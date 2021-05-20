@@ -7,8 +7,10 @@ using Xamarin.Essentials.Interfaces;
 
 namespace Brupper.Forms.Platforms.Android.Services
 {
+    /// <inheritdoc />
     public class OutputRendererServices : Forms.Services.Concretes.AOutputRendererServices
     {
+        /// <inheritdoc />
         public OutputRendererServices(IFileSystem fileSystem)
             : base(fileSystem) { }
 
@@ -64,18 +66,21 @@ namespace Brupper.Forms.Platforms.Android.Services
         //    }
         //}
 
+        /// <inheritdoc />
         public override Task<string> SaveIntoPdfAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             fileName = $"{DateTime.Now:yyyyMMdd}_{fileName}.pdf";
-            return InternalSave(htmlContent, fileName, kind, numberOfPages, (source, absolutePath) => new PdfExportWebViewCallBack(source, absolutePath, numberOfPages, new PaperSize(kind)));
+            return InternalSave(htmlContent, fileName, kind, numberOfPages, (source, absolutePath) => new PdfVectorExportWebViewCallBack(source, absolutePath, numberOfPages, new PaperSize(kind)));
         }
 
+        /// <inheritdoc />
         public override Task<string> SaveIntoPngAsync(string htmlContent, string fileName, PaperKind kind, int numberOfPages = 1)
         {
             fileName = $"{DateTime.Now:yyyyMMdd}_{fileName}.png";
             return InternalSave(htmlContent, fileName, kind, numberOfPages, (source, absolutePath) => new PngExportWebViewCallBack(source, absolutePath));
         }
 
+        /// <inheritdoc />
         protected virtual Task<string> InternalSave(string htmlContent, string fileName, PaperKind kind, int numberOfPages, Func<TaskCompletionSource<string>, string, WebViewClient> webviewclientCreator)
         {
             var source = new TaskCompletionSource<string>();
@@ -116,6 +121,7 @@ namespace Brupper.Forms.Platforms.Android.Services
             return source.Task;
         }
 
+        /// <inheritdoc />
         protected virtual global::Android.Content.Context GetApplicationContext() => MvvmCross.Mvx.IoCProvider.Resolve<MvvmCross.Platforms.Android.IMvxAndroidCurrentTopActivity>().Activity;
     }
 }

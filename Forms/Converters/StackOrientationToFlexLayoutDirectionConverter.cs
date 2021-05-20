@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace Brupper.Froms.Converters
+namespace Brupper.Forms.Converters
 {
     public class StackOrientationToFlexLayoutDirectionConverter : IValueConverter
     {
