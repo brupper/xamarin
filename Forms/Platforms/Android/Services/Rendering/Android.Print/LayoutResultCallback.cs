@@ -1,8 +1,7 @@
 ﻿using Android.OS;
-using Android.Print;
 using Android.Runtime;
 using Java.Lang;
-using System;
+using System.Threading.Tasks;
 
 namespace Android.Print
 {
@@ -13,19 +12,21 @@ namespace Android.Print
     public class LayoutResultCallback : PrintDocumentAdapter.LayoutResultCallback
     {
         PrintDocumentAdapter printAdapter;
-        string fileNameWithPath;
+        private readonly TaskCompletionSource<string> source;
+        private readonly string fileResultPath;
 
         #region Constructor
 
         // JNIEnv.Handle, JniHandleOwnership.DoNotRegister
         // IntPtr.Zero, JniHandleOwnership.DoNotTransfer
-        public LayoutResultCallback(PrintDocumentAdapter printAdapter, string fileNameWithPath)
+        public LayoutResultCallback(PrintDocumentAdapter printAdapter, TaskCompletionSource<string> source, string fileResultPath)
         //    : base(IntPtr.Zero, JniHandleOwnership.DoNotTransfer)
         //    : base(JNIEnv.Handle, JniHandleOwnership.DoNotRegister)
             : base(JNIEnv.AllocObject(typeof(LayoutResultCallback)), JniHandleOwnership.TransferLocalRef)
         {
             this.printAdapter = printAdapter;
-            this.fileNameWithPath = fileNameWithPath;
+            this.source = source;
+            this.fileResultPath = fileResultPath;
         }
 
         // public PdfPrintCallback(IntPtr handle, JniHandleOwnership transfer) : base(handle, transfer) { }
@@ -50,8 +51,8 @@ namespace Android.Print
         public override void OnLayoutFinished(PrintDocumentInfo info, bool changed)
         {
             //base.OnLayoutFinished(info, changed);
-            var fd = Android.OS.ParcelFileDescriptor.Open(new Java.IO.File(fileNameWithPath), ParcelFileMode.Create | ParcelFileMode.ReadWrite);
-            printAdapter.OnWrite(new[] { PageRange.AllPages }, fd, new CancellationSignal(), new WriteResultCallback());
+            var fd = Android.OS.ParcelFileDescriptor.Open(new Java.IO.File(fileResultPath), ParcelFileMode.Create | ParcelFileMode.ReadWrite);
+            printAdapter.OnWrite(new[] { PageRange.AllPages }, fd, new CancellationSignal(), new WriteResultCallback(source, fileResultPath));
             //printAdapter.OnWrite(new[] { PageRange.AllPages }, fd, new CancellationSignal(), null);
         }
     }

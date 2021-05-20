@@ -49,10 +49,10 @@ namespace Brupper.Forms.Platforms.Android.Services
 
             var printAdapter = view.CreatePrintDocumentAdapter("pdf_export");
 
-            var callback = new LayoutResultCallback(printAdapter, fileNameWithPath);
+            var callback = new LayoutResultCallback(printAdapter, source, fileNameWithPath);
             printAdapter.OnLayout(oldAttributes: null, printAttributes, cancellationSignal: null, callback, extras: null);
 
-            source.SetResult(fileNameWithPath);
+            // source.SetResult(fileNameWithPath); => will be set by WriteResultCallback inside LayoutResultCallback ... 
         }
     }
 }
