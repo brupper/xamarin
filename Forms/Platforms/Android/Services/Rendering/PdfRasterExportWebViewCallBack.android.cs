@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 namespace Brupper.Forms.Platforms.Android.Services
 {
     // https://stackoverflow.com/questions/37340813/xamarin-free-html-or-doc-to-pdf-conversion
-    public class PdfExportWebViewCallBack : WebViewClient
+    /// <summary>
+    /// Raszteres rendereléshez. Ezt leváltotta a vektorgrafikus.
+    /// </summary>
+    public class PdfRasterExportWebViewCallBack : WebViewClient
     {
         private TaskCompletionSource<string> source;
         private string fileNameWithPath;
@@ -18,7 +21,7 @@ namespace Brupper.Forms.Platforms.Android.Services
         private int numberOfPages;
         private PaperSize paperSize;
 
-        public PdfExportWebViewCallBack(TaskCompletionSource<string> source, string path, int numberOfPages, PaperSize pageSize)
+        public PdfRasterExportWebViewCallBack(TaskCompletionSource<string> source, string path, int numberOfPages, PaperSize pageSize)
         {
             this.source = source;
             fileNameWithPath = path;
@@ -93,73 +96,5 @@ namespace Brupper.Forms.Platforms.Android.Services
                 source.SetException(exception);
             }
         }
-
-        //public override void OnPageFinished(WebView view, string url)
-        //{
-        //    var printAdapter = view.CreatePrintDocumentAdapter(System.IO.Path.GetFileNameWithoutExtension(fileNameWithPath));
-
-        //    var printAttributes = new PrintAttributes.Builder()
-        //                    .SetMediaSize(PrintAttributes.MediaSize.IsoA4)
-        //                    .SetResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
-        //                    .SetMinMargins(PrintAttributes.Margins.NoMargins)
-        //                    .Build();
-
-
-        //    var callback = new Android.Print.PdfPrintCallback(printAdapter, fileNameWithPath);
-        //    //callback.OnLayoutFinished(null, false);
-
-        //    printAdapter.OnLayout(null
-        //        , printAttributes
-        //        , new CancellationSignal()
-        //        , callback
-        //        , new Bundle());
-        //    source.SetResult(fileNameWithPath);
-        //}
     }
 }
-
-//namespace Android.Print
-//{
-//    // javac.exe error JAVAC0000:  error: LayoutResultCallback() is not public in LayoutResultCallback; cannot be accessed from outside package
-//    // javac.exe error JAVAC0000: public class PdfPrintCallback
-//    [Register("android/print/PrintDocumentAdapter$LayoutResultCallback", DoNotGenerateAcw = true)]
-//    public class PdfPrintCallback : PrintDocumentAdapter.LayoutResultCallback
-//    {
-//        PrintDocumentAdapter printAdapter;
-//        string fileNameWithPath;
-
-//        #region Constructor
-
-//        // JNIEnv.Handle, JniHandleOwnership.DoNotRegister
-//        // IntPtr.Zero, JniHandleOwnership.DoNotTransfer
-//        public PdfPrintCallback(PrintDocumentAdapter printAdapter, string fileNameWithPath)
-//            : base(IntPtr.Zero, JniHandleOwnership.DoNotTransfer)
-//        {
-//            this.printAdapter = printAdapter;
-//            this.fileNameWithPath = fileNameWithPath;
-//        }
-
-//        // public PdfPrintCallback(IntPtr handle, JniHandleOwnership transfer) : base(handle, transfer) { }
-
-//        #endregion
-
-//        public override void OnLayoutFinished(PrintDocumentInfo info, bool changed)
-//        {
-//            //base.OnLayoutFinished(info, changed);
-//            var fd = Android.OS.ParcelFileDescriptor.Open(new Java.IO.File(fileNameWithPath), ParcelFileMode.Create);
-//            printAdapter.OnWrite(
-//                new[] { PageRange.AllPages }
-//                , fd
-//                , new CancellationSignal()
-//                , new MyWriteResultCallback());
-//        }
-//    }
-
-//    [Register("android/print/MyWriteResultCallback")]
-//    public class MyWriteResultCallback : PrintDocumentAdapter.WriteResultCallback
-//    {
-//        public MyWriteResultCallback()
-//            : base(IntPtr.Zero, JniHandleOwnership.DoNotTransfer)
-//        { }
-//    }
-//}
