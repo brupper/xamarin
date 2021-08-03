@@ -27,6 +27,9 @@ namespace Brupper.Data.Azure
         /// <summary> Insert a batch of entities. Support adding more than 100 entities. </summary>
         Task<IEnumerable<T>> AddBatchAsync<T>(IEnumerable<ITableEntity> entities, BatchOperationOptions options) where T : class, ITableEntity, new();
 
+        /// <summary> Delete a batch of entities. Support adding more than 100 entities. </summary>
+        Task<IEnumerable<T>> DeleteBatchAsync<T>(IEnumerable<ITableEntity> entities) where T : class, ITableEntity, new();
+
         Task<T> UpdateAsync<T>(T entity) where T : class, ITableEntity, new();
 
         Task<T> UpdatePartialAsync<T>(T entity) where T : class, ITableEntity, new();

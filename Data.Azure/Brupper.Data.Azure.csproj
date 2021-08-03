@@ -2,12 +2,12 @@
   <!--<Project Sdk="MSBuild.Sdk.Extras">-->
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <!--<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>-->
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.6.1" />
   </ItemGroup>
