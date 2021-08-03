@@ -2,12 +2,12 @@
 
   <PropertyGroup Condition=" '$(TargetsToBuild)' == 'All' ">
     <!--<TargetFramework>monoandroid10.0</TargetFramework>-->
-    <TargetFrameworks>netstandard2.0;xamarin.ios10;monoandroid10.0</TargetFrameworks>
+    <TargetFrameworks>xamarin.ios10;monoandroid10.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetsToBuild)' != 'All' ">
-    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.0;monoandroid10.0;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'iOS' ">netstandard2.0;Xamarin.iOS10</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.1;monoandroid10.0;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'iOS' ">netstandard2.1;Xamarin.iOS10</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -24,7 +24,7 @@
     <Compile Remove="Platforms\**\*.cs" />
     <None Include="Platforms\**\*.cs" />
     <None Include="Resources\*.cs" />
-    <None Include="readme.txt" pack="true" PackagePath="." />
+    <None Include="readme.md" pack="true" PackagePath="." />
 
     <Compile Include="..\azure-notificationhubs-xamarin\src\Microsoft.Azure.NotificationHubs.Client\IInstallationEnrichmentAdapter.shared.cs" Link="NotificationHubs\IInstallationEnrichmentAdapter.shared.cs" />
     <Compile Include="..\azure-notificationhubs-xamarin\src\Microsoft.Azure.NotificationHubs.Client\IInstallationManagementAdapter.shared.cs" Link="NotificationHubs\IInstallationManagementAdapter.shared.cs" />
@@ -110,9 +110,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AppCenter" Version="4.3.0" />
     <PackageReference Include="MvvmCross" Version="7.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

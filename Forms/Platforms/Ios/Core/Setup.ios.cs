@@ -47,7 +47,7 @@ namespace Brupper.Forms.Platforms.iOS
         protected override IMvxIosViewPresenter CreateViewPresenter()
         {
             //ZXing.Net.Mobile.Forms.iOS.Platform.Init();
-            //Rg.Plugins.Popup.Popup.Init(); => readme.txt-ben le van irva hogy nem a  Brupper intezi a hivast
+            //Rg.Plugins.Popup.Popup.Init(); => readme.md-ben le van irva hogy nem a  Brupper intezi a hivast
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
             return base.CreateViewPresenter();
