@@ -149,6 +149,37 @@ namespace Brupper.Data.Azure.Implementations
             return results.SelectMany(tableResults => tableResults, (tr, r) => r.Result as T);
         }
 
+        public async Task<IEnumerable<T>> DeleteBatchAsync<T>(IEnumerable<ITableEntity> entities)
+            where T : class, ITableEntity, new()
+        {
+            var tableName = GetTableName<T>();
+            var table = await EnsureTableAsync(tableName).ConfigureAwait(false);
+
+            var tasks = new List<Task<IList<TableResult>>>();
+
+            const int addBatchOperationLimit = 100;
+            var entitiesOffset = 0;
+            var tableEntities = entities?.ToList() ?? new List<ITableEntity>();
+            while (entitiesOffset < tableEntities.Count)
+            {
+                var entitiesToAdd = tableEntities.Skip(entitiesOffset).Take(addBatchOperationLimit).ToList();
+                entitiesOffset += entitiesToAdd.Count;
+
+                Action<TableBatchOperation, ITableEntity> batchInsertOperation = (bo, entity) => bo.Delete(entity);
+
+                var batchOperation = new TableBatchOperation();
+                foreach (var entity in entitiesToAdd)
+                {
+                    batchInsertOperation?.Invoke(batchOperation, entity);
+                }
+                tasks.Add(table.ExecuteBatchAsync(batchOperation));
+            }
+
+            var results = await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            return results.SelectMany(tableResults => tableResults, (tr, r) => r.Result as T);
+        }
+
         public async Task<T> UpdateAsync<T>(T entity)
             where T : class, ITableEntity, new()
         {

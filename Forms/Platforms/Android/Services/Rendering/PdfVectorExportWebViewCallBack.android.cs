@@ -40,8 +40,9 @@ namespace Brupper.Forms.Platforms.Android.Services
 
             var printAttributes = new PrintAttributes.Builder()
                             .SetMediaSize(PrintAttributes.MediaSize.IsoA4)
-                            .SetResolution(new PrintAttributes.Resolution(id: "pdf", label: "pdf", 600, 600))
+                            .SetResolution(new PrintAttributes.Resolution(id: "pdf", label: "pdf", 300, 300))
                             .SetMinMargins(PrintAttributes.Margins.NoMargins)
+                            .SetDuplexMode(DuplexMode.None)
                             .Build();
 
 
