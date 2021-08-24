@@ -24,7 +24,7 @@ namespace Brupper.Forms.Platforms.iOS.Services
             try
             {
                 double height, width;
-                int header = 10, sidespace = 10;
+                int header = 0, sidespace = 0;
 
                 //https://www.graphic-design-employment.com/a4-paper-dimensions.html
                 width = 595.2;
