@@ -45,6 +45,10 @@ namespace Brupper.ViewModels.Popups
 
         #region Properties
 
+        /// <inheritdoc />
+        public override bool CanViewDestroy { get; set; }
+            = false; // BASE LOADINGBA IGY KELL
+
         public LoadingViewModelParameter Context { get => context; set => SetProperty(ref context, value); }
 
         #endregion
@@ -60,6 +64,16 @@ namespace Brupper.ViewModels.Popups
             }
 
             return base.ExecuteBackCommandAsync();
+        }
+
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            if (CanViewDestroy && viewFinishing && !isRunning)
+            {
+                CancelCommand?.Execute();
+            }
+
+            base.ViewDestroy(viewFinishing);
         }
 
         public override void Prepare(LoadingViewModelParameter parameter)

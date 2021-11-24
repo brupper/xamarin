@@ -1,8 +1,17 @@
 ﻿using System;
 using System.Globalization;
 
+/// <summary> . </summary>
 public static class DateExtensions
 {
+	/// <summary> . </summary>
+	public static string DateTimeToYearMonthDateFormat(this DateTime dateTime)
+		=> dateTime.ToString(CultureInfo.InvariantCulture.DateTimeFormat);
+
+	/// <summary> . </summary>
+	public static DateTime DateToFirstDay(this DateTime input)
+		=> new DateTime(input.Year, input.Month, 1);
+
 	// This presumes that weeks start with Monday.
 	// Week 1 is the 1st week of the year with a Thursday in it.
 	public static int GetIso8601WeekOfYear(DateTime time)
