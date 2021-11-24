@@ -11,6 +11,7 @@ using Xamarin.Essentials.Interfaces;
 
 namespace Brupper.Forms.Platforms.iOS.Services
 {
+    /// <inheritdoc/>
     public class OutputRendererServices : Forms.Services.Concretes.AOutputRendererServices
     {
         /// <inheritdoc />
@@ -44,42 +45,17 @@ namespace Brupper.Forms.Platforms.iOS.Services
         /// <inheritdoc />
         public override Task<string> SaveIntoPdfAsync(string html, string fileName, PaperKind kind, int numberOfPages = 1)
         {
-            var source = new TaskCompletionSource<string>();
-
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                try
-                {
-                    var webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
-
-                    try
-                    {
-                        var files = Directory.GetFiles(DocumentsFolder, $"*{fileName}*");
-                        //if (files.Length > 1)
-                        foreach (var item in files)
-                        {
-                            File.Delete(item);
-                        }
-                    }
-                    catch (Exception e) { Microsoft.AppCenter.Crashes.Crashes.TrackError(e); }
-
-                    var file = Path.Combine(DocumentsFolder, $"{DateTime.Now:yyyyMMdd}_{fileName}.pdf");
-
-                    webView.Delegate = new PdfExportWebViewCallBack(source, file);
-                    webView.ScalesPageToFit = true;
-                    webView.UserInteractionEnabled = false;
-                    webView.BackgroundColor = UIColor.White;
-                    webView.LoadHtmlString(html, null);
-
-                }
-                catch (Exception e) { source.SetException(e); }
-            });
-
-            return source.Task;
+            return InternalSave(html, fileName, kind, numberOfPages, (source, absolutePath) => new PdfExportWebViewCallBack(source, absolutePath, new PaperSize(kind)));
         }
 
         /// <inheritdoc />
         public override Task<string> SaveIntoPngAsync(string html, string fileName, PaperKind kind, int numberOfPages = 1)
+        {
+            return InternalSave(html, fileName, kind, numberOfPages, (source, absolutePath) => new PngExportWebViewCallBack(source, absolutePath, new PaperSize(kind)));
+        }
+
+        /// <inheritdoc />
+        protected virtual Task<string> InternalSave(string htmlContent, string fileName, PaperKind kind, int numberOfPages, Func<TaskCompletionSource<string>, string, UIWebViewDelegate> webviewclientCreator)
         {
             var source = new TaskCompletionSource<string>();
 
@@ -87,7 +63,9 @@ namespace Brupper.Forms.Platforms.iOS.Services
             {
                 try
                 {
-                    var webView = new UIWebView(new CGRect(0, 0, 6.5 * 72, 9 * 72));
+                    var w = 6.5;
+                    var h = w * PaperSize.ExperimentalA4Ratio;
+                    var webView = new UIWebView(new CGRect(0, 0, w * 72, h * 72));
 
                     try
                     {
@@ -102,14 +80,15 @@ namespace Brupper.Forms.Platforms.iOS.Services
 
                     var file = Path.Combine(DocumentsFolder, $"{DateTime.Now:yyyyMMdd}_{fileName}.png");
 
-                    webView.Delegate = new PngExportWebViewCallBack(source, file);
+                    webView.Delegate = webviewclientCreator(source, file);
                     webView.ScalesPageToFit = true;
                     webView.UserInteractionEnabled = false;
                     webView.BackgroundColor = UIColor.White;
-                    webView.LoadHtmlString(html, null);
+                    webView.LoadHtmlString(htmlContent, null);
                 }
                 catch (Exception e) { source.SetException(e); }
             });
+
             return source.Task;
         }
 

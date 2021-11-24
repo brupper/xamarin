@@ -11,6 +11,13 @@
             switch (Kind)
             {
                 case PaperKind.A4:
+                    // https://www.graphic-design-employment.com/a4-paper-dimensions.html
+                    /*
+                     Equivalent A4 paper dimensions in pixels at 300 DPI and 72 DPI respectively are:
+
+                    2480 pixels x 3508 pixels (print resolution)
+                    595 pixels x 842 pixels (screen resolution)
+                     */
                     Width = 793;
                     Height = 1122;//(int)(793 * ExperimentalA4Ratio); // 1121,4606
                     PageRatio = ExperimentalA4Ratio;

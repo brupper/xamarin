@@ -1,7 +1,7 @@
-﻿using CoreGraphics;
+﻿using Brupper.Forms.Models.Rendering;
+using CoreGraphics;
 using Foundation;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using UIKit;
 
@@ -12,11 +12,13 @@ namespace Brupper.Forms.Platforms.iOS.Services
     {
         private readonly TaskCompletionSource<string> source;
         private readonly string filePath;
+        private PaperSize paperSize;
 
-        public PngExportWebViewCallBack(TaskCompletionSource<string> source, string path)
+        public PngExportWebViewCallBack(TaskCompletionSource<string> source, string path, PaperSize paperSize)
         {
             this.source = source;
             filePath = path;
+            this.paperSize = paperSize;
         }
 
         public override void LoadingFinished(UIWebView webView)
