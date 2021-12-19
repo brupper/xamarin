@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using MvvmCross.Platforms.Android.Presenters;
 using MvvmCross.ViewModels;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Reflection;
 
 namespace Brupper.Forms.Platforms.Android
@@ -59,6 +60,15 @@ namespace Brupper.Forms.Platforms.Android
             //UserDialogs.Init(() => Mvx.IoCProvider.Resolve<IMvxAndroidCurrentTopActivity>().Activity);
             //Mvx.IoCProvider.RegisterSingleton((IApplicationStateListener)ApplicationContext);
             //ZXing.Net.Mobile.Forms.iOS.Platform.Init();
+
+            FFImageLoading.ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
+            {
+                HttpClient = new HttpClient(new HttpClientHandler
+                {
+                    ClientCertificateOptions = ClientCertificateOption.Manual,
+                    ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) => true,
+                })
+            });
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
 
             Xamarin.Forms.Forms.SetFlags(new[]{
