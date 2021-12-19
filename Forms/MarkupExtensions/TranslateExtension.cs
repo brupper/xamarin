@@ -44,7 +44,7 @@ namespace Brupper.Forms
             if (localizedText == null)
             {
 #if DEBUG
-                throw new ArgumentNullException($"'{Text}' was not found in Recources for culture '{CultureInfo.CurrentUICulture.Name ?? "-"}'");
+                throw new ArgumentNullException($"'{Text}' was not found in Recources for culture '{System.Globalization.CultureInfo.CurrentUICulture.Name ?? "-"}'");
 #else
                 localizedText = Text;
 #endif

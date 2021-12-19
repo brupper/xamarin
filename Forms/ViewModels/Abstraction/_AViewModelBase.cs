@@ -5,7 +5,7 @@ using Brupper.ViewModels.Popups;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Localization;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using System;
@@ -31,10 +31,9 @@ namespace Brupper.ViewModels.Abstraction
 
         #region Constructors
 
-        public ViewModelBase(IMvxLogProvider logProvider, IMvxNavigationService navigationService)
+        public ViewModelBase(ILoggerFactory logProvider, IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         {
-            Logger = logProvider.GetLogFor<AppCenterTrace>();
         }
 
         #endregion
@@ -46,7 +45,7 @@ namespace Brupper.ViewModels.Abstraction
         /// <summary> https://www.cazzulino.com/git-info-from-msbuild-and-code.html </summary>
         public string Version => $"{AppInfo.VersionString} ({AppInfo.BuildString})";
 
-        protected IMvxLog Logger { get; private set; }
+        protected ILogger Logger => base.Log;
 
         public IMvxTextProvider TextProvider
                 => textProvider ?? (textProvider = Mvx.IoCProvider.GetSingleton<IMvxTextProvider>());
@@ -165,7 +164,7 @@ namespace Brupper.ViewModels.Abstraction
     {
         #region Constructors
 
-        public ViewModelBase(IMvxLogProvider logProvider, IMvxNavigationService navigationService)
+        public ViewModelBase(ILoggerFactory logProvider, IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         { }
 
@@ -182,7 +181,7 @@ namespace Brupper.ViewModels.Abstraction
     {
         #region Constructors
 
-        public ViewModelBase(IMvxLogProvider logProvider, IMvxNavigationService navigationService)
+        public ViewModelBase(ILoggerFactory logProvider, IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         { }
 
@@ -215,7 +214,7 @@ namespace Brupper.ViewModels.Abstraction
     {
         #region Constructors
 
-        public ViewModelResultBase(IMvxLogProvider logProvider, IMvxNavigationService navigationService)
+        public ViewModelResultBase(ILoggerFactory logProvider, IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         { }
 

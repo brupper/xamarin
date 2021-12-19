@@ -43,7 +43,7 @@
     <PackageReference Include="System.Drawing.Common" Version="4.7.1" />
     <!--<PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.10" />-->
     <!--<PackageReference Include="Xamarin.Forms.Platform.WPF" Version="5.0.0.2012" />-->
-    <!--<PackageReference Include="MvvmCross.Forms.Platforms.Wpf" Version="7.0.0" />-->
+    <!--<PackageReference Include="MvvmCross.Forms.Platforms.Wpf" Version="8.*" />-->
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.ios')) ">
@@ -55,7 +55,7 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
     <Compile Include="Platforms\Android\**\*.cs" />
     <Compile Include="Platforms\Xamarin\**\*.cs" />
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" />
+    <!--<PackageReference Include="Xamarin.AndroidX.AppCompat" />-->
     <!--<PackageReference Include="Xamarin.AndroidX.CardView" />-->
     <PackageReference Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
   </ItemGroup>
@@ -70,12 +70,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.3.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.3.0" />
-    <PackageReference Include="MvvmCross.Forms" Version="7.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.10" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
+    <PackageReference Include="MvvmCross" Version="8.0.2" />
+    <PackageReference Include="MvvmCross.Forms" Version="8.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.*" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.*" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.3.1" />
+    <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.3.1" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.0" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
@@ -85,6 +87,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Brupper.Core.csproj" />
     <ProjectReference Include="..\Data\Brupper.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Diagnostics\AppCenter\" />
   </ItemGroup>
 
 </Project>

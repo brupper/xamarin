@@ -32,7 +32,7 @@ Create your own VMs:
     public abstract class BaseViewModel<TParam> : BaseViewModel, IMvxViewModel<TParam>
     {
         protected BaseViewModel(
-            IMvxLogProvider logProvider,
+            ILoggerFactory logProvider,
             IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         { }
@@ -43,7 +43,7 @@ Create your own VMs:
     public abstract class BaseViewModel<TParam, TResult> : BaseViewModel, IMvxViewModel<TParam, TResult>
     {
         protected BaseViewModel(
-            IMvxLogProvider logProvider,
+            ILoggerFactory logProvider,
             IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         { }
@@ -67,7 +67,7 @@ Create your own VMs:
     {
         #region Constructors
 
-        public ViewModelResultBase(IMvxLogProvider logProvider, IMvxNavigationService navigationService)
+        public ViewModelResultBase(ILoggerFactory logProvider, IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         { }
 

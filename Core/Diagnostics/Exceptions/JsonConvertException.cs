@@ -11,5 +11,11 @@ namespace Brupper.Diagnostics
         {
             Json = json;
         }
+
+        public JsonConvertException() : base() { }
+
+        public JsonConvertException(string message) : base(message) { }
+
+        public JsonConvertException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

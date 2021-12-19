@@ -18,7 +18,7 @@ namespace Brupper
     {
         public static DateTime Now => DateTime.Now;
 
-        public static Period Default => (from: Now.DateToFirstDay(), to: Now.DateToFirstDay().AddMonths(1));
+        public static Period Default => (from: Now.DateToFirstDay(), to: Now.DateToFirstDay().AddMonths(1).AddSeconds(-1) /* Last Day of Month 23:59:59 */);
 
         public Period(DateTime @from, DateTime to)
         {
