@@ -1,6 +1,7 @@
 ﻿using Microsoft.Graph;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace Brupper.Identity.B2C
 {

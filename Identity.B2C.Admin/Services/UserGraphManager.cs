@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace Brupper.Identity.B2C
 {

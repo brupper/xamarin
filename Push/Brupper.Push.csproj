@@ -103,14 +103,15 @@
   <!-- There is something not working correctly w.r.t. multi-targetting so adding
     direct reference seems to help get the build to work -->
   <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.mac')) ">
+    <PackageReference Include="Microsoft.AppCenter" Version="4.4.0" />
     <Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
+    <PackageReference Include="Microsoft.AppCenter" Version="4.4.0" />
     <Reference Include="netstandard" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter" Version="4.4.0" />
     <PackageReference Include="MvvmCross" Version="8.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
