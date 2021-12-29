@@ -52,7 +52,7 @@ namespace Brupper.Forms
 
             if (p is MvvmCross.Forms.Views.MvxMasterDetailPage md)
             {
-                md.MasterBehavior = MasterBehavior.Popover;
+                md.FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
                 md.IsPresented = !md.IsPresented;
             }
         }

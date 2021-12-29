@@ -14,6 +14,9 @@ namespace Brupper.Forms.Platforms.Android.Services
         private int numberOfPages;
         private PaperSize paperSize;
 
+        /// <summary> DPI of output </summary>
+        protected virtual int Dpi => 300;
+
         public PdfVectorExportWebViewCallBack(TaskCompletionSource<string> source, string path, int numberOfPages, PaperSize pageSize)
         {
             this.source = source;
@@ -40,7 +43,7 @@ namespace Brupper.Forms.Platforms.Android.Services
 
             var printAttributes = new PrintAttributes.Builder()
                             .SetMediaSize(PrintAttributes.MediaSize.IsoA4)
-                            .SetResolution(new PrintAttributes.Resolution(id: "pdf", label: "pdf", 300, 300))
+                            .SetResolution(new PrintAttributes.Resolution(id: "pdf", label: "pdf", horizontalDpi: Dpi, verticalDpi: Dpi))
                             .SetMinMargins(PrintAttributes.Margins.NoMargins)
                             .SetDuplexMode(DuplexMode.None)
                             .Build();

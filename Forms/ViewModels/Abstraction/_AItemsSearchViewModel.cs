@@ -1,5 +1,5 @@
 ﻿using MvvmCross.Commands;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using System;
@@ -33,7 +33,7 @@ namespace Brupper.ViewModels.Abstraction
         #region Constructor
 
         protected AItemsSearchViewModel(
-            IMvxLogProvider logProvider,
+            ILoggerFactory logProvider,
             IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         { }

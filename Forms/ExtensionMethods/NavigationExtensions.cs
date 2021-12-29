@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 public static class NavigationExtensions
 {
+    public class BooleanResult
+    {
+        public bool Success { get; set; }
+    }
+
     public static async Task<TResult> Navigate<TViewModel, TResult>(this ISupportBrupperViewModel viewModel)
         where TViewModel : IMvxViewModelResult<TResult>
+        where TResult : class
     {
         viewModel.CanViewDestroy = false;
 
@@ -18,12 +24,14 @@ public static class NavigationExtensions
         return result;
     }
 
-    public static Task<bool> Navigate<TViewModel>(this ISupportBrupperViewModel viewModel)
-        where TViewModel : IMvxViewModelResult<bool>
-        => viewModel.Navigate<TViewModel, bool>();
+    //public static Task<TResult> Navigate<TViewModel, TResult>(this ISupportBrupperViewModel viewModel)
+    //    where TViewModel : IMvxViewModelResult<TResult>
+    //    where TResult : BooleanResult
+    //    => viewModel.Navigate<TViewModel, TResult>();
 
     public static async Task<TResult> Navigate<TViewModel, TParam, TResult>(this ISupportBrupperViewModel viewModel, TParam parameter)
         where TViewModel : IMvxViewModel<TParam, TResult>
+        where TResult : class
     {
         viewModel.CanViewDestroy = false;
 
@@ -44,6 +52,7 @@ public static class NavigationExtensions
     }
 
     public static Task<bool> Close<TResult>(this IMvxViewModelResult<TResult> viewModel, IMvxViewModelResult<TResult> viewModel2, TResult result)
+        where TResult : class
     {
         if (viewModel is ISupportBrupperViewModel support)
         {

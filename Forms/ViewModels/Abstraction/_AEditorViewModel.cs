@@ -2,7 +2,7 @@
 using Brupper.Data.Entities;
 using MvvmCross;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
 using System;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace Brupper.ViewModels.Abstraction
         #region Constructor
 
         public AEditorViewModel(
-            IMvxLogProvider logProvider
+            ILoggerFactory logProvider
             , IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         {

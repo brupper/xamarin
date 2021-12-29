@@ -1,4 +1,5 @@
-﻿using CoreGraphics;
+﻿using Brupper.Forms.Models.Rendering;
+using CoreGraphics;
 using Foundation;
 using System;
 using System.IO;
@@ -12,11 +13,16 @@ namespace Brupper.Forms.Platforms.iOS.Services
     {
         private readonly TaskCompletionSource<string> source;
         private readonly string filePath;
+        private PaperSize paperSize;
 
-        public PdfExportWebViewCallBack(TaskCompletionSource<string> source, string path)
+        /// <summary> DPI of output </summary>
+        protected virtual int Dpi => 72;
+
+        public PdfExportWebViewCallBack(TaskCompletionSource<string> source, string path, PaperSize paperSize)
         {
             this.source = source;
             filePath = path;
+            this.paperSize = paperSize;
         }
 
         public override void LoadingFinished(UIWebView webView)
@@ -25,8 +31,7 @@ namespace Brupper.Forms.Platforms.iOS.Services
             {
                 double height, width;
                 int header = 0, sidespace = 0;
-
-                //https://www.graphic-design-employment.com/a4-paper-dimensions.html
+                                
                 width = 595.2;
                 height = 841.8;
 

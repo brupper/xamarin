@@ -7,7 +7,7 @@ using MvvmCross.Commands;
 using MvvmCross.Forms.Platforms.Ios.Core;
 using MvvmCross.Forms.Presenters;
 using MvvmCross.IoC;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Platforms.Ios.Presenters;
 using MvvmCross.ViewModels;
 using System.Collections.Generic;
@@ -22,11 +22,11 @@ namespace Brupper.Forms.Platforms.iOS
         public Setup()
         { }
 
-        protected override void InitializeFirstChance()
+        protected override void InitializeFirstChance(IMvxIoCProvider iocProvider)
         {
             Mvx.IoCProvider.RegisterType<IMvxCommandHelper, MvxStrongCommandHelper>(); // https://github.com/MvvmCross/MvvmCross/issues/3689
 
-            base.InitializeFirstChance();
+            base.InitializeFirstChance(iocProvider);
 
             var platformInformationService = new PlatformInformationService();
             Mvx.IoCProvider.RegisterSingleton<IPlatformInformationService>(platformInformationService);
@@ -40,7 +40,9 @@ namespace Brupper.Forms.Platforms.iOS
                 Mvx.IoCProvider.RegisterSingleton<IApplicationStateListener>(stateListener);
         }
 
-        protected override IMvxLogProvider CreateLogProvider() => new AppCenterTrace(base.CreateLogProvider());
+        protected override ILoggerProvider CreateLogProvider() => new AppCenterLoggerProvider();
+
+        protected override ILoggerFactory CreateLogFactory() => new AppCenterLoggerFactory(CreateLogProvider());
 
         protected override IMvxFormsPagePresenter CreateFormsPagePresenter(IMvxFormsViewPresenter viewPresenter) => new PagePresenter(viewPresenter);
 

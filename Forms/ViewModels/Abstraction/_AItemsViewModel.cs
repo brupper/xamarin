@@ -2,7 +2,7 @@
 using Brupper.Data.Entities;
 using MvvmCross;
 using MvvmCross.Commands;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using System;
@@ -31,7 +31,7 @@ namespace Brupper.ViewModels.Abstraction
         #region Constructor
 
         protected AItemsViewModel(
-            IMvxLogProvider logProvider,
+            ILoggerFactory logProvider,
             IMvxNavigationService navigationService)
             : base(logProvider, navigationService)
         { }
@@ -204,7 +204,7 @@ namespace Brupper.ViewModels.Abstraction
                 cachedEntities.Clear();
                 filteredEntities.Clear();
 
-                Logger?.TraceException(exception.Message, exception);
+                Logger?.TrackError(exception);
             }
             finally
             {

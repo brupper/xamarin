@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace Brupper.Identity.B2C
 {
@@ -78,7 +79,19 @@ namespace Brupper.Identity.B2C
             //    Debug.WriteLine(JsonConvert.SerializeObject(user));
             //}
 
-            return result.CurrentPage;
+            var allUser = result.CurrentPage.ToList();
+            while (true)
+            {
+                if (result.NextPageRequest == null)
+                {
+                    break;
+                }
+
+                result = await result.NextPageRequest.GetAsync();
+                allUser.AddRange(result.CurrentPage.ToList());
+            }
+
+            return allUser;
         }
 
         public async Task ListUsersWithCustomAttribute(string b2cExtensionAppClientId)

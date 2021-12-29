@@ -129,7 +129,7 @@ namespace Brupper.Forms.Platforms.iOS
 
         public void Include(MvxNavigationService service, IMvxViewModelLoader loader)
         {
-            service = new MvxNavigationService(null, loader);
+            service = new MvxNavigationService(loader, null, null);
         }
 
         public void Include(UIImagePickerController uIImagePickerController)

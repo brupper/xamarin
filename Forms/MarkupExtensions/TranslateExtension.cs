@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace Brupper.Forms
 {
     [ContentProperty("Text")]
-    public class TranslateExtension : IMarkupExtension
+    public class TranslateExtension : IMarkupExtension<BindingBase>
     {
         #region Fields
 
@@ -20,6 +20,7 @@ namespace Brupper.Forms
         public TranslateExtension()
         {
             textProvider = Mvx.IoCProvider.GetSingleton<IMvxTextProvider>();
+            // try { } catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"{ex}"); throw; }
         }
 
         #endregion
@@ -32,27 +33,45 @@ namespace Brupper.Forms
 
         #region Implementation of IMarkupExtension
 
-        public object ProvideValue(IServiceProvider serviceProvider)
+        public BindingBase ProvideValue(IServiceProvider serviceProvider)
         {
-            if (Text == null)
+            var binding = new Binding
             {
-                return string.Empty;
-            }
+                Mode = BindingMode.OneWay,
+                Path = $"[{Text}]",
+                Source = this,
+            };
 
-            var localizedText = textProvider.GetText(null, null, Text);
-            //var translation = Labels.ResourceManager.GetString(Text);
-            if (localizedText == null)
-            {
-#if DEBUG
-                throw new ArgumentNullException($"'{Text}' was not found in Recources for culture '{CultureInfo.CurrentUICulture.Name ?? "-"}'");
-#else
-                localizedText = Text;
-#endif
-            }
+            return binding;
+        }
 
-            return localizedText;
+        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
+        {
+            return ProvideValue(serviceProvider);
         }
 
         #endregion
+
+        public string this[string text]
+        {
+            get
+            {
+                var localizedText = textProvider.GetText(null, null, Text);
+                //var translation = Labels.ResourceManager.GetString(Text);
+                if (localizedText == null)
+                {
+#if DEBUG
+                    var errotMessage = $"'{Text}' was not found in Recources for culture '{System.Globalization.CultureInfo.CurrentUICulture.Name ?? "-"}'";
+                    System.Diagnostics.Debug.WriteLine(errotMessage);
+                    // throw new ArgumentNullException(errotMessage);
+#else
+                    localizedText = Text;
+#endif
+                }
+
+                return localizedText;
+            }
+        }
     }
+
 }

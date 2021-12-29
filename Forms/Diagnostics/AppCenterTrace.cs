@@ -1,107 +1,73 @@
 ﻿using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using MvvmCross.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Brupper
 {
-    public static class MvxLogExtensions
+    public static class LoggerExtensions
     {
-        public static void TrackError(this IMvxLog logger, Exception exception, IDictionary<string, string> properties = null, params ErrorAttachmentLog[] attachments)
+        public static void TrackError(this ILogger logger, Exception exception, IDictionary<string, string> properties = null, params ErrorAttachmentLog[] attachments)
         {
             Crashes.TrackError(exception, properties, attachments);
         }
 
-        public static void TrackEvent(this IMvxLog logger, string name, IDictionary<string, string> properties = null)
+        public static void TrackEvent(this ILogger logger, string name, IDictionary<string, string> properties = null)
         {
             Analytics.TrackEvent(name, properties);
         }
     }
 
-    public class AppCenterTrace : IMvxLog, IMvxLogProvider, IDisposable
+    class AppCenterLoggerFactory : ILoggerFactory
+    {
+        private readonly List<ILoggerProvider> _providerCollection = new List<ILoggerProvider>();
+        private readonly ILoggerProvider provider;
+
+        public AppCenterLoggerFactory(ILoggerProvider provider) => this.provider = provider;
+
+        /// <summary> Disposes the provider. </summary>
+        public void Dispose() => provider.Dispose();
+
+        /// <summary> Creates a new <see cref="T:Microsoft.Extensions.Logging.ILogger" /> instance. </summary>
+        /// <param name="categoryName">The category name for messages produced by the logger.</param>
+        public ILogger CreateLogger(string categoryName)
+        {
+            return provider.CreateLogger(categoryName);
+        }
+
+        /// <summary> Adds an <see cref="T:Microsoft.Extensions.Logging.ILoggerProvider" /> to the logging system. </summary>
+        public void AddProvider(ILoggerProvider provider)
+        {
+            if (provider == null) throw new ArgumentNullException(nameof(provider));
+            if (_providerCollection != null)
+                _providerCollection.Add(provider);
+            else
+                Debug.WriteLine("Ignoring added logger provider {0}", provider);
+        }
+    }
+
+    class AppCenterLoggerProvider : ILoggerProvider
     {
         #region Fields
-
-        private readonly IMvxLogProvider wrapperdLogProvider;
-
         #endregion
 
         #region Constructor
 
-        public AppCenterTrace(IMvxLogProvider wrapperdLogProvider)
-        {
-            this.wrapperdLogProvider = wrapperdLogProvider;
-        }
+        public AppCenterLoggerProvider() { }
 
         #endregion
 
-        #region Properties
+        #region ILoggerProvider
 
-        private IMvxLog WrappedLog => wrapperdLogProvider?.GetLogFor("AppCenter");
-
-        #endregion
-
-        #region IMvxLog
-
-        public bool Log(MvxLogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters)
-        {
-            var message = "{0}";
-            try
-            {
-                message = messageFunc?.Invoke();
-                WrappedLog?.Log(logLevel, messageFunc, exception, formatParameters);
-
-                var formattedMessage = string.Format($"[{logLevel}] : {message}", formatParameters);
-                Debug.WriteLine(formattedMessage);
-
-                if (exception != null)
-                {
-                    Crashes.TrackError(exception);
-                }
-                else if (logLevel > MvxLogLevel.Info)
-                {
-                    Analytics.TrackEvent(formattedMessage);
-                }
-            }
-            catch (FormatException formatException)
-            {
-                Log(MvxLogLevel.Error, () => $"Exception during trace of {message} {logLevel}");
-                Crashes.TrackError(formatException);
-            }
-            catch (Exception unhandled)
-            {
-                Crashes.TrackError(unhandled);
-            }
-
-            return true;
-        }
-
-        public bool IsLogLevelEnabled(MvxLogLevel logLevel)
-        {
-            return WrappedLog?.IsLogLevelEnabled(logLevel) ?? false;
-        }
-
-        #endregion
-
-        #region IMvxLogProvider
-
-        public IMvxLog GetLogFor(Type type) => this;
-
-        public IMvxLog GetLogFor<T>() => this;
-
-        public IMvxLog GetLogFor(string name) => this;
-
-        public IDisposable OpenNestedContext(string message) => this;
-
-        public IDisposable OpenMappedContext(string key, string value) => this;
+        public ILogger CreateLogger(string name) => new AppCenterTrace(name);
 
         #endregion
 
         #region IDisposable
 
-        ~AppCenterTrace()
+        ~AppCenterLoggerProvider()
         {
             Dispose(false);
         }
@@ -117,5 +83,54 @@ namespace Brupper
 
         #endregion
 
+    }
+
+    public class AppCenterTrace : ILogger
+    {
+        private readonly string name;
+
+        public AppCenterTrace(string name) => this.name = name;
+
+        #region ILogger
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        {
+            if (!IsEnabled(logLevel))
+            {
+                return;
+            }
+
+            var message = "{0}";
+            try
+            {
+                message = $"[{eventId.Id,2}: {logLevel,-12}]\t{name} - {formatter(state, exception)}";
+
+                Debug.WriteLine(message);
+
+                if (exception != null)
+                {
+                    Crashes.TrackError(exception);
+                }
+                else if (logLevel > LogLevel.Information)
+                {
+                    Analytics.TrackEvent(message);
+                }
+            }
+            catch (FormatException formatException)
+            {
+                Debug.WriteLine($"Exception during trace of {message} {logLevel} {formatException}");
+                Crashes.TrackError(formatException);
+            }
+            catch (Exception unhandled)
+            {
+                Crashes.TrackError(unhandled);
+            }
+        }
+
+        public IDisposable BeginScope<TState>(TState state) => default!;
+
+        public bool IsEnabled(LogLevel logLevel) => true; //WrappedLog?.IsEnabled(logLevel) ?? false;
+
+        #endregion
     }
 }

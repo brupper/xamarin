@@ -7,7 +7,7 @@
 //using MvvmCross.Forms.Platforms.Wpf.Core;
 //using MvvmCross.Forms.Presenters;
 //using MvvmCross.IoC;
-//using MvvmCross.Logging;
+//using Microsoft.Extensions.Logging;
 //using MvvmCross.Platforms.Wpf.Presenters;
 //using MvvmCross.ViewModels;
 //using System.Collections.Generic;
@@ -23,11 +23,11 @@
 //        public Setup()
 //        { }
 
-//        protected override void InitializeFirstChance()
+//        protected override void InitializeFirstChance(IMvxIoCProvider iocProvider)
 //        {
 //            Mvx.IoCProvider.RegisterType<IMvxCommandHelper, MvxStrongCommandHelper>(); // https://github.com/MvvmCross/MvvmCross/issues/3689
 
-//            base.InitializeFirstChance();
+//            base.InitializeFirstChance(iocProvider);
 
 //            var platformInformationService = new PlatformInformationService();
 //            Mvx.IoCProvider.RegisterSingleton<IPlatformInformationService>(platformInformationService);
@@ -41,7 +41,7 @@
 //            //    Mvx.IoCProvider.RegisterSingleton(stateListener);
 //        }
 
-//        protected override IMvxLogProvider CreateLogProvider() => new AppCenterTrace(base.CreateLogProvider());
+//        protected override ILoggerProvider CreateLogProvider() => new AppCenterTrace(base.CreateLogProvider());
 
 //        protected override IMvxFormsPagePresenter CreateFormsPagePresenter(IMvxFormsViewPresenter viewPresenter)
 //        {
