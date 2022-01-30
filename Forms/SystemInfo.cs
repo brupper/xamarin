@@ -52,11 +52,18 @@ namespace Brupper.Forms
             return Task.WhenAll(task, task2, task3);
         }
 
-        /// <summary> https://docs.microsoft.com/en-us/xamarin/essentials/geolocation </summary>
-        public async Task InitializeGeolocationAsync()
+        /// <summary> 
+        /// <para> Xamarin.Essentials.PermissionException: Permission request must be invoked on main thread. </para>
+        /// https://docs.microsoft.com/en-us/xamarin/essentials/geolocation
+        /// </summary>
+        public Task InitializeGeolocationAsync() => MainThread.InvokeOnMainThreadAsync(async () => await InternalnitializeGeolocationAsync());
+
+        private async Task InternalnitializeGeolocationAsync()
         {
             try
             {
+                // Xamarin.Essentials.PermissionException: Permission request must be invoked on main thread.
+
                 //var request = new GeolocationRequest(GeolocationAccuracy.High);
                 //var location = await Geolocation.GetLocationAsync(request);
                 var location = await Geolocation.GetLastKnownLocationAsync();

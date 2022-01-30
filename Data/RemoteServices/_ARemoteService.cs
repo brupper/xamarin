@@ -2,6 +2,8 @@
 using Brupper.Data.RemoteServices.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -22,6 +24,7 @@ namespace Brupper.Data.RemoteServices
         #region Constructor
 
         protected ARemoteService(
+             // TODO:  ILogger logger,
              IHttpClientFactory httpClientFactory)
         {
             Factory = httpClientFactory;
@@ -41,7 +44,8 @@ namespace Brupper.Data.RemoteServices
         {
             if (taskToExecute == null)
             {
-                throw new ApiException(HttpErrorLabels.ErrorCode_ArgumentNull);
+                throw new ApiException(HttpErrorLabels.ErrorCode_ArgumentNull, new ArgumentNullException(nameof(taskToExecute)));
+                //throw new ApiException(HttpErrorLabels.ErrorCode_ArgumentNull);
             }
 
             token.ThrowIfCancellationRequested();
@@ -124,7 +128,8 @@ namespace Brupper.Data.RemoteServices
                     { "Code", message.StatusCode.ToString() },
                 };
 
-                //TODO: Analytics.TrackEvent("Server error occured", parameters);
+                Debug.WriteLine($"Server error occured: {parameters.Select(x => $"{x.Key}: {x.Value}")}");
+                //TODO: ILogger or Analytics.TrackEvent("Server error occured", parameters);
             }
             catch { /*ignore*/ }
         }

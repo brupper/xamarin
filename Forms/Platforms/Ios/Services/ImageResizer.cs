@@ -15,6 +15,14 @@ namespace Brupper.Forms.Platforms.iOS.Services
             UIImage originalImage = ImageFromByteArray(imageData);
 
 
+            UIKit.UIImage resizedImage = Resize(originalImage, width, height, imageQuality);
+
+            // save the image as a jpeg
+            return resizedImage.AsJPEG(imageQuality).ToArray();
+        }
+
+        public UIImage Resize(UIImage originalImage, float width, float height, int imageQuality = IMAGE_QUALITY)
+        {
             float oldWidth = (float)originalImage.Size.Width;
             float oldHeight = (float)originalImage.Size.Height;
             float scaleFactor = 0f;
@@ -45,8 +53,7 @@ namespace Brupper.Forms.Platforms.iOS.Services
 
                 UIKit.UIImage resizedImage = UIKit.UIImage.FromImage(context.ToImage());
 
-                // save the image as a jpeg
-                return resizedImage.AsJPEG(imageQuality).ToArray();
+                return resizedImage;
             }
         }
 
@@ -62,7 +69,7 @@ namespace Brupper.Forms.Platforms.iOS.Services
             {
                 image = new UIImage(Foundation.NSData.FromArray(data));
             }
-            catch 
+            catch
             {
                 return null;
             }

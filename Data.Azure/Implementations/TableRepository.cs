@@ -14,17 +14,23 @@ using Xamarin.Essentials.Interfaces;
 
 namespace Brupper.Data.Azure.Implementations
 {
+    /// <inheritdoc/>
     public abstract class TableRepository<T> : ITableRepository<T>
         where T : class, IBaseDataObject, new()
     {
         protected static readonly List<T> localCache = new List<T>();
         protected static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
+        /// <inheritdoc/>
         protected ITableStorage Table { get; private set; }
 
+        /// <inheritdoc/>
         protected IFileSystem FileSystemService { get; private set; }
+
+        /// <inheritdoc/>
         protected IConnectivity ConnectivityService { get; private set; }
 
+        /// <inheritdoc/>
         public virtual string Identifier => "Items";
 
         #region Constructor
@@ -40,6 +46,7 @@ namespace Brupper.Data.Azure.Implementations
 
         #endregion
 
+        /// <inheritdoc/>
         public virtual Task<bool> DropTable()
         {
             Table = null;
@@ -48,6 +55,7 @@ namespace Brupper.Data.Azure.Implementations
 
         #region IBaseRepository implementation
 
+        /// <inheritdoc/>
         public virtual async Task<bool> RemoveItemsAsync(IEnumerable<T> items)
         {
             var list = items?.ToList() ?? new List<T>();
@@ -75,6 +83,7 @@ namespace Brupper.Data.Azure.Implementations
             return result;
         }
 
+        /// <inheritdoc/>
         public async Task InitializeStoreAsync()
         {
             var filePath = Path.Combine(FileSystemService.AppDataDirectory, Identifier);
@@ -106,7 +115,7 @@ namespace Brupper.Data.Azure.Implementations
             catch (JsonException)
             {
                 // reset file
-                File.WriteAllText(filePath, string.Empty);                
+                File.WriteAllText(filePath, string.Empty);
             }
             catch (Exception exception)
             {
@@ -119,6 +128,7 @@ namespace Brupper.Data.Azure.Implementations
             }
         }
 
+        /// <inheritdoc/>
         public virtual async Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
             await InitializeStoreAsync();
@@ -130,6 +140,7 @@ namespace Brupper.Data.Azure.Implementations
             return localCache.AsEnumerable();
         }
 
+        /// <inheritdoc/>
         public virtual async Task<T> GetItemAsync(string id, bool forceRefresh = false)
         {
             await InitializeStoreAsync();
@@ -162,6 +173,7 @@ namespace Brupper.Data.Azure.Implementations
             return item;
         }
 
+        /// <inheritdoc/>
         public virtual async Task<bool> InsertAsync(T item)
         {
             await InitializeStoreAsync();
@@ -179,6 +191,7 @@ namespace Brupper.Data.Azure.Implementations
             return true;
         }
 
+        /// <inheritdoc/>
         public virtual async Task<bool> UpdateAsync(T item)
         {
             // localcache works by reference so no nedd to update entity
@@ -194,6 +207,7 @@ namespace Brupper.Data.Azure.Implementations
             return true;
         }
 
+        /// <inheritdoc/>
         public virtual async Task<bool> RemoveAsync(T item)
         {
             bool result = false;
@@ -224,6 +238,7 @@ namespace Brupper.Data.Azure.Implementations
         //the thread running this method needs to open the Login UI.
         //Also in the method which calls SyncAsync, do not use ConfigureAwait(false) before calling SyncAsync, because once ConfigureAwait(false) is used
         //in the context of an async method, the rest of that method's code may also run on a background thread.
+        /// <inheritdoc/>
         public virtual async Task<bool> SyncAsync()
         {
             if (ConnectivityService.NetworkAccess != NetworkAccess.Internet)
@@ -249,7 +264,7 @@ namespace Brupper.Data.Azure.Implementations
 
                 var filePath = Path.Combine(FileSystemService.AppDataDirectory, Identifier);
                 //using (var fs = File.OpenWrite(filePath))
-                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
                 using (var sw = new StreamWriter(fs))
                 {
                     var json = JsonConvert.SerializeObject(localCache);
@@ -285,5 +300,4 @@ namespace Brupper.Data.Azure.Implementations
 
         #endregion
     }
-
 }
