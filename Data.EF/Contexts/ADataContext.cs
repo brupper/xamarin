@@ -41,5 +41,17 @@ namespace Brupper.Data.EF.Contexts
 
             base.OnModelCreating(modelBuilder);
         }
+
+        //public void DetachAllEntities()
+        //{
+        //    var changedEntriesCopy = context.ChangeTracker.Entries()
+        //        .Where(e => e.State == EntityState.Added ||
+        //                    e.State == EntityState.Modified ||
+        //                    e.State == EntityState.Deleted)
+        //        .ToList();
+        //
+        //    foreach (var entry in changedEntriesCopy)
+        //        entry.State = EntityState.Detached;
+        //}
     }
 }

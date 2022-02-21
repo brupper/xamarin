@@ -61,7 +61,7 @@ namespace Brupper.Data
             }
 
 #pragma warning disable CS0253 // Possible unintended reference comparison; right hand side needs cast
-            return Task.FromResult<TEntity>(dbSet.AsQueryable().FirstOrDefault(x => x.Id == id));
+            return Task.FromResult<TEntity>(dbSet.AsQueryable().FirstOrDefault(x => x.Id == id.ToString()));
 #pragma warning restore CS0253 // Possible unintended reference comparison; right hand side needs cast
         }
 
@@ -81,7 +81,7 @@ namespace Brupper.Data
         public virtual async Task DeleteAsync(object id)
         {
 #pragma warning disable CS0253 // Possible unintended reference comparison; right hand side needs cast
-            TEntity entityToDelete = dbSet.FirstOrDefault(x => x.Id == id);
+            TEntity entityToDelete = dbSet.FirstOrDefault(x => x.Id == id.ToString());
 #pragma warning restore CS0253 // Possible unintended reference comparison; right hand side needs cast
             await DeleteAsync(entityToDelete);
         }
