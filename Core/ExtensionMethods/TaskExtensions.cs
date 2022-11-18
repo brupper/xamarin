@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 public static class TaskExtensions
@@ -39,6 +41,60 @@ public static class TaskExtensions
             if (retryWhen != null)
             {
                 await retryWhen().ConfigureAwait(false);
+            }
+        }
+    }
+
+    /// <summary> This extension is wonderful. When you need to run a task safely, you can do it with this extension and let you write your try {} catch {} blocks. </summary>
+    /// <example>
+    /// var task = new Task(() => { Console.WriteLine("Hi!"); });
+    /// await task.RunSafe(() => Console.WriteLine("An error occured!"));
+    /// </example>
+    /// <param name="task"></param>
+    /// <param name="onError"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    public static async Task RunSafe(this Task task, Func<Exception, Task> onError = null, CancellationToken token = default)
+    {
+        Exception exception = null;
+
+        try
+        {
+            if (!token.IsCancellationRequested)
+            {
+                await Task.Run(() =>
+                {
+                    task.Start();
+                    task.Wait();
+                });
+            }
+        }
+        catch (TaskCanceledException) { Debug.WriteLine("Task Cancelled"); }
+        catch (AggregateException e)
+        {
+            var ex = e.InnerException;
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+            }
+            exception = ex;
+        }
+        catch (Exception e)
+        {
+            exception = e;
+        }
+        finally
+        {
+            //AfterTaskRun?.Invoke(null, task);
+        }
+
+        if (exception != null)
+        {
+            Debug.WriteLine(exception);
+
+            if (onError != null)
+            {
+                await onError(exception);
             }
         }
     }
