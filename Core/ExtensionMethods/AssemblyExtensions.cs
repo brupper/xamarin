@@ -3,7 +3,7 @@ using System.Reflection;
 
 public static class AssemblyExtensions
 {
-    public static string GetEmbeddedResourceFromResourcesAsString(this string fileName, Assembly assembly, string defaultPath = "Brupper.Core.Resources")
+    public static string GetEmbeddedResourceFromResourcesAsString(this string fileName, Assembly assembly, string defaultPath = null /*"Brupper.Core.Resources"*/)
     {
         //var assembly = typeof(ReflectionUtil).GetTypeInfo().Assembly;
         using (var stream = assembly.GetManifestResourceStream($"{defaultPath}.{fileName}"))
@@ -14,7 +14,7 @@ public static class AssemblyExtensions
         }
     }
 
-    public static Stream GetEmbeddedResourceFromResourcesAsStream(this string fileName, Assembly assembly, string defaultPath = "Brupper.Core.Resources")
+    public static Stream GetEmbeddedResourceFromResourcesAsStream(this string fileName, Assembly assembly, string defaultPath = null /*"Brupper.Core.Resources"*/)
     {
         //var assembly = typeof(ReflectionUtil).GetTypeInfo().Assembly;
         using (var stream = assembly.GetManifestResourceStream($"{defaultPath}.{fileName}"))

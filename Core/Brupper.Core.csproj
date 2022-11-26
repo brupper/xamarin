@@ -14,4 +14,8 @@
     <Reference Include="System.IO.Compression.FileSystem" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Fakers\names.json" />
+  </ItemGroup>
+
 </Project>
