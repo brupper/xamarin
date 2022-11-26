@@ -5,8 +5,8 @@ using Android.Runtime;
 namespace Brupper.Push.Android
 {
     [Preserve]
-    [BroadcastReceiver(Permission = "com.google.android.c2dm.permission.SEND")]
-    [IntentFilter(new[] { INTENT_ACTION_REGISTRATION, INTENT_ACTION_RECEIVE }, Categories = new[] { "${applicationId}" })]
+    [BroadcastReceiver(Permission = "com.google.android.c2dm.permission.SEND", Exported = false)]
+    [IntentFilter(new[] { INTENT_ACTION_REGISTRATION, INTENT_ACTION_RECEIVE }, Categories = new[] { "${applicationId}", })]
     public class PushReceiver : BroadcastReceiver//Com.Microsoft.Appcenter.Push.PushReceiver
     {
         public const string INTENT_ACTION_RECEIVE = "com.google.android.c2dm.intent.RECEIVE";
