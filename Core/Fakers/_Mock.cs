@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
-namespace Brupper.Mock
+namespace Brupper.Fakers
 {
     public class Generator
     {

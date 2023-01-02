@@ -36,4 +36,23 @@ public static class HashExtensions
 
         return sb.ToString();
     }
+
+    public static string GetSha1(this string literalToHash)
+    {
+        using (var algorithm = SHA1.Create())
+        {
+            var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(literalToHash));
+            return hash.GetStringFromHash();
+        }
+    }
+
+    private static string GetStringFromHash(this byte[] hash)
+    {
+        var result = new StringBuilder();
+        for (int i = 0; i < hash.Length; i++)
+        {
+            result.Append(hash[i].ToString("X2"));
+        }
+        return result.ToString();
+    }
 }

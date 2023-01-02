@@ -54,6 +54,7 @@ namespace Brupper.ViewModels.Popups
     }
 
     public abstract class MvxPopupViewModel<TParam, TResult> : MvxPopupViewModel, IMvxViewModel<TParam, TResult>
+        where TResult : class
     {
         protected MvxPopupViewModel(IMvxNavigationService navigationService)
             : base(navigationService)

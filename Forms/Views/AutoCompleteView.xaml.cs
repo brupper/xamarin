@@ -223,7 +223,13 @@ namespace Brupper.Forms.Views
             _availableSuggestions = new ObservableCollection<object>();
 
             //SuggestedItemsRepeaterView.SelectedItemCommand = new Command(SuggestedRepeaterItemSelected);
+            Focused += AutoCompleteView_Focused;
+            Unfocused += AutoCompleteView_Unfocused;
         }
+
+        private void AutoCompleteView_Focused(object sender, FocusEventArgs e) => MainEntry.Focus();
+
+        private void AutoCompleteView_Unfocused(object sender, FocusEventArgs e) => MainEntry.Unfocus();
 
         protected override void OnPropertyChanged(string propertyName = null)
         {
@@ -385,9 +391,9 @@ namespace Brupper.Forms.Views
 
         private void FilterSuggestions(string text, bool openSuggestionPanel = true)
         {
-            var filteredSuggestions = ItemsSource.Cast<object>();
+            var filteredSuggestions = ItemsSource?.Cast<object>()?.ToList();
 
-            if (text?.Length > 0 && filteredSuggestions.Any())
+            if (text?.Length > 0 && (filteredSuggestions?.Any() ?? false))
             {
                 var property = GetSearchMember(filteredSuggestions.First().GetType());
 
@@ -397,7 +403,10 @@ namespace Brupper.Forms.Views
                 if (property.PropertyType != typeof(string))
                     throw new SearchMemberPropertyTypeException($"Property '{SearchMember}' must be of type string");
 
-                filteredSuggestions = filteredSuggestions.Where(x => property.GetValue(x).ToString().IndexOf(text, StringComparison.OrdinalIgnoreCase) >= 0).OrderByDescending(x => property.GetValue(x).ToString());
+                filteredSuggestions = filteredSuggestions
+                    .Where(x => property?.GetValue(x)?.ToString()?.IndexOf(text, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .OrderByDescending(x => property?.GetValue(x)?.ToString())
+                    .ToList();
             }
 
             _availableSuggestions = new ObservableCollection<object>(MaxResults > 0 ? filteredSuggestions.Take(MaxResults) : filteredSuggestions);

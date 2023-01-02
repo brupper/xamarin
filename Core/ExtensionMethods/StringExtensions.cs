@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 public static class StringExtensions
@@ -74,5 +75,64 @@ public static class StringExtensions
     {
         var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
         return Encoding.UTF8.GetString(base64EncodedBytes);
+    }
+
+    /// <summary>
+    /// This extension is very simple yet powerful. With this extension, you remove all characters from a text string that are not numeric. Very useful for when you want to get the phone number clean of characters, for example.
+    /// "+1 (712) 412-5236" => 17124125236
+    /// </summary>
+    public static string JustNumberFormat(this string value)
+    {
+        return string.Join("", value.ToCharArray().Where(Char.IsDigit));
+    }
+
+    public static string AsAscii(this string originalString)
+    {
+        if (string.IsNullOrEmpty(originalString))
+        {
+            return string.Empty;
+        }
+
+        var asAscii = new StringBuilder();
+        // store final ascii string and Unicode points
+        foreach (var c in originalString)
+        {
+            // test if char is ascii, otherwise convert to Unicode Code Point
+            var cint = Convert.ToInt32(c);
+            if (cint is <= 127 and >= 0)
+            {
+                asAscii.Append(c);
+            }
+            else
+            {
+                asAscii.Append(string.Format("\\u{0:x4} ", cint).Trim());
+            }
+        }
+
+        return asAscii.ToString();
+    }
+
+    public static double ConvertToDouble(this string value, double defaultValue)
+    {
+        double result;
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return defaultValue;
+        }
+
+        //Try parsing in the current culture
+        if (!double.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out result) &&
+            //Then try in US english
+            !double.TryParse(value, NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out result) &&
+            //Then in neutral language
+            !double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+        {
+            result = defaultValue;
+        }
+
+        //if (double.TryParse(value.Replace(",", ".")))
+
+        return result;
     }
 }

@@ -178,6 +178,7 @@ namespace Brupper.ViewModels.Abstraction
     }
 
     public abstract class ViewModelBase<TParam, TResult> : ViewModelBase, IMvxViewModel<TParam, TResult>
+        where TResult : class
     {
         #region Constructors
 
@@ -211,6 +212,7 @@ namespace Brupper.ViewModels.Abstraction
     }
 
     public abstract class ViewModelResultBase<TResult> : ViewModelBase, IMvxViewModelResult<TResult>
+        where TResult : class
     {
         #region Constructors
 
