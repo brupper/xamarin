@@ -111,4 +111,28 @@ public static class StringExtensions
 
         return asAscii.ToString();
     }
+
+    public static double ConvertToDouble(this string value, double defaultValue)
+    {
+        double result;
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return defaultValue;
+        }
+
+        //Try parsing in the current culture
+        if (!double.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out result) &&
+            //Then try in US english
+            !double.TryParse(value, NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out result) &&
+            //Then in neutral language
+            !double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+        {
+            result = defaultValue;
+        }
+
+        //if (double.TryParse(value.Replace(",", ".")))
+
+        return result;
+    }
 }
