@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using XfView = Xamarin.Forms.View;
@@ -64,7 +65,7 @@ namespace Brupper.Forms
 
             if (itemTemplate is DataTemplateSelector selector)
             {
-                var view = selector.SelectTemplate(item, parent).CreateContent();
+                var view = selector.CreateContent(item, parent);
                 if (view is ViewCell cell)
                 {
                     itemView = cell.View;
@@ -76,7 +77,7 @@ namespace Brupper.Forms
             }
             else if (itemTemplate is DataTemplate template)
             {
-                itemView = template.CreateContent() as XfView;
+                itemView = template.CreateContent(item, parent) as XfView;
             }
 
 
