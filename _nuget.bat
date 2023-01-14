@@ -1,5 +1,5 @@
 set setApiKey=oy2aw3q6muslnqkmbqeazquq22lsqnduljmff2careogqq
-set version=0.0.27
+set version=0.0.28
 
 dotnet nuget push .artifacts/Brupper.Core.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 dotnet nuget push .artifacts/Brupper.Data.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
