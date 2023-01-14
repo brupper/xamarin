@@ -30,8 +30,12 @@ namespace Brupper.Forms.Views
 
         public string Text
         {
+            get => Label.Text;
             set => Label.Text = value;
         }
+
+        public static readonly BindableProperty TextProperty =
+                BindableProperty.Create(nameof(Text), typeof(string), typeof(MasterDetailsMenuOptionView), string.Empty);
 
         public ImageSource Source
         {

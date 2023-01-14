@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Media;
 using Android.OS;
 using Plugin.Toasts.Interfaces;
 using System;
@@ -68,6 +69,10 @@ namespace Plugin.Toasts
                 {
                     // Create new channel.
                     var newChannel = new NotificationChannel(channelId, channelOptions.Name, NotificationImportance.High);
+                    
+                    var sound = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
+                    newChannel.SetSound(sound, null);
+
                     newChannel.EnableVibration(channelOptions.EnableVibration);
                     newChannel.SetShowBadge(channelOptions.ShowBadge);
                     if (!string.IsNullOrEmpty(channelOptions.Description))
