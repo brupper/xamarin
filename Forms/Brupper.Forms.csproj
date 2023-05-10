@@ -4,12 +4,12 @@
     <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
     <!--<TargetFramework>uap10.0.19041.0</TargetFramework>-->
     <!--<TargetPlatformVersion Condition="'$(TargetFramework)' == 'uap10.0.14393'">10.0.19041.0</TargetPlatformVersion>-->
-    <TargetFrameworks>xamarin.ios10;monoandroid10.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>xamarin.ios10;monoandroid13.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetsToBuild)' != 'All' ">
-    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.1;monoandroid10.0;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'iOS' ">netstandard2.1;Xamarin.iOS10</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.1;monoandroid13.0;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'iOS' ">netstandard2.1;xamarin.ios10</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>

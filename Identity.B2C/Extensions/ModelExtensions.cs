@@ -4,7 +4,7 @@ namespace Brupper.Identity.B2C.Entities
 {
     public static class ModelExtensions
     {
-        public static void CopyTo(this IApplicationUser source, IApplicationUser destination)
+        public static void CopyTo(this IApplicationUser? source, IApplicationUser? destination)
         {
             if (source == null || destination == null)
             {

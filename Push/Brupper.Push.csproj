@@ -1,12 +1,12 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup Condition=" '$(TargetsToBuild)' == 'All' ">
-    <!--<TargetFramework>monoandroid10.0</TargetFramework>-->
-    <TargetFrameworks>xamarin.ios10;monoandroid10.0;netstandard2.1</TargetFrameworks>
+    <!--<TargetFramework>monoandroid13.0</TargetFramework>-->
+    <TargetFrameworks>xamarin.ios10;monoandroid13.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetsToBuild)' != 'All' ">
-    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.1;monoandroid10.0;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.1;monoandroid13.0;</TargetFrameworks>
     <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'iOS' ">netstandard2.1;Xamarin.iOS10</TargetFrameworks>
   </PropertyGroup>
 

@@ -5,16 +5,18 @@ using System.Runtime.CompilerServices;
 
 namespace Brupper.Data.Entities
 {
-    public interface IBaseEntity : INotifyPropertyChanged
+    public interface IBaseEntity //: INotifyPropertyChanged
     {
         string Id { get; }
+
+        IBaseEntity GenerateId();
     }
 
     public class BaseEntity : IBaseEntity
     {
         public BaseEntity()
         {
-            Id = Guid.NewGuid().ToString();
+           // Id = Guid.NewGuid().ToString();
         }
 
         public virtual string Id { get; set; }

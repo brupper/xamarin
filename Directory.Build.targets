@@ -29,7 +29,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'monoandroid10.0'">
-    <DefineConstants>$(DefineConstants);MONO;ANDROID;__ANDROID_29__;</DefineConstants>
+    <DefineConstants>$(DefineConstants);__ANDROID_29__;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('netcoreapp'))">
     <DefineConstants>$(DefineConstants);NETCORE;NETCOREAPP</DefineConstants>

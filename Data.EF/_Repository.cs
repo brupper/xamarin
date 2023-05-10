@@ -36,7 +36,7 @@ namespace Brupper.Data.EF
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             int? pageSize = null,
-            int pageNumber = 0, 
+            int pageNumber = 0,
             string includeProperties = "",
             CancellationToken cancellationToken = default)
         {
@@ -80,6 +80,8 @@ namespace Brupper.Data.EF
         /// <inheritdoc/>
         public virtual async Task InsertAsync(TEntity entity)
         {
+            if (entity.Id == null) { entity.GenerateId(); }
+
             await dbSet.AddAsync(entity);
             await SaveAsync();
         }
