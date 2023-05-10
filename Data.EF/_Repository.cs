@@ -35,6 +35,8 @@ namespace Brupper.Data.EF
         public virtual async Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            int? pageSize = null,
+            int pageNumber = 0, 
             string includeProperties = "",
             CancellationToken cancellationToken = default)
         {
@@ -51,12 +53,17 @@ namespace Brupper.Data.EF
             cancellationToken.ThrowIfCancellationRequested();
             if (orderBy != null)
             {
-                return await orderBy(query).ToListAsync(cancellationToken);
+                query = orderBy(query);
             }
-            else
+
+            cancellationToken.ThrowIfCancellationRequested();
+            if (pageSize.HasValue)
             {
-                return await query.ToListAsync(cancellationToken);
+                query = query.Skip(pageNumber * pageSize.Value).Take(pageSize.Value);
             }
+
+            return await query.ToListAsync(cancellationToken);
+
         }
 
         /// <inheritdoc/>

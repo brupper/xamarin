@@ -28,6 +28,8 @@ namespace Brupper.Data
         public virtual async Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            int? pageSize = null,
+            int pageNumber = 0,
             string includeProperties = "",
             CancellationToken cancellationToken = default)
         {
@@ -44,12 +46,17 @@ namespace Brupper.Data
             cancellationToken.ThrowIfCancellationRequested();
             if (orderBy != null)
             {
-                return orderBy(query).ToList();
+                query = orderBy.Invoke(query);
             }
-            else
+
+            cancellationToken.ThrowIfCancellationRequested();
+            if (pageSize.HasValue)
             {
-                return query.ToList();
+                query = query.Skip(pageNumber * pageSize.Value).Take(pageSize.Value);
             }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return query.ToList();
         }
 
         public virtual Task<TEntity> GetByIdAsync(object id)
@@ -71,11 +78,27 @@ namespace Brupper.Data
             await SaveAsync();
         }
 
+        public virtual async Task InsertRangeAsync(IEnumerable<TEntity> entities)
+        {
+            dbSet.AddRange(entities);
+            await SaveAsync();
+        }
+
         public Task InsertOrUpdateAsync(TEntity entity)
         {
             if (!dbSet.Contains(entity))
                 dbSet.Add(entity);
             return SaveAsync();
+        }
+
+        public virtual async Task InsertOrUpdateAsync(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (!dbSet.Contains(entity))
+                    dbSet.Add(entity);
+            }
+            await SaveAsync();
         }
 
         public virtual async Task DeleteAsync(object id)
@@ -89,7 +112,15 @@ namespace Brupper.Data
         public virtual async Task DeleteAsync(TEntity entityToDelete)
         {
             dbSet.Remove(entityToDelete);
+            await SaveAsync();
+        }
 
+        public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                dbSet.Remove(entity);
+            }
             await SaveAsync();
         }
 
