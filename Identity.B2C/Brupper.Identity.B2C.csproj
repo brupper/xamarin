@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <!--<TargetFramework>netstandard2.1</TargetFramework>-->
-    <!--<TargetFrameworks>net6.0;net7.0;net7.0-android;net7.0-ios</TargetFrameworks>-->
+    <!--net6.0;net7.0;net7.0-android;net7.0-ios-->
+    <TargetFrameworks>netstandard2.1;xamarin.ios10;monoandroid13.0</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>xamarin.ios10;monoandroid13.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +21,7 @@
     <Compile Remove="B2CAuthenticationService.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.EndsWith('android'))">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) or $(TargetFramework.EndsWith('android'))">
     <PackageReference Include="Plugin.CurrentActivity" />
   </ItemGroup>
 

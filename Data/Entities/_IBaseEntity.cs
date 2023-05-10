@@ -16,7 +16,13 @@ namespace Brupper.Data.Entities
     {
         public BaseEntity()
         {
-           // Id = Guid.NewGuid().ToString();
+            GenerateId();
+        }
+
+        public IBaseEntity GenerateId()
+        {
+            Id = Guid.NewGuid().ToString();
+            return this;
         }
 
         public virtual string Id { get; set; }

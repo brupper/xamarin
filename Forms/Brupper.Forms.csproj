@@ -4,7 +4,8 @@
     <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
     <!--<TargetFramework>uap10.0.19041.0</TargetFramework>-->
     <!--<TargetPlatformVersion Condition="'$(TargetFramework)' == 'uap10.0.14393'">10.0.19041.0</TargetPlatformVersion>-->
-    <TargetFrameworks>xamarin.ios10;monoandroid13.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
+    <!--net7.0-android;net7.0-ios-->
+    <TargetFrameworks>netstandard2.1;xamarin.ios10;monoandroid13.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetsToBuild)' != 'All' ">
@@ -40,7 +41,7 @@
     <Compile Include="Platforms\Net\**\*.cs" />
     <Compile Include="Platforms\Console\**\*.cs" />
 
-    <PackageReference Include="System.Drawing.Common" Version="4.7.1" />
+    <!--<PackageReference Include="System.Drawing.Common" Version="4.7.1" />-->
     <!--<PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.10" />-->
     <!--<PackageReference Include="Xamarin.Forms.Platform.WPF" Version="5.0.0.2012" />-->
     <!--<PackageReference Include="MvvmCross.Forms.Platforms.Wpf" Version="8.*" />-->
@@ -57,7 +58,7 @@
     <Compile Include="Platforms\Xamarin\**\*.cs" />
     <!--<PackageReference Include="Xamarin.AndroidX.AppCompat" />-->
     <!--<PackageReference Include="Xamarin.AndroidX.CardView" />-->
-    <PackageReference Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
+    <PackageReference Include="Xam.Plugin.DeviceInfo" />
   </ItemGroup>
 
   <!-- There is something not working correctly w.r.t. multi-targetting so adding
@@ -66,22 +67,22 @@
     <Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
-    <Reference Include="netstandard" />
+    <!--<Reference Include="netstandard" />-->
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
-    <PackageReference Include="MvvmCross" Version="8.0.2" />
-    <PackageReference Include="MvvmCross.Forms" Version="8.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.*" />
-    <PackageReference Include="Rg.Plugins.Popup" Version="2.*" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.3.1" />
-    <PackageReference Include="Xamarin.CommunityToolkit.Markup" Version="1.3.1" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
-    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.0" />
-    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" />
+    <PackageReference Include="MvvmCross" />
+    <PackageReference Include="MvvmCross.Forms" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Rg.Plugins.Popup" />
+    <PackageReference Include="Xamarin.CommunityToolkit" />
+    <PackageReference Include="Xamarin.CommunityToolkit.Markup" />
+    <PackageReference Include="Xamarin.Essentials" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" />
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations" />
   </ItemGroup>
 
   <ItemGroup>

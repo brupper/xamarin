@@ -1,7 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <!--net6.0;net7.0;net7.0-android;net7.0-ios-->
+    <TargetFrameworks>netstandard2.1;xamarin.ios10;monoandroid13.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -16,6 +17,10 @@
     <EmbeddedResource Include="Resources\Fonts\fa-brands-400.ttf" />
     <EmbeddedResource Include="Resources\Fonts\fa-regular-400.ttf" />
     <EmbeddedResource Include="Resources\Fonts\fa-solid-900.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" />
   </ItemGroup>
 
 </Project>

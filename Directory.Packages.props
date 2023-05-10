@@ -6,6 +6,7 @@
     <PackageVersion Include="Microsoft.Maui.Dependencies" Version="6.0.552" />
     <PackageVersion Include="Microsoft.Maui.Extensions" Version="6.0.552" />
     <PackageVersion Include="WindowsAzure.Storage" Version="9.3.3" />
+    <PackageVersion Include="Microsoft.AppCenter" Version="5.0.1" />
     <PackageVersion Include="Microsoft.AppCenter.Analytics" Version="5.0.1" />
     <PackageVersion Include="Microsoft.AppCenter.Crashes" Version="5.0.1" />
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0" />
@@ -16,7 +17,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Identity.Client" Version="4.52.0" />
     <!--<PackageVersion Include="Microsoft.Maui.Essentials.Ref.any" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Controls.Ref.any" Version="7.0.59" />
@@ -31,8 +32,14 @@
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
     <PackageVersion Include="Moq" Version="4.18.4" />
-    <PackageVersion Include="MvvmCross" Version="9.0.9" />
+    <PackageVersion Include="MvvmCross" Version="8.0.2" />
+    <PackageVersion Include="MvvmCross.Forms" Version="8.0.2" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="Rg.Plugins.Popup" Version="2.1.0" />
+    <PackageVersion Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
+    <PackageVersion Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
+    <PackageVersion Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
+    <PackageVersion Include="Xamarin.Azure.NotificationHubs.iOS" Version="3.1.1" />
     <PackageVersion Include="Plugin.CurrentActivity" Version="2.1.0.4" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.2.0">
       <PrivateAssets>all</PrivateAssets>
@@ -46,6 +53,7 @@
     <PackageVersion Include="SourceLink.Create.CommandLine" Version="2.8.3" />
     <PackageVersion Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageVersion Update="SidebarNavigation" Version="2.1.0" />
     <PackageVersion Include="Xamarin.AndroidX.AppCompat" Version="1.5.1.1" />
     <PackageVersion Include="Xamarin.AndroidX.AppCompat.AppCompatResources" Version="1.5.0" />
     <PackageVersion Include="Xamarin.AndroidX.CardView" Version="1.0.0.16" />
@@ -59,6 +67,21 @@
     <PackageVersion Include="Xamarin.AndroidX.RecyclerView" Version="1.2.1.8" />
     <PackageVersion Include="Xamarin.AndroidX.SwipeRefreshLayout" Version="1.1.0.10" />
     <PackageVersion Include="Xamarin.AndroidX.ViewPager" Version="1.0.0.15" />
+    <PackageVersion Include="Xamarin.AndroidX.Migration" Version="1.0.10" />
+
+    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" Version="3.0.0.1" />
+    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportRuntime" Version="3.0.1.1" />
+    <PackageVersion Include="Xamarin.Firebase.Messaging" Version="122.0.0.3" />
+    <PackageVersion Include="Xamarin.GooglePlayServices.Iid" Version="117.0.0.3" />
+    <PackageVersion Include="Xamarin.GooglePlayServices.Base" Version="117.6.0.3" />
+    <PackageVersion Include="Xamarin.Android.Volley" Version="1.1.1.1" />
+    <PackageVersion Include="Xamarin.Azure.NotificationHubs.Android" Version="1.1.4.1" />
+
+    <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2578" />
+    <PackageVersion Include="Xamarin.CommunityToolkit"  Version="2.0.6" />
+    <PackageVersion Include="Xamarin.CommunityToolkit.Markup"  Version="2.0.6" />
+    <PackageVersion Include="Xamarin.Essentials"  Version="1.7.4" />
+    <PackageVersion Include="Xamarin.Essentials.Interfaces"  Version="1.7.4" />
     <PackageVersion Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.7.0.1" />
     <PackageVersion Include="Xamarin.GooglePlayServices.Basement" Version="118.1.0.1" />
@@ -66,5 +89,14 @@
     <PackageVersion Include="XunitXml.TestLogger" Version="3.0.70" />
     <PackageVersion Include="xunit" Version="2.4.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
+
+    <!--<PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />-->
+    <!--<PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />-->
+    <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="7.0.5" />
+    <PackageVersion Include="Microsoft.Identity.Web" Version="2.1.0" />
+    <PackageVersion Include="Microsoft.Graph.Auth" Version="1.0.0-preview.6" />
+    <PackageVersion Include="Azure.Identity" Version="1.8.2" />
+    <!--5.29.0-preview-->
+    <PackageVersion Include="Microsoft.Graph.Beta" Version="4.27.0-preview" />
   </ItemGroup>
 </Project>

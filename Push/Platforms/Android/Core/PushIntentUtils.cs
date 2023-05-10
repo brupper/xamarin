@@ -1,6 +1,6 @@
 using Android.Content;
-using Com.Microsoft.Appcenter.Utils;
 using Java.Lang;
+using Microsoft.AppCenter.Android.Utils;
 using System.Collections.Generic;
 
 namespace Brupper.Push.Android
