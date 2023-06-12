@@ -23,5 +23,8 @@ namespace Brupper.Data.RemoteServices.Exceptions
 
         public ApiException(string message)
             : base(message) { }
+
+        public ApiException()
+            : base() { }
     }
 }

@@ -16,24 +16,37 @@ namespace Brupper.Data
         /// condition and a column to order the results by, and a string parameter lets the 
         /// caller provide a comma-delimited list of navigation properties for eager loading
         /// </summary>
-        /// <param name="filter"> The code Expression<Func<TEntity, bool>> filter means the caller will provide a lambda expression based on the TEntity type, and this expression will return a Boolean value. For example, if the repository is instantiated for the Student entity type, the code in the calling method might specify student => student.LastName == "Smith" for the filter parameter. </param>
-        /// <param name="orderBy"> The code Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy also means the caller will provide a lambda expression. But in this case, the input to the expression is an IQueryable object for the TEntity type. The expression will return an ordered version of that IQueryable object. For example, if the repository is instantiated for the Student entity type, the code in the calling method might specify q => q.OrderBy(s => s.LastName) for the orderBy parameter. </param>
+        /// <param name="filter"> The code Expression{Func{TEntity, bool}} filter means the caller will provide a lambda expression based on the TEntity type, and this expression will return a Boolean value. For example, if the repository is instantiated for the Student entity type, the code in the calling method might specify student => student.LastName == "Smith" for the filter parameter. </param>
+        /// <param name="orderBy"> The code Func{IQueryable{TEntity}, IOrderedQueryable{TEntity}} orderBy also means the caller will provide a lambda expression. But in this case, the input to the expression is an IQueryable object for the TEntity type. The expression will return an ordered version of that IQueryable object. For example, if the repository is instantiated for the Student entity type, the code in the calling method might specify q => q.OrderBy(s => s.LastName) for the orderBy parameter. </param>
         /// <param name="includeProperties"> Lets the caller provide a comma-delimited list of navigation properties for eager loading. </param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "", CancellationToken cancellationToken = default);
+        Task<IEnumerable<TEntity>> GetAsync(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            int? pageSize = null,
+            int pageNumber = 0,
+            string includeProperties = "",
+            CancellationToken cancellationToken = default);
 
+        /// <summary> </summary>
         Task<TEntity> GetByIdAsync(object id);
 
+        /// <summary> </summary>
         Task InsertAsync(TEntity entity);
 
+        /// <summary> </summary>
         Task InsertOrUpdateAsync(TEntity entity);
 
+        /// <summary> </summary>
         Task UpdateAsync(TEntity entityToUpdate);
 
+        /// <summary> </summary>
         Task DeleteAsync(object id);
 
+        /// <summary> </summary>
         Task DeleteAsync(TEntity entityToDelete);
 
-        Task SaveAsync();
+        /// <summary> </summary>
+        Task Revert(TEntity entity);
     }
 }

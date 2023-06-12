@@ -1,13 +1,14 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup Condition=" '$(TargetsToBuild)' == 'All' ">
-    <!--<TargetFramework>monoandroid10.0</TargetFramework>-->
-    <TargetFrameworks>xamarin.ios10;monoandroid10.0;netstandard2.1</TargetFrameworks>
+    <!--<TargetFramework>monoandroid13.0</TargetFramework>-->
+    <!--net6.0;net7.0;net7.0-android;net7.0-ios-->
+    <TargetFrameworks>netstandard2.1;xamarin.ios10;monoandroid13.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetsToBuild)' != 'All' ">
-    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.1;monoandroid10.0;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'iOS' ">netstandard2.1;Xamarin.iOS10</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.1;monoandroid13.0;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'iOS' ">netstandard2.1;xamarin.ios10</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -60,8 +61,7 @@
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.ios')) ">
     <!-- Add Xamarin iOS bindings -->
-    <PackageReference Include="Xamarin.Azure.NotificationHubs.iOS" Version="3.1.1" />
-    <!--<PackageReference Include="Xamarin.Azure.NotificationHubs.iOS" Version="3.1.2" />-->
+    <PackageReference Include="Xamarin.Azure.NotificationHubs.iOS" />
 
     <!-- iOS files have ios.cs -->
     <!--<Compile Include="**\*.ios.cs" />-->
@@ -75,18 +75,18 @@
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
     <!-- Add Xamarin Android bindings -->
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.3.1.3" />
-    <PackageReference Include="Xamarin.AndroidX.Migration" Version="1.0.8" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" />
+    <!--<PackageReference Include="Xamarin.AndroidX.Migration" />-->
 
 
     <!-- Add Xamarin Android bindings in Xamarin.Azure.NotificationHubs.Android -->
-    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" Version="3.0.0.1" />
-    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportRuntime" Version="3.0.1.1" />
-    <PackageReference Include="Xamarin.Firebase.Messaging" Version="122.0.0.3" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Iid" Version="117.0.0.3" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="117.6.0.3" />
-    <PackageReference Include="Xamarin.Android.Volley" Version="1.1.1.1" />
-    <PackageReference Include="Xamarin.Azure.NotificationHubs.Android" Version="1.1.4.1" />
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" />
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportRuntime" />
+    <PackageReference Include="Xamarin.Firebase.Messaging" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Iid" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Base" />
+    <PackageReference Include="Xamarin.Android.Volley" />
+    <PackageReference Include="Xamarin.Azure.NotificationHubs.Android" />
 
     <!-- Android files have android.cs -->
     <!--<Compile Include="**\*.android.cs" />-->
@@ -102,18 +102,19 @@
 
   <!-- There is something not working correctly w.r.t. multi-targetting so adding
     direct reference seems to help get the build to work -->
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.mac')) ">
-    <PackageReference Include="Microsoft.AppCenter" Version="4.4.0" />
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.ios')) ">
+    <PackageReference Include="Microsoft.AppCenter" />
     <Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
-    <PackageReference Include="Microsoft.AppCenter" Version="4.4.0" />
-    <Reference Include="netstandard" />
+    <PackageReference Include="Microsoft.AppCenter" />
+    <!--<Reference Include="netstandard" />-->
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MvvmCross" Version="8.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="MvvmCross" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Xamarin.Essentials" />
   </ItemGroup>
 
   <ItemGroup>

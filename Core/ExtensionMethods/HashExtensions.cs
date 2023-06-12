@@ -55,4 +55,53 @@ public static class HashExtensions
         }
         return result.ToString();
     }
+	
+	    /// <summary> Compute the file's hash. </summary>
+    public static string GetHashSha256OfFile(this string filename) => filename.ComputeHashSha256OfFile().BytesToString();
+
+    /// <summary> Compute the file's hash. </summary>
+    private static byte[] ComputeHashSha256OfFile(this string filename)
+    {
+        using (var stream = File.OpenRead(filename))
+        {
+            // The cryptographic service provider.
+            var sha256 = SHA256.Create();
+
+            return sha256.ComputeHash(stream);
+        }
+    }
+
+    /// <summary> Return a byte array as a sequence of hex values. </summary>
+    private static string BytesToString(this byte[] bytes)
+    {
+        var result = "";
+        foreach (byte b in bytes) result += b.ToString("x2");
+        return result;
+    }
+
+    public static string GetSha256(this string literalToHash)
+    {
+        using (var algorithm = SHA256.Create())
+        {
+            var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(literalToHash));
+            return hash.GetStringFromHash();
+        }
+    }
+
+    public static bool NullOrEmpty(this string value)
+    {
+        return string.IsNullOrEmpty(value);
+    }
+    public static bool NotNullOrEmpty(this string value)
+    {
+        return !string.IsNullOrEmpty(value);
+    }
+    public static bool NullOrWhiteSpace(this string value)
+    {
+        return string.IsNullOrWhiteSpace(value);
+    }
+    public static bool NotNullOrWhiteSpace(this string value)
+    {
+        return !string.IsNullOrWhiteSpace(value);
+    }
 }

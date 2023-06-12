@@ -15,6 +15,12 @@ namespace Brupper.Data.Azure.Entities
 
     public abstract class BaseDataObject : TableEntity, IBaseDataObject
     {
+        public IBaseEntity GenerateId()
+        {
+            RowKey = Guid.NewGuid().ToString();
+            return this;
+        }
+
         [JsonIgnore]
         public abstract string PartitionKeyInternal { get; }
 
@@ -99,6 +105,12 @@ namespace Brupper.Data.Azure.Entities
 
     public abstract class BaseDataObject<T> : TableEntityAdapter<T>, IBaseDataObject
     {
+        public IBaseEntity GenerateId()
+        {
+            RowKey = Guid.NewGuid().ToString();
+            return this;
+        }
+
         [JsonIgnore]
         public abstract string PartitionKeyInternal { get; }
 

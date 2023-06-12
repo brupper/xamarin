@@ -3,31 +3,34 @@
     <Copyright>Copyright (c) .NET Foundation and Contributors</Copyright>
     <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/brupper/xamarin</PackageProjectUrl>
-    <PackageIconUrl>http://i.imgur.com/Kiz9V7T.png</PackageIconUrl>
-    <!--<PackageIcon>icon.png</PackageIcon>
-    <PackageIconFullPath>$(MSBuildThisFileDirectory)icon.png</PackageIconFullPath>-->
+    <PackageIcon>icon.png</PackageIcon>
     <Authors>.NET Foundation and Contributors</Authors>
     <Owners>Brupper;adambarath</Owners>
     <PackageTags>mvvm;mvvmcross;xamarin;android;ios;mac;forms;monodroid;monotouch;xamarin.android;xamarin.ios;xamarin.forms;xamarin.mac;wpf;net;net45;uwp;tizen</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <MinClientVersion>2.12</MinClientVersion>
-	
+
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryUrl>https://github.com/brupper/xamarin</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <Version>0.0.28</Version>
+    <Version>0.0.29</Version>
 
     <!--<Nullable>enable</Nullable>-->
     <LangVersion>latest</LangVersion>
-    <!--<NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;CS0109;CS0108;CS0618;CS0114;NU1603</NoWarn>-->
-    <Platform>AnyCPU</Platform>
-    
+    <ImplicitUsings>false</ImplicitUsings>
+    <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;CS0109;CS0108;CS0618;CS0114;NU1603</NoWarn>
+
     <IsTestProject>$(MSBuildProjectName.Contains('UnitTest'))</IsTestProject>
     <IsLibraryProject>$(MSBuildProjectName.Contains('Brupper'))</IsLibraryProject>
-    <IsXamarinForms>$(MSBuildProjectName.Contains('.Forms'))</IsXamarinForms>
+
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">10.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tvos'">10.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -35,20 +38,20 @@
     <IncludeSymbols>true</IncludeSymbols>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    
+
     <DesignTimeBuild>false</DesignTimeBuild>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
-	
+
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild Condition=" '$(IsTestProject)' != 'true'">true</GeneratePackageOnBuild>
     <PackageOutputPath>$(SolutionDir)\.artifacts</PackageOutputPath>
   </PropertyGroup>
 
-	<PropertyGroup Condition="'$(IsTestProject)' != 'true' and '$(TF_BUILD)' == 'true'">
-	  <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-	  <Deterministic>true</Deterministic>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(IsTestProject)' != 'true' and '$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
@@ -61,22 +64,22 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsLibraryProject)' == 'true'">
-    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="SourceLink.Create.CommandLine" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <TargetsToBuild>All</TargetsToBuild> 
+    <TargetsToBuild>All</TargetsToBuild>
     <!--<TargetsToBuild>Android</TargetsToBuild>-->
-    <!--<TargetsToBuild>Uap</TargetsToBuild>--> 
-    <!--<TargetsToBuild>iOS</TargetsToBuild>--> 
-    <!--<TargetsToBuild>Tizen</TargetsToBuild>--> 
+    <!--<TargetsToBuild>Uap</TargetsToBuild>-->
+    <!--<TargetsToBuild>iOS</TargetsToBuild>-->
+    <!--<TargetsToBuild>Tizen</TargetsToBuild>-->
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' != 'Debug' ">
     <TargetsToBuild>All</TargetsToBuild>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <TargetFrameworkMonikerAssemblyAttributesPath>$([System.IO.Path]::Combine('$(IntermediateOutputPath)','$(TargetFrameworkMoniker).AssemblyAttributes$(DefaultLanguageSourceExtension)'))</TargetFrameworkMonikerAssemblyAttributesPath>
   </PropertyGroup>
@@ -85,18 +88,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Roslynator.Analyzers" Version="3.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="AsyncFixer" Version="1.5.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <!--<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>-->
+    <PackageReference Include="AsyncFixer" />
+    <!--<PackageReference Include="Roslynator.Analyzers" />-->
+    <!--<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" />-->
   </ItemGroup>
 
 </Project>

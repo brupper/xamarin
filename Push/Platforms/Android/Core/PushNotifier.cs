@@ -9,11 +9,12 @@ using Android.OS;
 using Android.Text;
 using AndroidX.Core.App;
 using Brupper.Push.Models;
-using Com.Microsoft.Appcenter.Utils;
 using Java.Lang;
 using Java.Util;
+using Microsoft.AppCenter.Android.Utils;
 using Newtonsoft.Json;
 using System;
+using Xamarin.Essentials;
 
 namespace Brupper.Push.Android
 {
@@ -120,7 +121,7 @@ namespace Brupper.Push.Android
             string notificationTitle = PushIntentUtils.GetTitle(pushIntent);
             if (string.IsNullOrEmpty(notificationTitle))
             {
-                notificationTitle = AppNameHelper.GetAppName(context2);
+                notificationTitle = AppInfo.Name;//AppNameHelper.GetAppName(context2);
             }
             string notificationMessage = PushIntentUtils.GetMessage(pushIntent);
             if ((int)Build.VERSION.SdkInt < 26 || (int)context2.ApplicationInfo.TargetSdkVersion < 26)

@@ -177,7 +177,7 @@ namespace Brupper.Diagnostics
         {
             return Task.Run(() =>
             {
-                var logFileNames = diagnosticsStorage.GetDataFiles(logsFolderPath);
+                var logFileNames = diagnosticsStorage?.GetDataFiles(logsFolderPath) ?? Enumerable.Empty<string>();
                 foreach (var logFileName in logFileNames)
                 {
                     diagnosticsStorage.DeleteFile(logFileName);
@@ -186,13 +186,13 @@ namespace Brupper.Diagnostics
         }
 
         protected virtual string GetAppVersion()
-            => PlatformInformationProvider.GetVersion();
+            => PlatformInformationProvider?.GetVersion();
 
         protected virtual string GetMachineName()
-            => PlatformInformationProvider.GetMachineName();
+            => PlatformInformationProvider?.GetMachineName();
 
         protected virtual string GetOperatingSystem()
-            => string.Format(CultureInfo.InvariantCulture, $"{PlatformInformationProvider.GetPlatform()} {PlatformInformationProvider.GetOSVersion()}");
+            => string.Format(CultureInfo.InvariantCulture, $"{PlatformInformationProvider?.GetPlatform()} {PlatformInformationProvider?.GetOSVersion()}");
 
         protected Task SendFatalExceptionAsync(
             Exception e,

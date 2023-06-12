@@ -5,15 +5,23 @@
     /// </summary>
     public interface IParentWindowLocatorService
     {
-       object GetCurrentParentWindow();
+        object GetCurrentParentWindow();
     }
 
 #if ANDROID
     public class AndroidParentWindowLocatorService : IParentWindowLocatorService
     {
+        public AndroidParentWindowLocatorService()
+        {
+
+        }
+
         public object GetCurrentParentWindow()
         {
-            var activity = MvvmCross.Mvx.IoCProvider.Resolve<MvvmCross.Platforms.Android.IMvxAndroidCurrentTopActivity>().Activity;
+            //var activity = MvvmCross.Mvx.IoCProvider.Resolve<MvvmCross.Platforms.Android.IMvxAndroidCurrentTopActivity>().Activity;
+            //var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+
+            var activity = Plugin.CurrentActivity.CrossCurrentActivity.Current;
             return activity;
         }
     }

@@ -29,7 +29,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'monoandroid10.0'">
-    <DefineConstants>$(DefineConstants);MONO;ANDROID;__ANDROID_29__;</DefineConstants>
+    <DefineConstants>$(DefineConstants);__ANDROID_29__;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('netcoreapp'))">
     <DefineConstants>$(DefineConstants);NETCORE;NETCOREAPP</DefineConstants>
@@ -58,10 +58,10 @@
     <!--<PackageReference Update="Xamarin.Google.Android.Material" Version="1.4.0" />-->
     <!--<PackageReference Update="Xamarin.GooglePlayServices.Location" Version="71.1600.4" />-->
 
-    <PackageReference Update="Microsoft.CodeAnalysis" Version="3.7.0" />
+    <!--<PackageReference Update="Microsoft.CodeAnalysis" />-->
 
-    <PackageReference Update="Newtonsoft.Json" Version="13.*" />
+    <!--<PackageReference Update="Newtonsoft.Json" />-->
 
-    <PackageReference Update="SidebarNavigation" Version="2.1.0" />
+    <!--<PackageReference Update="SidebarNavigation" />-->
   </ItemGroup>
 </Project>
