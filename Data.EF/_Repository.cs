@@ -148,6 +148,13 @@ namespace Brupper.Data.EF
             return context.SaveChangesAsync();
         }
 
+        /// <inheritdoc/>
+        public Task Revert(TEntity entity)
+        {
+            context.Entry(entity).Reload();
+            return Task.CompletedTask;
+        }
+
         #endregion
 
         #region IDisposable implementation

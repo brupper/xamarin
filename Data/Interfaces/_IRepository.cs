@@ -21,25 +21,32 @@ namespace Brupper.Data
         /// <param name="includeProperties"> Lets the caller provide a comma-delimited list of navigation properties for eager loading. </param>
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetAsync(
-            Expression<Func<TEntity, bool>> filter = null, 
+            Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             int? pageSize = null,
             int pageNumber = 0,
-            string includeProperties = "", 
+            string includeProperties = "",
             CancellationToken cancellationToken = default);
 
+        /// <summary> </summary>
         Task<TEntity> GetByIdAsync(object id);
 
+        /// <summary> </summary>
         Task InsertAsync(TEntity entity);
 
+        /// <summary> </summary>
         Task InsertOrUpdateAsync(TEntity entity);
 
+        /// <summary> </summary>
         Task UpdateAsync(TEntity entityToUpdate);
 
+        /// <summary> </summary>
         Task DeleteAsync(object id);
 
+        /// <summary> </summary>
         Task DeleteAsync(TEntity entityToDelete);
 
-        Task SaveAsync();
+        /// <summary> </summary>
+        Task Revert(TEntity entity);
     }
 }

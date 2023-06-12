@@ -134,6 +134,11 @@ namespace Brupper.Data
             return Task.CompletedTask;
         }
 
+        public Task Revert(TEntity entity)
+        {
+            return Task.CompletedTask;
+        }
+
         #endregion
 
         #region IDisposable implementation

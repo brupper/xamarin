@@ -11,6 +11,7 @@ namespace Brupper
     {
         public static void TrackError(this ILogger logger, Exception exception, IDictionary<string, string> properties = null, params ErrorAttachmentLog[] attachments)
         {
+            Debug.WriteLine(exception);
             Crashes.TrackError(exception, properties, attachments);
         }
 
