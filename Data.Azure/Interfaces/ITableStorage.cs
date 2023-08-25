@@ -1,5 +1,8 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
+﻿using Azure.Data.Tables;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 // ReSharper disable once CheckNamespace
@@ -13,7 +16,11 @@ namespace Brupper.Data.Azure
         /// Gets entities by query. 
         /// Supports TakeCount parameter.
         /// </summary>
-        Task<IEnumerable<T>> QueryAsync<T>(TableQuery<T> query) where T : class, ITableEntity, new();
+        Task<IEnumerable<T>> QueryAsync<T>(
+            Expression<Func<T, bool>> filter,
+            int? maxPerPage = null,
+            IEnumerable<string> select = null,
+            CancellationToken cancellationToken = default) where T : class, ITableEntity;
 
         Task<T> GetAsync<T>(string partitionKey, string rowKey) where T : class, ITableEntity;
 
@@ -24,11 +31,11 @@ namespace Brupper.Data.Azure
 
         Task<T> AddAsync<T>(T entity) where T : class, ITableEntity, new();
 
-        /// <summary> Insert a batch of entities. Support adding more than 100 entities. </summary>
-        Task<IEnumerable<T>> AddBatchAsync<T>(IEnumerable<ITableEntity> entities, BatchOperationOptions options) where T : class, ITableEntity, new();
+        // /// <summary> Insert a batch of entities. Support adding more than 100 entities. </summary>
+        // Task<IEnumerable<T>> AddBatchAsync<T>(IEnumerable<ITableEntity> entities, BatchOperationOptions options) where T : class, ITableEntity, new();
 
-        /// <summary> Delete a batch of entities. Support adding more than 100 entities. </summary>
-        Task<IEnumerable<T>> DeleteBatchAsync<T>(IEnumerable<ITableEntity> entities) where T : class, ITableEntity, new();
+        // /// <summary> Delete a batch of entities. Support adding more than 100 entities. </summary>
+        // Task<IEnumerable<T>> DeleteBatchAsync<T>(IEnumerable<ITableEntity> entities) where T : class, ITableEntity, new();
 
         Task<T> UpdateAsync<T>(T entity) where T : class, ITableEntity, new();
 

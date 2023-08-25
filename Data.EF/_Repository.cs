@@ -15,13 +15,14 @@ namespace Brupper.Data.EF
         where TEntity : BaseEntity
     {
         private bool disposed;
+        protected bool tracking = true;
 
-        protected ADataContext context;
+        protected DbContext context;
         protected DbSet<TEntity> dbSet;
 
         #region Constructor
 
-        public Repository(ADataContext context)
+        public Repository(DbContext context)
         {
             this.context = context;
             dbSet = context.Set<TEntity>();
@@ -30,6 +31,20 @@ namespace Brupper.Data.EF
         #endregion
 
         #region IRepository<TEntity> implementation
+
+        ///// <inheritdoc/>
+        //public IRepository<TEntity> WithTracking()
+        //{
+        //    tracking = true;
+        //    return this;
+        //}
+
+        ///// <inheritdoc/>
+        //public IRepository<TEntity> WithoutTracking()
+        //{
+        //    tracking = false;
+        //    return this;
+        //}
 
         /// <inheritdoc/>
         public virtual async Task<IEnumerable<TEntity>> GetAsync(
@@ -40,7 +55,7 @@ namespace Brupper.Data.EF
             string includeProperties = "",
             CancellationToken cancellationToken = default)
         {
-            IQueryable<TEntity> query = dbSet.AsNoTracking();
+            IQueryable<TEntity> query = tracking ? (IQueryable<TEntity>)dbSet : dbSet.AsNoTracking();
 
             cancellationToken.ThrowIfCancellationRequested();
             if (filter != null)
@@ -87,9 +102,21 @@ namespace Brupper.Data.EF
         }
 
         /// <inheritdoc/>
+        public virtual async Task InsertRangeAsync(IEnumerable<TEntity> entities)
+        {
+            context.AddRange(entities);
+            await SaveAsync();
+        }
+
+        /// <inheritdoc/>
         public virtual async Task InsertOrUpdateAsync(TEntity entity)
         {
-            var oldEntity = await dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == entity.Id);
+            var oldEntity = context.ChangeTracker.Entries<TEntity>().FirstOrDefault(x => x.Entity?.Id == entity.Id)?.Entity;
+            if (oldEntity == null)
+            {
+                oldEntity = await dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == entity.Id);
+            }
+
             if (oldEntity == null)
             {
                 await InsertAsync(entity);
@@ -101,10 +128,42 @@ namespace Brupper.Data.EF
         }
 
         /// <inheritdoc/>
+        public virtual async Task UpdateAsync(TEntity entityToUpdate)
+        {
+            if (entityToUpdate?.Id == null)
+            {
+                return;
+            }
+
+            // {"The instance of entity type 'TEntity' cannot be tracked 
+            // because another instance with the same key value for {'Id'}
+            // is already being tracked. When attaching existing entities,
+            // ensure that only one entity instance with a given key value
+            // is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values."}
+            //context.DetachLocal(entityToUpdate);
+
+            // dbSet.Attach(entityToUpdate); method call utan kezdi el trackelni az record-ot...
+            // context.SetModified(entityToUpdate); // update statement that will update all the fields of the entity.
+
+            var current = await GetByIdAsync(entityToUpdate.Id);
+            context.Entry(current).CurrentValues.SetValues(entityToUpdate);
+
+            await SaveAsync();
+        }
+
+
+        /// <inheritdoc/>
         public virtual async Task DeleteAsync(object id)
         {
             TEntity entityToDelete = await dbSet.FindAsync(id);
             await DeleteAsync(entityToDelete);
+        }
+
+        /// <inheritdoc/>
+        public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities)
+        {
+            context.RemoveRange(entities);
+            await SaveAsync();
         }
 
         /// <inheritdoc/>
@@ -127,22 +186,6 @@ namespace Brupper.Data.EF
         }
 
         /// <inheritdoc/>
-        public virtual async Task UpdateAsync(TEntity entityToUpdate)
-        {
-            // {"The instance of entity type 'TEntity' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values."}
-            var x = context.ChangeTracker.Entries<TEntity>().FirstOrDefault(x => x.Entity?.Id == entityToUpdate.Id);
-            if (x?.Entity != null)
-            {
-                context.Entry(x.Entity).State = EntityState.Detached;
-            }
-
-            dbSet.Attach(entityToUpdate);
-            context.SetModified(entityToUpdate);
-
-            await SaveAsync();
-        }
-
-        /// <inheritdoc/>
         public virtual Task SaveAsync()
         {
             return context.SaveChangesAsync();
@@ -154,6 +197,10 @@ namespace Brupper.Data.EF
             context.Entry(entity).Reload();
             return Task.CompletedTask;
         }
+
+        #endregion
+
+        #region Helpers
 
         #endregion
 
@@ -188,5 +235,4 @@ namespace Brupper.Data.EF
 
         #endregion
     }
-
 }
