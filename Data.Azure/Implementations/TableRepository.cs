@@ -1,5 +1,4 @@
 ﻿using Brupper.Data.Azure.Entities;
-using Microsoft.WindowsAzure.Storage;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -276,7 +275,7 @@ namespace Brupper.Data.Azure.Implementations
                 //await Table.PullAsync($"all{Identifier}", Table.CreateQuery());
 
             }
-            catch (StorageException exception)
+            catch (global::Azure.Data.Tables.TableTransactionFailedException exception)
             {
                 Debug.WriteLine(exception);
             }

@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Azure.Data.Tables" />
-    <PackageReference Include="WindowsAzure.Storage" />
+    <!--<PackageReference Include="WindowsAzure.Storage" />-->
     <!--<PackageReference Include="Microsoft.Maui.Essentials" />-->
     <PackageReference Include="Xamarin.Essentials.Interfaces" />
   </ItemGroup>
