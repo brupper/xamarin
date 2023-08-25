@@ -11,6 +11,12 @@ namespace Brupper.Data
     public interface IRepository<TEntity> : IDisposable
         where TEntity : Entities.IBaseEntity
     {
+        // /// <summary> </summary>
+        // IRepository<TEntity> WithTracking();
+        // 
+        // /// <summary> </summary>
+        // IRepository<TEntity> WithoutTracking();
+
         /// <summary>
         /// The method uses lambda expressions to allow the calling code to specify a filter 
         /// condition and a column to order the results by, and a string parameter lets the 
@@ -35,7 +41,15 @@ namespace Brupper.Data
         Task InsertAsync(TEntity entity);
 
         /// <summary> </summary>
+        Task InsertRangeAsync(IEnumerable<TEntity> entities);
+
+        /// <summary> </summary>
         Task InsertOrUpdateAsync(TEntity entity);
+
+        // note that, for the ADD and Remove Functions, we just do the operation on the dbContext object.
+        // But we are not yet commiting/updating/saving the changes to the database whatsover. This is not
+        // something to be done in a Repository Class. We would need Unit of Work Pattern for these cases
+        // where you commit data to the database.
 
         /// <summary> </summary>
         Task UpdateAsync(TEntity entityToUpdate);
@@ -47,6 +61,12 @@ namespace Brupper.Data
         Task DeleteAsync(TEntity entityToDelete);
 
         /// <summary> </summary>
+        Task DeleteRangeAsync(IEnumerable<TEntity> entities);
+
+        /// <summary> </summary>
         Task Revert(TEntity entity);
+
+        /// <summary> </summary>
+        Task SaveAsync();
     }
 }
