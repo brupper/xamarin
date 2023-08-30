@@ -142,6 +142,8 @@ namespace Brupper.Data.EF
             // is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values."}
             //context.DetachLocal(entityToUpdate);
 
+            // pedig ez lenne a helyes eljaras ... 
+            // https://learn.microsoft.com/en-us/aspnet/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
             // dbSet.Attach(entityToUpdate); method call utan kezdi el trackelni az record-ot...
             // context.SetModified(entityToUpdate); // update statement that will update all the fields of the entity.
 
