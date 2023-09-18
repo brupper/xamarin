@@ -1,0 +1,28 @@
+﻿@using Brupper.AspNetCore.Models
+
+@{
+
+}
+
+@*
+    Hack for handling partialview:
+    @section Scripts {} in viewcomponents is ignored and not rendered by Asp.Net rendering engine.
+    So just use at the end of the view component. Also if your jquery scripts are at specified at the end in your layout, then
+    jquery will not be available in your viewcomponents. Of course moving the jquery script to the head section in layout will
+    solve the problem but it is recommended to load the js files at the end.
+    So if you want to keep jquery scripts at the end of layout and still use jquery in viewcomponents, you could use javascript
+    domcontentloaded and any jquery can be written inside domcontentloaded. Not a permanent good approach but works for me.
+*@
+<script>
+    (function() {
+
+        function setup() {
+            showNotification(@Html.Raw((TempData.GetAsString(AjaxNotifcationModel.Key))));
+        }
+
+        // In case the document has finished parsing, document's readyState will be one of "complete", "interactive" or (non-standard) "loaded".
+        if (/complete|interactive|loaded/.test(document.readyState)) { setup(); }
+        // The document is not ready yet, so wait for the DOMContentLoaded event
+        else { document.addEventListener('DOMContentLoaded', function(event) { setup(); }, false); }
+    })();
+</script>

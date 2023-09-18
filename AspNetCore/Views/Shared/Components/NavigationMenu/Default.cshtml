@@ -1,0 +1,50 @@
+﻿@using Brupper.AspNetCore.Models;
+@model List<NavigationMenuViewModel>
+
+@{
+
+}
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars-default" aria-controls="navbars-default" aria-expanded="false">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbars-default">
+    <ul class="navbar-nav mr-auto @*flex-grow-1*@ ">
+
+        @foreach (var item in Model)
+        {
+            if (item.ParentMenuId == null) // Level one items will have null parent id
+            {
+                if (!string.IsNullOrWhiteSpace(item.ControllerName))
+                {
+                    <li class="nav-item active">
+                        <a class="nav-link text" asp-area="@item.AreaName" asp-controller="@item.ControllerName" asp-action="@item.ActionName">@item.Name</a>
+                    </li>
+                }
+
+                var children = Model.Where(x => x.ParentMenuId == item.Id).ToList();
+                if (children != null) // Level one item has children so append them
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-dark dropdown-toggle" href="#" id="navbar-dropdown-@item.Id" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @item.Name
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navbar-dropdown-@item.Id">
+                            @foreach (var child in children)
+                            {
+                                <li>
+                                    <a class="dropdown-item text-dark" asp-area="@child.AreaName" asp-controller="@child.ControllerName" asp-action="@child.ActionName">
+                                        @child.Name
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            }
+        }
+    </ul>
+    @*<partial name="_LoginPartial" />*@
+</div>

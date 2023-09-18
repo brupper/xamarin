@@ -19,6 +19,9 @@ namespace Brupper.Data.EF
 
         public static void DetachAllEntities(this DbContext context)
         {
+            // In this case, Microsoft recommends cleaning the Change tracker instead of detaching the entities individually
+            // TODO: context.ChangeTracker.Clear();
+
             var changedEntriesCopy = context.ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Added ||
                             e.State == EntityState.Modified ||
