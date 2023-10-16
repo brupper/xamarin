@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/brupper/xamarin</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <Version>0.0.31</Version>
+    <Version>0.0.32</Version>
 
     <!--<Nullable>enable</Nullable>-->
     <LangVersion>latest</LangVersion>
