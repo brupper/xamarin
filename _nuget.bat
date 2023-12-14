@@ -1,5 +1,5 @@
 set setApiKey=
-set version=0.0.32
+set version=0.0.33
 
 dotnet nuget push .artifacts/Brupper.AspNetCore.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 dotnet nuget push .artifacts/Brupper.Core.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate

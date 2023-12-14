@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <!--<TargetFramework>netstandard2.1</TargetFramework>-->
-    <!--;net6.0;net7.0;net7.0-android;net7.0-ios-->
+    <!--;net6.0;net7.0;net7.0-android;net7.0-ios;net8.0-->
     <TargetFrameworks>netstandard2.1;xamarin.ios10;monoandroid13.0</TargetFrameworks>
   </PropertyGroup>
   
