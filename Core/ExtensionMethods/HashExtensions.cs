@@ -3,6 +3,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
+namespace Brupper;
+
 public static class HashExtensions
 {
     public static string CreateHashFromFile(this string path)
@@ -37,15 +39,6 @@ public static class HashExtensions
         return sb.ToString();
     }
 
-    public static string GetSha1(this string literalToHash)
-    {
-        using (var algorithm = SHA1.Create())
-        {
-            var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(literalToHash));
-            return hash.GetStringFromHash();
-        }
-    }
-
     private static string GetStringFromHash(this byte[] hash)
     {
         var result = new StringBuilder();
@@ -77,15 +70,6 @@ public static class HashExtensions
         var result = "";
         foreach (byte b in bytes) result += b.ToString("x2");
         return result;
-    }
-
-    public static string GetSha256(this string literalToHash)
-    {
-        using (var algorithm = SHA256.Create())
-        {
-            var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(literalToHash));
-            return hash.GetStringFromHash();
-        }
     }
 
     public static bool NullOrEmpty(this string value)

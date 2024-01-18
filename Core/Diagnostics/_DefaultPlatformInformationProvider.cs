@@ -3,7 +3,7 @@ using Brupper.IO;
 using System;
 using System.IO;
 
-namespace Brupper.Forms.Diagnostics
+namespace Brupper.Maui.Diagnostics
 {
     public class DefaultPlatformInformationProvider : IDiagnosticsPlatformInformationProvider
     {

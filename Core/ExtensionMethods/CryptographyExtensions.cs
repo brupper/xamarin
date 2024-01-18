@@ -3,6 +3,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
+namespace Brupper;
+
 public static class HashHelper
 {
     public static string GetSha512(this string literalToHash)

@@ -2,7 +2,7 @@
 using Brupper.IO;
 using System.IO;
 
-namespace Brupper.Forms.Diagnostics
+namespace Brupper.Maui.Diagnostics
 {
     public class DefaultStorage : AStorage, IDiagnosticsStorage
     {

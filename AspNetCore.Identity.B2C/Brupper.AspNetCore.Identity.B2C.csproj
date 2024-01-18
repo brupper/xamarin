@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Diagnostics" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" />
+    <PackageReference Include="Microsoft.Identity.Web" />
+    <PackageReference Include="Microsoft.Graph.Auth" />
+    <!--TODO: <PackageReference Include="Azure.Identity" />-->
+    <!--<PackageReference Include="Microsoft.Graph.Beta" />-->
+    <PackageReference Include="Microsoft.Identity.Web.UI" />
+    <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" />
+    <PackageReference Include="Microsoft.Graph.Auth" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Identity.B2C\Brupper.Identity.B2C.csproj" />
+  </ItemGroup>
+
+</Project>

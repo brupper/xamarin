@@ -1,0 +1,30 @@
+﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Name="This"
+             x:Class="Brupper.Maui.Views.AutoCompleteView">
+    <ContentView.Content>
+        <StackLayout Spacing="0">
+            <StackLayout x:Name="SuggestedItemsContainerTop" IsVisible="false" BackgroundColor="Transparent" Margin="0,0,0,-1">
+
+            </StackLayout>
+
+            <Entry 
+                x:Name="MainEntry"
+                Keyboard="Plain"
+                FontSize="{Binding FontSize, Source={x:Reference This}}"
+                Style="{Binding EntryStyle, Source={x:Reference This}}"
+                Placeholder="{Binding Placeholder, Source={x:Reference This}}"
+                PlaceholderColor="{Binding PlaceholderTextColor, Source={x:Reference This}}"
+                TextColor="{Binding TextColor, Source={x:Reference This}}"
+                Text="{Binding FilterText, Source={x:Reference This}}"
+                TextChanged="SearchText_TextChanged" Focused="SearchText_FocusChanged" Unfocused="SearchText_FocusChanged"
+            />
+            <BoxView x:Name="EntryLine" HeightRequest="1" Color="{Binding TextColor, Source={x:Reference This}}" HorizontalOptions="Fill" IsVisible="false" />
+            <StackLayout x:Name="SuggestedItemsContainerBottom" IsVisible="false" BackgroundColor="Transparent" Margin="0,-1,0,0">
+                <Frame x:Name="SuggestedItemsOuterContainer" BackgroundColor="White" HasShadow="false" Padding="0">
+                    <StackLayout x:Name="SuggestedItemsRepeaterView" />
+                </Frame>
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>  
