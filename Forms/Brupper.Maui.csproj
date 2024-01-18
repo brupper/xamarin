@@ -1,16 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!--<TargetFramework>netstandard2.1</TargetFramework>-->
-    <TargetFrameworks>net6.0;net7.0;net7.0-android;net7.0-ios</TargetFrameworks>
+    <TargetFrameworks>net8.0;net8.0-android;net8.0-ios</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>Brupper.Forms</AssemblyName>
-    <RootNamespace>Brupper.Forms</RootNamespace>
-    <Description>This package contains Brupper to use with Xamarin.Forms</Description>
-    <PackageId>Brupper.Forms</PackageId>
-    <GenerateLibraryLayout Condition=" $(TargetFramework.StartsWith('net6.0-windows')) ">true</GenerateLibraryLayout>
+    <AssemblyName>Brupper.Maui</AssemblyName>
+    <RootNamespace>Brupper.Maui</RootNamespace>
+    <Description>This package contains Brupper to use with Maui</Description>
+    <PackageId>Brupper.Maui</PackageId>
+    <GenerateLibraryLayout Condition=" $(TargetFramework.StartsWith('net8.0-windows')) ">true</GenerateLibraryLayout>
+
+    <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +22,7 @@
     <None Include="readme.md" Pack="true" PackagePath="." />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard'))  OR $(TargetFramework.StartsWith('net6'))  OR $(TargetFramework.StartsWith('net7'))">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard'))  OR $(TargetFramework.StartsWith('net6')) OR $(TargetFramework.StartsWith('net7')) OR $(TargetFramework.StartsWith('net8')) ">
     <Compile Include="Platforms\Netstandard\**\*.cs" />
   </ItemGroup>
 
@@ -61,14 +62,14 @@
     <PackageReference Include="Xamarin.Google.Android.Material" />-->
   </ItemGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows')) OR $(TargetFramework.StartsWith('net7.0-windows')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows')) OR $(TargetFramework.StartsWith('net7.0-windows')) OR $(TargetFramework.StartsWith('net8-windows')) ">
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>MvvmCross</RootNamespace>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows')) OR $(TargetFramework.StartsWith('net7.0-windows')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows')) OR $(TargetFramework.StartsWith('net7.0-windows'))  OR $(TargetFramework.StartsWith('net8-windows')) ">
     <Compile Include="Platforms\Windows\**\*.cs" />
     <Compile Include="Platforms\WinUi\**\*.cs" />
     <Page Include="Platforms\WinUi\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />

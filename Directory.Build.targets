@@ -1,29 +1,29 @@
 <Project>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net6.0-ios'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-ios'))">
     <DefineConstants>$(DefineConstants);MONO;UIKIT;COCOA;APPLE;IOS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net6.0-macos'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-macos'))">
     <DefineConstants>$(DefineConstants);MONO;COCOA;APPLE;MAC</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net6.0-maccatalyst'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-maccatalyst'))">
     <DefineConstants>$(DefineConstants);MONO;COCOA;APPLE;IOS;MACCATALYST</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net6.0-tvos'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-tvos'))">
     <DefineConstants>$(DefineConstants);MONO;COCOA;APPLE;TVOS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net6.0-android'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-android'))">
     <DefineConstants>$(DefineConstants);MONO;ANDROID</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Roslynator.Analyzers">
+    <!--<PackageReference Include="Roslynator.Analyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="AsyncFixer">
+    </PackageReference>-->
+    <!--<PackageReference Include="AsyncFixer">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    </PackageReference>-->
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
