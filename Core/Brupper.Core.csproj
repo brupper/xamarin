@@ -1,18 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
   </PropertyGroup>
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.ios')) ">
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Fakers\names.json" />
