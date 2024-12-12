@@ -1,44 +1,44 @@
 <Project>
   <ItemGroup>
-    <PackageVersion Include="AutoMapper" Version="11.0.0" />
+    <PackageVersion Include="AutoMapper" Version="13.0.1" />
     <PackageVersion Include="AsyncFixer" Version="1.6.0" />
-    <PackageVersion Include="Azure.Data.Tables" Version="12.8.0" />
-    <PackageVersion Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
-    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageVersion Include="CommunityToolkit.Maui" Version="7.0.1" />
-    <PackageVersion Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
+    <PackageVersion Include="Azure.Data.Tables" Version="12.9.1" />
+    <PackageVersion Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageVersion Include="CommunityToolkit.Maui" Version="9.1.1" />
+    <PackageVersion Include="CommunityToolkit.Maui.Markup" Version="5.1.0" />
     <PackageVersion Include="SkiaSharp.Svg" Version="1.60.0" />
-    <PackageVersion Include="SkiaSharp.Views.Maui.Controls.Compatibility" Version="2.88.7" />
+    <PackageVersion Include="SkiaSharp.Views.Maui.Controls.Compatibility" Version="2.88.9" />
     <PackageVersion Include="WindowsAzure.Storage" Version="9.3.3" />
-    <PackageVersion Include="Microsoft.AppCenter" Version="5.0.3" />
-    <PackageVersion Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
-    <PackageVersion Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+    <PackageVersion Include="Microsoft.AppCenter" Version="5.0.6" />
+    <PackageVersion Include="Microsoft.AppCenter.Analytics" Version="5.0.6" />
+    <PackageVersion Include="Microsoft.AppCenter.Crashes" Version="5.0.6" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Identity.Client" Version="4.52.0" />
-    <!--<PackageVersion Include="Microsoft.Maui.Dependencies" Version="8.0.6" />-->
-    <!--<PackageVersion Include="Microsoft.Maui.Extensions" Version="8.0.6" />-->
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Identity.Client" Version="4.66.2" />
+    <!--<PackageVersion Include="Microsoft.Maui.Dependencies" Version="9.0.0" />-->
+    <!--<PackageVersion Include="Microsoft.Maui.Extensions" Version="9.0.0" />-->
     <!--<PackageVersion Include="Microsoft.Maui.Essentials.Ref.any" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Controls.Ref.any" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Essentials.Ref.android" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Controls.Ref.android" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Essentials.Ref.ios" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Controls.Ref.ios" Version="7.0.59" />-->
-    <PackageVersion Include="Microsoft.Maui.Essentials" Version="8.0.6" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.6" />
+    <PackageVersion Include="Microsoft.Maui.Essentials" Version="9.0.14" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.14" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
     <PackageVersion Include="Moq" Version="4.18.4" />
-    <PackageVersion Include="MvvmCross" Version="9.1.1" />
+    <PackageVersion Include="MvvmCross" Version="9.3.0-alpha.104" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageVersion Include="FFImageLoadingCompat.Maui" Version="0.1.1" />
@@ -54,12 +54,12 @@
     <PackageVersion Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageVersion Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageVersion Include="Serilog.Sinks.Xamarin" Version="1.0.0" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.17.0.82934" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.3.0.106239" />
     <PackageVersion Include="SourceLink.Create.CommandLine" Version="2.8.3" />
-    <PackageVersion Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageVersion Include="sqlite-net-pcl" Version="1.9.172" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageVersion Update="SidebarNavigation" Version="2.1.0" />
-    <PackageVersion Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.3" />
+    <PackageVersion Include="Xamarin.AndroidX.AppCompat" Version="1.7.0.4" />
     <PackageVersion Include="Xamarin.AndroidX.AppCompat.AppCompatResources" Version="1.5.0" />
     <PackageVersion Include="Xamarin.AndroidX.CardView" Version="1.0.0.16" />
     <PackageVersion Include="Xamarin.AndroidX.ExifInterface" Version="1.3.3.2" />
@@ -73,12 +73,12 @@
     <PackageVersion Include="Xamarin.AndroidX.SwipeRefreshLayout" Version="1.1.0.10" />
     <PackageVersion Include="Xamarin.AndroidX.ViewPager" Version="1.0.0.15" />
     <PackageVersion Include="Xamarin.AndroidX.Migration" Version="1.0.10" />
-    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" Version="3.0.0.1" />
-    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportRuntime" Version="3.0.1.1" />
-    <PackageVersion Include="Xamarin.Firebase.Messaging" Version="122.0.0.3" />
-    <PackageVersion Include="Xamarin.GooglePlayServices.Iid" Version="117.0.0.3" />
-    <PackageVersion Include="Xamarin.GooglePlayServices.Base" Version="117.6.0.3" />
-    <PackageVersion Include="Xamarin.Android.Volley" Version="1.1.1.1" />
+    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" Version="4.0.0.1" />
+    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportRuntime" Version="4.0.0.1" />
+    <PackageVersion Include="Xamarin.Firebase.Messaging" Version="124.1.0" />
+    <PackageVersion Include="Xamarin.GooglePlayServices.Iid" Version="117.0.0.19" />
+    <PackageVersion Include="Xamarin.GooglePlayServices.Base" Version="118.5.0.3" />
+    <PackageVersion Include="Xamarin.Android.Volley" Version="1.2.1.14" />
     <PackageVersion Include="Xamarin.Azure.NotificationHubs.Android" Version="1.1.4.1" />
     <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2578" />
     <PackageVersion Include="Xamarin.CommunityToolkit" Version="2.0.6" />
@@ -94,11 +94,11 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
     <!--<PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />-->
     <!--<PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />-->
-    <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Identity.Web" Version="2.16.1" />
-    <PackageVersion Include="Microsoft.Graph.Auth" Version="1.0.0-preview.6" />
-    <PackageVersion Include="Microsoft.Identity.Web.UI" Version="2.16.1" />
-    <PackageVersion Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.16.1" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Identity.Web" Version="3.5.0" />
+    <PackageVersion Include="Microsoft.Graph.Auth" Version="1.0.0-preview.7" />
+    <PackageVersion Include="Microsoft.Identity.Web.UI" Version="3.5.0" />
+    <PackageVersion Include="Microsoft.Identity.Web.MicrosoftGraph" Version="3.5.0" />
     <PackageVersion Include="Azure.Identity" Version="1.8.2" />
     <!--5.29.0-preview-->
     <PackageVersion Include="Microsoft.Graph.Beta" Version="4.27.0-preview" />

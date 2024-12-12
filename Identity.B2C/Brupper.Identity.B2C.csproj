@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net8.0-android;net8.0-ios</TargetFrameworks>
+    <TargetFrameworks>net9.0;net9.0-android;net9.0-ios</TargetFrameworks>
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
@@ -14,13 +14,20 @@
     <Compile Remove="B2CAuthenticationService.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp'))  OR $(TargetFramework.StartsWith('net6'))  OR $(TargetFramework.StartsWith('net7')) OR $(TargetFramework.StartsWith('net8'))">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) OR $(TargetFramework.StartsWith('net8')) OR $(TargetFramework.StartsWith('net9'))">
     <PackageReference Include="Microsoft.Identity.Client" />
     <Compile Remove="B2CAuthenticationService.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) or $(TargetFramework.EndsWith('android'))">
     <PackageReference Include="Plugin.CurrentActivity" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
