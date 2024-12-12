@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Reflection;
 
+namespace Brupper;
+
 public static class AssemblyExtensions
 {
     public static string GetEmbeddedResourceFromResourcesAsString(this string fileName, Assembly assembly, string defaultPath = null /*"Brupper.Core.Resources"*/)

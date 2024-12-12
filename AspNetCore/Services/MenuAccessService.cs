@@ -14,9 +14,8 @@ public class MenuAccessService : IMenuAccessService
 
     public async Task<IEnumerable<NavigationMenuViewModel>> GetMenuItemsAsync(ClaimsPrincipal? principal)
     {
-        var items = await Task.WhenAll(dataAccessServices.Select(x => x.GetMenuItemsAsync(principal)));
+        var items = await Task.WhenAll(dataAccessServices.Select(x => x.GetMenuItemsAsync(principal))) ?? new IEnumerable<NavigationMenuViewModel>[0];
 
-        // TODO: order
-        return items?.SelectMany(x => x)?.ToList() ?? new();
+        return items.SelectMany(x => x).OrderBy(x=>x.ParentMenuId).ThenBy(x=>x.Id).ToList();
     }
 }

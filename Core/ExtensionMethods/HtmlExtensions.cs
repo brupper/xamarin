@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 
+namespace Brupper;
+
 public static class HtmlExtensions
 {
     public static string MakeImageSrcData(this string filename)

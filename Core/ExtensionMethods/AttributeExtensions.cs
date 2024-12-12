@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+namespace Brupper;
+
 public static class AttributeExtensions
 {
     public static TValue GetAttributeValue<TAttribute, TValue>(

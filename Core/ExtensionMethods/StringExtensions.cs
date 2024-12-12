@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+namespace Brupper;
+
 public static class StringExtensions
 {
     //   - The following reserved characters:
