@@ -24,7 +24,7 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <IsTrimmable>false</IsTrimmable>
-    
+
 
     <IsTestProject>$(MSBuildProjectName.Contains('UnitTest'))</IsTestProject>
     <IsLibraryProject>$(MSBuildProjectName.Contains('Brupper'))</IsLibraryProject>
@@ -67,7 +67,11 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IncludeSymbols>true</IncludeSymbols>
+
+    <!-- This will make the symbols available on NuGet.org symbol server, where the debugger can download it from when needed. -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
     <DesignTimeBuild>false</DesignTimeBuild>

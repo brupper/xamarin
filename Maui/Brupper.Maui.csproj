@@ -121,10 +121,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Diagnostics\AppCenter\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Update="SonarAnalyzer.CSharp">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
