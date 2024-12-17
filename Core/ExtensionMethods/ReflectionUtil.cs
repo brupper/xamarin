@@ -10,9 +10,9 @@ public static class ReflectionUtil
     /// <summary> . </summary>
     public static string GetEmbeddedResourceFromResourcesAsString(this string fileName, Type typeInAssembly)
     {
-        var assembly = typeInAssembly.GetTypeInfo().Assembly;
+        var assembly = typeInAssembly.Assembly;
         using (var stream = assembly.GetManifestResourceStream(fileName)) // $"... .Data.Resources.{fileName}"
-        using (var reader = new StreamReader(stream))
+        using (var reader = new StreamReader(stream ?? new MemoryStream()))
         {
             var stringContent = reader.ReadToEnd();
             return stringContent;
@@ -26,7 +26,7 @@ public static class ReflectionUtil
         using (var stream = assembly.GetManifestResourceStream(fileName)) // $"... .Data.Resources.{fileName}"
         {
             var ms = new MemoryStream();
-            stream.CopyTo(ms);
+            stream?.CopyTo(ms);
             ms.Position = 0;
             ms.Seek(0, SeekOrigin.Begin);
             return ms;

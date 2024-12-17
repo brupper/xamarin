@@ -16,7 +16,7 @@
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) OR $(TargetFramework.StartsWith('net8')) OR $(TargetFramework.StartsWith('net9'))">
     <PackageReference Include="Microsoft.Identity.Client" />
-    <Compile Remove="B2CAuthenticationService.cs" />
+    <Compile Include="B2CAuthenticationService.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) or $(TargetFramework.EndsWith('android'))">

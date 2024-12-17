@@ -1,6 +1,5 @@
 ﻿using Brupper.Identity.B2C.Models;
 using Microsoft.Identity.Client;
-using MvvmCross;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,22 +12,13 @@ using System.Threading.Tasks;
 namespace B2C
 {
     /// <summary> For simplicity, we'll have this as a singleton.  </summary>
-    public class B2CAuthenticationService
+    public sealed class B2CAuthenticationService
     {
-        #region Singleton like...
-
-        private static readonly Lazy<B2CAuthenticationService> lazy = new Lazy<B2CAuthenticationService>(() => new B2CAuthenticationService());
-
-        public static B2CAuthenticationService Instance => lazy.Value;
-
-        #endregion
-
         private readonly IB2CSettings settings;
         private readonly IPublicClientApplication publicClientApplication;
 
-        private B2CAuthenticationService()
+        public B2CAuthenticationService(IB2CSettings settings, IParentWindowLocatorService windowLocatorService)
         {
-            var settingsFound = Mvx.IoCProvider.TryResolve<IB2CSettings>(out var settings);
             this.settings = settings;
 
             // default redirectURI; each platform specific project will have to override it with its own
@@ -41,7 +31,6 @@ namespace B2C
             // iOS implementation would require to expose the current ViewControler - not currently implemented as it is not required
             // UWP does not require this
 
-            Mvx.IoCProvider.TryResolve<IParentWindowLocatorService>(out var windowLocatorService);
             if (windowLocatorService != null)
             {
                 builder = builder.WithParentActivityOrWindow(() =>

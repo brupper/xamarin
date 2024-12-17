@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Resources;
 
-namespace InspEx.Data.Localization.ResxLocalization
+namespace Brupper.Localization.ResxLocalization
 {
     public class ResxTextProvider : ITextProvider
     {
