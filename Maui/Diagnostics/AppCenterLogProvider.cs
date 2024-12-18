@@ -30,7 +30,7 @@ public class AppCenterLogProvider : IAppCenterLogProvider, ILogProvider
 
     public AppCenterLogProvider()
     {
-        Initialize().ConfigureAwait(false);
+        InitializeAsync().ConfigureAwait(false);
     }
 
     #endregion
@@ -126,7 +126,7 @@ public class AppCenterLogProvider : IAppCenterLogProvider, ILogProvider
 
     #region Private Methods
 
-    private async Task Initialize()
+    private async Task InitializeAsync()
     {
         try
         {
