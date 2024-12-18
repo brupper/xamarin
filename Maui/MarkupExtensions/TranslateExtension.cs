@@ -1,4 +1,5 @@
-﻿using Brupper.Maui.Services;
+﻿using Brupper.Localization;
+using Brupper.Maui.Services;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Xaml;
 

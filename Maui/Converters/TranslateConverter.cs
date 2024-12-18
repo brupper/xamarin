@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Controls;
+﻿using Brupper.Localization;
+using Microsoft.Maui.Controls;
 using System.Globalization;
 
 namespace Brupper.Maui.Converters;

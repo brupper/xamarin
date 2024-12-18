@@ -1,6 +1,6 @@
 ﻿//using Foundation;
 //using MvvmCross.Binding.BindingContext;
-//using MvvmCross.Navigation;
+//using Brupper.Maui.Services;
 //using MvvmCross.Platforms.Ios.Views;
 //using MvvmCross.ViewModels;
 //using System;

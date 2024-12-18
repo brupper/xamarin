@@ -36,7 +36,7 @@ public static class ServiceRegister
 
 public static class MauiProgramExtensions
 {
-    public static MauiAppBuilder UseBrupperUI(this MauiAppBuilder builder)
+    public static MauiAppBuilder UseBrupperMaui(this MauiAppBuilder builder)
     {
         builder.ConfigureMauiHandlers(handlers =>
         {
@@ -45,10 +45,10 @@ public static class MauiProgramExtensions
 
         var services = builder.Services;
 
-        
+        services.AddSingleton<INavigationService, MauiNavigationService>();
 
-        services.AddSingleton<IConnectivity, ConnectivityService>();
-        services.AddSingleton<IFileSystem, FileSystemService>();
+        // services.AddSingleton<IConnectivity, ConnectivityService>();
+        // services.AddSingleton<IFileSystem, FileSystemService>();
 
         services.AddSingleton<IDiagnosticsPlatformInformationProvider>(_ => _.GetService<IPlatformInformationService>());
         services.AddSingleton<IDiagnosticsStorage, FormsStorage>();

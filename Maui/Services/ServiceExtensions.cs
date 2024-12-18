@@ -4,7 +4,7 @@ namespace Brupper.Maui.Services;
 
 public static class ServiceProvider
 {
-    public static TService GetService<TService>()
+    public static TService? GetService<TService>()
         => Current.GetService<TService>();
 
     public static IServiceProvider Current
@@ -16,6 +16,6 @@ public static class ServiceProvider
 #elif IOS || MACCATALYST
             Microsoft.Maui.MauiUIApplicationDelegate.Current.Services;
 #else
-            null;
+            throw new PlatformNotSupportedException("Brupper.Maui.Services.Current con not be resolved");
 #endif
 }

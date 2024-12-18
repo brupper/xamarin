@@ -33,7 +33,7 @@ Create your own VMs:
     {
         protected BaseViewModel(
             ILoggerFactory logProvider,
-            IMvxNavigationService navigationService)
+            INavigationService navigationService)
             : base(logProvider, navigationService)
         { }
 
@@ -44,7 +44,7 @@ Create your own VMs:
     {
         protected BaseViewModel(
             ILoggerFactory logProvider,
-            IMvxNavigationService navigationService)
+            INavigationService navigationService)
             : base(logProvider, navigationService)
         { }
 
@@ -67,7 +67,7 @@ Create your own VMs:
     {
         #region Constructors
 
-        public ViewModelResultBase(ILoggerFactory logProvider, IMvxNavigationService navigationService)
+        public ViewModelResultBase(ILoggerFactory logProvider, INavigationService navigationService)
             : base(logProvider, navigationService)
         { }
 
