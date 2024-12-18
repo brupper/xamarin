@@ -45,7 +45,7 @@ public static class MauiProgramExtensions
 
         var services = builder.Services;
 
-        services.AddSingleton<INavigationService, MauiNavigationService>();
+        // services.AddSingleton<INavigationService, MauiNavigationService>();
 
         // services.AddSingleton<IConnectivity, ConnectivityService>();
         // services.AddSingleton<IFileSystem, FileSystemService>();

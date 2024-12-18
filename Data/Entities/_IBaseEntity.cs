@@ -32,18 +32,18 @@ namespace Brupper.Data.Entities
         private static readonly PropertyChangedEventArgs AllPropertiesChanged = new PropertyChangedEventArgs(string.Empty);
 
 
-        public virtual void RaisePropertyChanged([CallerMemberName] string whichProperty = "")
+        public virtual void OnPropertyChanged([CallerMemberName] string whichProperty = "")
         {
             var changedArgs = new PropertyChangedEventArgs(whichProperty);
-            RaisePropertyChanged(changedArgs);
+            OnPropertyChanged(changedArgs);
         }
 
         public virtual void RaiseAllPropertiesChanged()
         {
-            RaisePropertyChanged(AllPropertiesChanged);
+            OnPropertyChanged(AllPropertiesChanged);
         }
 
-        public virtual void RaisePropertyChanged(PropertyChangedEventArgs changedArgs)
+        public virtual void OnPropertyChanged(PropertyChangedEventArgs changedArgs)
         {
             PropertyChanged?.Invoke(this, changedArgs);
         }
@@ -77,7 +77,7 @@ namespace Brupper.Data.Entities
             }
 
             storage = value;
-            RaisePropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             return true;
         }
 

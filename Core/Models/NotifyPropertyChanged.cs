@@ -10,18 +10,18 @@ namespace Brupper.Core.Models
         private static readonly PropertyChangedEventArgs AllPropertiesChanged = new PropertyChangedEventArgs(string.Empty);
 
 
-        public virtual void RaisePropertyChanged([CallerMemberName] string whichProperty = "")
+        public virtual void OnPropertyChanged([CallerMemberName] string whichProperty = "")
         {
             var changedArgs = new PropertyChangedEventArgs(whichProperty);
-            RaisePropertyChanged(changedArgs);
+            OnPropertyChanged(changedArgs);
         }
 
         public virtual void RaiseAllPropertiesChanged()
         {
-            RaisePropertyChanged(AllPropertiesChanged);
+            OnPropertyChanged(AllPropertiesChanged);
         }
 
-        public virtual void RaisePropertyChanged(PropertyChangedEventArgs changedArgs)
+        public virtual void OnPropertyChanged(PropertyChangedEventArgs changedArgs)
         {
             PropertyChanged?.Invoke(this, changedArgs);
         }
@@ -55,7 +55,7 @@ namespace Brupper.Core.Models
             }
 
             storage = value;
-            RaisePropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             return true;
         }
 
