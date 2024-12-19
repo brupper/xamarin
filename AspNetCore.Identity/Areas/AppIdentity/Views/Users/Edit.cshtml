@@ -1,0 +1,15 @@
+@model UserEditViewModel
+
+@{
+    ViewData["Title"] = Labels.user_edit;
+}
+
+<main class="container-xxl py-2 mx-auto" role="main">
+    <div class="align-items-center p-3 my-3 bg-body rounded shadow-sm">
+        <partial name="_FormCreatePartial" model="Model" />
+    </div>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

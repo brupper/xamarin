@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Brupper.AspNetCore.Caching;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,8 @@ public static class BrupperModule
         services.RegistertServices();
         services.RegistertRemoteServices();
         services.RegistertMapper();
+
+        services.WithMemoryCache();
     }
 
     private static void RegistertRepositories(this IServiceCollection services)

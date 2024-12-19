@@ -1,0 +1,24 @@
+using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
+using Brupper.Data.EF.Contexts;
+using Microsoft.EntityFrameworkCore;
+
+namespace Brupper.AspNetCore.Identity.Areas.AppIdentity.Contexts;
+
+public class TenantDataContext(DbContextOptions<TenantDataContext> options)
+    : ADataContext(options)
+{
+    public DbSet<Tenant> Tenants { get; set; } = default!;
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        var modelBuilder = builder.Entity<Tenant>();
+        modelBuilder.ToContainer("tenants");
+        modelBuilder.HasPartitionKey(o => o.PartitionKey);
+        modelBuilder.HasKey(o => o.Id);
+
+        var l = modelBuilder.OwnsMany(p => p.Licences);
+        // l.HasKey(x => x.Id); // nem unique, nem kell => .HasKey(x => x.Id);
+
+        base.OnModelCreating(builder);
+    }
+}

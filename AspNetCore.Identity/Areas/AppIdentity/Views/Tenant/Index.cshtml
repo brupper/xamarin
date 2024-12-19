@@ -1,0 +1,105 @@
+@model TenantListViewModel
+
+@{
+    ViewData["Title"] = Labels.tenants_title;
+    var placeHolderInstance = new TenantViewModel();
+
+    ViewData["back-url"] = Url.Action("index", "users", new { area = ViewContext.RouteData.Values["Area"]?.ToString(), });
+}
+
+@section Header {
+    <div class="header-container d-flex justify-content-center align-items-center">
+        <partial name="~/Views/Shared/_SearchPartial.cshtml" />
+        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal-create-tenant"><i class="fa-solid fa-plus"></i> @Labels.tenant_create</button>
+    </div>
+}
+
+<main class="container-xxl py-2 mx-auto" role="main">
+    <div class="align-items-center p-3 my-3 bg-body rounded shadow-sm">
+        <table class="table table-hover" data-datatable data-datatable-options='{ }'>
+            <thead>
+                <tr>
+                    <th data-sortable="false" data-orderable="false" data-targets="0" data-searchable="false">&nbsp;</th>
+                    <th data-sortable="false" data-orderable="false" data-targets="0">&nbsp;</th>
+                    <th data-sortable="false" data-orderable="false" data-targets="0" data-searchable="false">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 1;
+                }
+                @foreach (var item in Model.Items)
+                {
+                    <tr data-id="@item.PrimaryKey">
+                        <td class="ps-4"> <span class="fs-3 fw-500" style="color: #6F7785;">#@(i++.ToString("D2"))</span> </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <span class="fs-3 fw-500"> @item.Name </span>
+                                    <br>
+                                    <span class="fs-5"> @item.Zip @item.City @(string.IsNullOrWhiteSpace(item.Address) ? "" : ",") @item.Address @item.Number </span>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="btn-group float-end">
+                                <a asp-action="Edit" asp-route-id="@item.PrimaryKey" class="btn" title="@Labels.general_edit">
+                                    <i style="color: #6F7785; font-size: 20px;" class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                                <button type="button" asp-action="Delete" asp-route-id="@item.PrimaryKey" class="btn" title="@Labels.general_delete" data-bs-toggle="modal" data-bs-target="#delete-@item.PrimaryKey-modal" data-rowkey="@item.PrimaryKey">
+                                    <i style="color: #6F7785; font-size: 20px;" class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+
+                            <partial name="__ModalDeletePartial" model="@(new Brupper.AspNetCore.Models.GeneralDeleteViewModel{ PrimaryKey = item.PrimaryKey, SummaryText = item.Name })" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div id="modal-create-tenant" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Labels.tenant_create</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="create-tenant-form">
+                    <form asp-action="edit">
+
+                        <partial name="_FormCreatePartial" model="(new TenantViewModel(){ Modules = TenantController.DefaultModules.ToList() })" />
+
+                        <div class="d-flex justify-content-left align-items-center pt-5 pb-2 gap-2">
+                            <button type="submit" class="btn btn-primary"> @Labels.general_save_close</button>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-secondary"> @Labels.general_cancel</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        $(function () {
+            setupDatatablesFilter(function (searchViewModel) { $('[data-datatable]').DataTable().search(searchViewModel.filterText).draw(); });
+
+            kendo.bind('#create-tenant-form', kendo.observable({
+                samePostalAddress: true,
+                samePostalAddressChanged: function () { },
+            }));
+        });
+
+    </script>
+}

@@ -1,0 +1,9 @@
+@page
+@model AccessDeniedModel
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    ViewData["Title"] = Labels.user_accessdenied_title;
+}
+
+<h1 class="text-danger">@ViewData["Title"]</h1>
+<p class="text-danger text-center">@Labels.user_accessdenied_desc</p>
