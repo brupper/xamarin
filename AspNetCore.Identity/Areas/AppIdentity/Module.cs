@@ -96,7 +96,7 @@ public static class Module
             );
 
 #if DEBUG
-            /*
+            // /*
             contextOptionsBuilder.EnableSensitiveDataLogging(true);
             contextOptionsBuilder.LogTo(Console.WriteLine);
             contextOptionsBuilder.LogTo(text => System.Diagnostics.Debug.WriteLine(text));

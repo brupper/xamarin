@@ -12,10 +12,12 @@ public static class DefaultUsers
 {
     #region Default data
 
+    internal const string DefaultPassword = "asdfgh1234";
+
     internal static List<Tenant> DefaultTenants { get; } = new() {
         new()
         {
-            Id = "00000000-0000-0000-0000-000000000001",
+            Id = "AAAAAAAA-0000-0000-0000-111111111111",
             PartitionKey = "seed",
             Contact = "Baráth Ádám",
             Name = "Brupper Gp.",
@@ -29,6 +31,23 @@ public static class DefaultUsers
             PostalCity = "Jánoshida",
             PostalAddress = "Petőfi Sándor utca",
             PostalNumber = "3.",
+        },
+        new()
+        {
+            Id = "00000000-0000-0000-0000-000000000002",
+            PartitionKey = "seed",
+            Contact = "Bota Ádám",
+            Name = "Volmer-Tours Kft.",
+            Email = "info@rolitura.hu",
+            Phone = "+36-70-278-6852",
+            Zip = "9200",
+            City = "Mosonmagyaróvár",
+            Address = "Gyári út",
+            Number = "29.",
+            PostalZip = "9200",
+            PostalCity = "Mosonmagyaróvár",
+            PostalAddress = "Gyári út",
+            PostalNumber = "29.",
         },
         /*
         new()
@@ -70,6 +89,28 @@ public static class DefaultUsers
         // */
         };
 
+    internal static List<IdentityUser> DefaultUserSeed { get; } =
+    [
+        new ("adambarath@msn.com")
+        {
+            Id = "11111111-1111-1111-1111-000000000001",
+            Name = "adambarath@msn.com",
+            UserName = "adambarath@msn.com",
+            Email = "adambarath@msn.com",
+            EmailConfirmed = true,
+            TenantId = DefaultTenants[0].Id,
+        },
+        new ("adam.bota@rolitura.com")
+        {
+            Id = "11111111-1111-1111-1111-000000000002",
+            UserName = "adam.bota@rolitura.com",
+            Email = "adam.bota@rolitura.com",
+            EmailConfirmed = true,
+            PhoneNumberConfirmed = true,
+            TenantId = DefaultTenants[0].Id,
+        },
+    ];
+
     #endregion
 
     public static async Task InitAndSeedDatabaseAsync(this IServiceProvider services)
@@ -91,8 +132,8 @@ public static class DefaultUsers
         {
             //await SeedTenantsAsync(services, userManager, roleManager);
             //await SeedRolesAsync(userManager, roleManager);
-            //await SeedBasicUserAsync(userService, userManager, roleManager);
-            await SeedSuperAdminAsync(userService, userManager, roleManager);
+            //await SeedBasicUsersAsync(userService, userManager, roleManager);
+            //await SeedSuperAdminAsync(userService, userManager, roleManager);
 
             logger.LogInformation("Finished Seeding Default Data");
             logger.LogInformation("Application Starting");
@@ -119,63 +160,44 @@ public static class DefaultUsers
 
     public static async Task SeedRolesAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
-        var roles = new HashSet<string>(await roleManager.Roles.Select(x => x.Name).ToListAsync(), StringComparer.OrdinalIgnoreCase);
-        var rolesToInsert = Roles.AllRoleNames.Where(r => !roles.Contains(r)).ToList();
+        var roles = new HashSet<string>(await roleManager.Roles.Select(x => x.Name!).ToListAsync(), StringComparer.OrdinalIgnoreCase);
+        var rolesToInsert = Roles.AllRoles.Where(r => !roles.Contains(r.Name!)).ToList();
 
-        foreach (var roleName in rolesToInsert)
+        foreach (var identityRole in rolesToInsert)
         {
-            var identityRole = new IdentityRole(roleName);
             await roleManager.CreateAsync(identityRole);
-            await roleManager.AddClaimAsync(identityRole, new Claim(Claims.Role, roleName));
+            await roleManager.AddClaimAsync(identityRole, new Claim(Claims.Role, identityRole.Name!));
         }
     }
 
-    public static async Task SeedBasicUserAsync(IUserService userService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    public static async Task SeedBasicUsersAsync(IUserService userService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
-        //Seed Default User
-        var defaultUser = new IdentityUser
+        //Seed Default Users
+        foreach (var defaultUser in DefaultUserSeed)
         {
-            Id = "11111111-1111-1111-1111-000000000002",
-            UserName = "adam.rolitura@gmail.com",
-            Email = "adam.rolitura@gmail.com",
-            EmailConfirmed = true,
-            PhoneNumberConfirmed = true,
-            TenantId = DefaultTenants[0].Id,
-        };
-        if ((await userManager.Users.ToListAsync()).All(u => u.Id != defaultUser.Id))
-        {
-            var user = await userManager.FindByEmailAsync(defaultUser.Email);
-            if (user == null)
+            if ((await userManager.Users.ToListAsync()).All(u => u.Id != defaultUser.Id))
             {
-                await userManager.CreateAsync(defaultUser, "12345");
-                await userManager.AddToRoleAsync(defaultUser, Roles.RegularUser);
+                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                if (user == null)
+                {
+                    await userManager.CreateAsync(defaultUser, DefaultPassword);
+                    await userManager.AddToRoleAsync(defaultUser, Roles.RegularUser);
+                }
             }
         }
     }
 
     private static async Task SeedSuperAdminAsync(IUserService userService, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
-        var defaultUser = new IdentityUser("adambarath@msn.com")
+        var defaultUser = DefaultUserSeed[0];
+
+        var user = await userManager.FindByEmailAsync(defaultUser.Email);
+        if (user != null)
         {
-            //Id = "11111111-1111-1111-1111-000000000001",
-            Name = "adambarath@msn.com",
-            UserName = "adambarath@msn.com",
-            Email = "adambarath@msn.com",
-            EmailConfirmed = true,
-            TenantId = DefaultTenants[0].Id,
-        };
-        if ((await userManager.Users.ToListAsync()).All(u => u.Id != defaultUser.Id))
-        {
-            var user = await userManager.FindByEmailAsync(defaultUser.Email);
-            if (user == null)
-            {
-                await userService.CreateAsync(new() { Email = defaultUser.Email, Name = defaultUser.Name, TenantId = DefaultTenants[0].Id, });
-                await userManager.AddToRoleAsync(defaultUser, Roles.RegularUser);
-                await userManager.AddToRoleAsync(defaultUser, Roles.TenantAdmin);
-                await userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin);
-            }
-            await roleManager.SeedClaimsForSuperAdmin();
+            await userManager.AddToRoleAsync(defaultUser, Roles.TenantAdmin);
+            await userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin);
         }
+        await roleManager.SeedClaimsForSuperAdmin();
     }
 
     private static async Task SeedClaimsForSuperAdmin(this RoleManager<IdentityRole> roleManager)

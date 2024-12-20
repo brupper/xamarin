@@ -2,6 +2,7 @@
 
 namespace Brupper.AspNetCore;
 
+
 public interface IBrandContextAccessor
 {
     Task<string?> GetBrandIdAsync();
@@ -9,4 +10,11 @@ public interface IBrandContextAccessor
     Task<IEnumerable<string>> GetBrandIdsAsync();
 
     Task<EmailCommunicationServiceConfig> GetBrandEmailConfigurationAsync();
+}
+
+public interface IBrandContextAccessor<TEntity> : IBrandContextAccessor
+{
+    Task<TEntity?> GetBrandContextAsync();
+
+    Task<IEnumerable<TEntity>> GetBrandsAsync();
 }
