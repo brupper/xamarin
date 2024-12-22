@@ -16,6 +16,11 @@
     <RepositoryType>git</RepositoryType>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <Version>0.9.0</Version>
+    <!--By default, GitInfo will also set `$(Version)` and `$(PackageVersion)` which the .NET
+    SDK uses for deriving the AssemblyInfo, FileVersion and InformationalVersion values,
+    as well as for packing. This default version is formatted from the following populated
+    MSBuild properties: `$(GitSemVerMajor).$(GitSemVerMinor).$(GitSemVerPatch)$(GitSemVerDashLabel)+$(GitBranch).$(GitCommit)`.-->
+    <!--<GitVersion>false</GitVersion>-->
 
     <!--<Nullable>enable</Nullable>-->
     <LangVersion>latest</LangVersion>

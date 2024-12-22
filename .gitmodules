@@ -1,3 +1,6 @@
 [submodule "azure-notificationhubs-xamarin"]
 	path = azure-notificationhubs-xamarin
 	url = https://github.com/Azure/azure-notificationhubs-xamarin.git
+[submodule "AspNetCore.SmartBreadcrumbs"]
+	path = AspNetCore.SmartBreadcrumbs
+	url = ../../adambarath/SmartBreadcrumbs.git
