@@ -1,30 +1,26 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Communication;
 
 public class IdentityEmailService<TUser>(
-        IEmailSender sender,
-        UserManager<TUser> userManager,
-        IHttpContextAccessor contextAccessor,
-        LinkGenerator generator,        
-        TokenUrlEncoderService encoder
-    )
-    : IEmailSender<TUser> 
-        where TUser : class
+    IEmailSender<TUser> sender,
+    UserManager<TUser> userManager,
+    IHttpContextAccessor contextAccessor,
+    LinkGenerator generator,
+    IUrlHelper urlHelper,
+    TokenUrlEncoderService encoder) where TUser : class
 {
-    internal const string Path = "Brupper.AspNetCore.Identity.Resources.MessageTemplates";
-    internal const string ActivationTemplate = "AccountActivationMessage.html";
-    internal const string PasswordRecoveryTemplate = "PasswordReminderMessage.html";
-
     #region Properties
 
-    public IEmailSender EmailSender { get; } = sender;
+    public IEmailSender<TUser> EmailSender { get; } = sender;
     public UserManager<TUser> UserManager { get; } = userManager;
     public IHttpContextAccessor ContextAccessor { get; } = contextAccessor;
     public LinkGenerator LinkGenerator { get; } = generator;
+    public IUrlHelper Url { get; } = urlHelper;
     public TokenUrlEncoderService TokenEncoder { get; } = encoder;
 
     #endregion
@@ -56,16 +52,10 @@ public class IdentityEmailService<TUser>(
 
         var url = GetUrl(email, token, confirmationPage); // HtmlEncoder.Default.Encode(callbackUrl)
 
-        var template = PasswordRecoveryTemplate.GetEmbeddedResourceFromResourcesAsString(this.GetType().Assembly, Path);
-        template = template.Replace("__passwordResetLink__", url);
-
-        await EmailSender.SendEmailAsync(email,
-            "[BRAND] új jelszó beállítása",
-            template);
+        await EmailSender.SendPasswordResetLinkAsync(user, email, url);
     }
 
-    /// <inheritdoc/>
-    public async Task SendConfirmationLinkAsync(TUser userReference, string email, string confirmationPage)
+    public async Task SendAccountConfirmEmail(string email, string confirmationPage)
     {
         var user = await UserManager.FindByEmailAsync(email);
         if (user == null
@@ -80,20 +70,6 @@ public class IdentityEmailService<TUser>(
 
         var url = GetUrl(email, token, confirmationPage);
 
-        var template = ActivationTemplate.GetEmbeddedResourceFromResourcesAsString(this.GetType().Assembly, Path);
-        template = template.Replace("__confirmationEmailLink__", url);
-
-        await EmailSender.SendEmailAsync(email,
-            "[BRAND] fiók aktiválás",
-            template);
+        await EmailSender.SendConfirmationLinkAsync(user, email, url);
     }
-
-    /// <inheritdoc/>
-    public Task SendPasswordResetCodeAsync(TUser user, string email, string resetCode)
-        => SendPasswordRecoveryEmail(email, "Identity/Account/ResetPassword");
-
-    /// <inheritdoc/>
-    public Task SendPasswordResetLinkAsync(TUser user, string email, string resetLink)
-        => SendPasswordRecoveryEmail(email, "Identity/Account/ResetPassword");
 }
-

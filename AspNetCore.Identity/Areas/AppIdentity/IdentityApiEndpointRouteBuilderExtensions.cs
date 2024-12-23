@@ -5,17 +5,27 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 
 namespace Microsoft.AspNetCore.Routing;
 
-partial class IdentityApiEndpointRouteBuilderExtensions
+internal static class IdentityApiEndpointRouteBuilderExtensions
 {
-    internal static void MapInfoUrl<TUser>(this IEndpointRouteBuilder endpoints)
+    internal static IEndpointRouteBuilder MapInfoUrl<TUser>(this IEndpointRouteBuilder endpoints)
         where TUser : class, new()
     {
-        endpoints.MapGet("/detailedinfo", async Task<Results<Ok<DetailedInfoResponse>, ValidationProblem, NotFound>>
+        var routeGroup = endpoints.MapGroup("");
+        var accountGroup = routeGroup.MapGroup("/manage").RequireAuthorization();
+        accountGroup.MapGet("/pingauth", (ClaimsPrincipal user) =>
+        {
+            var email = user.FindFirstValue(ClaimTypes.Email); // get the user's email from the claim
+            return Results.Json(new { Email = email });
+            ; // return the email as a plain text response
+        }).RequireAuthorization();
+
+        accountGroup.MapGet("/detailedinfo", async Task<Results<Ok<DetailedInfoResponse>, ValidationProblem, NotFound>>
             (ClaimsPrincipal claimsPrincipal, [FromServices] IServiceProvider sp) =>
         {
             var userManager = sp.GetRequiredService<UserManager<TUser>>();
@@ -27,6 +37,7 @@ partial class IdentityApiEndpointRouteBuilderExtensions
             return TypedResults.Ok(await CreateDetailedInfoResponseAsync(user, userManager, sp));
         });
 
+        return endpoints;
     }
 
     private static async Task<DetailedInfoResponse> CreateDetailedInfoResponseAsync<TUser>(TUser user, UserManager<TUser> userManager, IServiceProvider sp)

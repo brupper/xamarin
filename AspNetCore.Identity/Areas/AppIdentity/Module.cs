@@ -1,6 +1,8 @@
+using Administration.Identity.Areas.AppIdentity;
 using AspNetCore.Identity.CosmosDb.Extensions;
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.Contexts;
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
+using Brupper.AspNetCore.Identity.Areas.AppIdentity.Filters;
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.MapperProfiles;
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.Models;
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.Repositories;
@@ -8,6 +10,7 @@ using Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Communication;
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users;
 using Brupper.AspNetCore.Identity.Permission;
 using Brupper.AspNetCore.Identity.Services;
+using Brupper.AspNetCore.Services.Communication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +24,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 using IdentityConstants = Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users.IdentityConstants;
 
@@ -30,12 +34,14 @@ public static class Module
 {
     public static IEndpointRouteBuilder MapAppIdentityArea(this IEndpointRouteBuilder endpoints)
     {
+        endpoints
+            .MapGroup("/api")
+            .MapInfoUrl<User>()
+            .MapCustomIdentityApi<User>();
+
         endpoints.MapControllerRoute(
                 name: AreaConstants.AreaName,
                 pattern: "{area:exists}/{controller=home}/{action=index}/{id?}");
-
-        // https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/IdentityApiEndpointRouteBuilderExtensions.cs
-        endpoints.MapGroup($"api/{AreaConstants.AreaName}").MapIdentityApiTEMP<User>();
 
         return endpoints;
     }
@@ -64,7 +70,8 @@ public static class Module
         services.AddAuthorization(options =>
         {
             options.FallbackPolicy = options.DefaultPolicy;
-            options.AddPolicy(IdentityConstants.AuthorizationPolicy, policy => policy.RequireRole(IdentityConstants.Roles.SuperAdmin, IdentityConstants.Roles.TenantAdmin));
+            options.AddPolicy(IdentityConstants.AuthorizationPolicy, policy => policy.RequireAuthenticatedUser()  /*jelenleg nincs korlatozva a menupont, mivel egy cegen belül mindenki menedzselheti a usereit. */ );
+            // majd igy kapcsold vissza => options.AddPolicy(IdentityConstants.AuthorizationPolicy, policy => policy.RequireRole(IdentityConstants.Roles.SuperAdmin, IdentityConstants.Roles.TenantAdmin) );
             options.AddPolicy(IdentityConstants.Roles.SuperAdmin, policy => policy.RequireRole(IdentityConstants.Roles.SuperAdmin));
         });
 
@@ -96,7 +103,7 @@ public static class Module
             );
 
 #if DEBUG
-            // /*
+            /*
             contextOptionsBuilder.EnableSensitiveDataLogging(true);
             contextOptionsBuilder.LogTo(Console.WriteLine);
             contextOptionsBuilder.LogTo(text => System.Diagnostics.Debug.WriteLine(text));
@@ -112,8 +119,8 @@ public static class Module
 
         services.AddDbContext<IdentityDataContext>();
 
-
         //services.AddIdentityApiEndpoints<User>(); //duplicate scheme Microsoft.AspNetCore.Identity.IdentityConstants.BearerAndApplicationScheme
+        //TODO: services.AddCosmosIdentityCore<IdentityDataContext, User, IdentityRole>(
         services.AddCosmosIdentity<IdentityDataContext, User, IdentityRole, string>(
             opts =>
             {
@@ -124,11 +131,13 @@ public static class Module
                 opts.Password.RequireNonAlphanumeric = false;
                 opts.SignIn.RequireConfirmedAccount = false;
                 opts.SignIn.RequireConfirmedEmail = false;
-            }
+            },
+            cookieExpireTimeSpan: TimeSpan.FromDays(7),
+            slidingExpiration: true
         )
             // https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/IdentityBuilderExtensions.cs#L94
-            .AddApiEndpoints() // Adds configuration and services needed to support <see cref="IdentityApiEndpointRouteBuilderExtensions.MapIdentityApi{TUser}(IEndpointRouteBuilder)"/>
-            
+            // .AddApiEndpoints() // Adds configuration and services needed to support <see cref="IdentityApiEndpointRouteBuilderExtensions.MapIdentityApi{TUser}(IEndpointRouteBuilder)"/>
+
             .AddEntityFrameworkStores<IdentityDataContext>()
             .AddDefaultUI()
             .AddDefaultTokenProviders()
@@ -152,7 +161,8 @@ public static class Module
         //Microsoft.AspNetCore.Authorization.DefaultAuthorizationService
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-        services.AddTransient<IAuthorizationHandler, Filters.AuthorizationHandler>();
+        services.AddTransient<IAuthorizationHandler, AuthorizationHandler>();
+
     }
 
     private static void RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
@@ -173,12 +183,20 @@ public static class Module
             var factory = x.GetRequiredService<IUrlHelperFactory>();
             return factory.GetUrlHelper(actionContext);
         });
-        services.AddScoped<IdentityEmailService<User>>();
+        services.AddTransient<IdentityEmailService<User>>();
 
-        //Microsoft.AspNetCore.Authorization.DefaultAuthorizationService
-        services.AddScoped<IEmailSender<User>, IdentityEmailService<User>>();
-        services.AddScoped<IEmailSender, EmailSender>();
         // services.AddScoped<IEmailSender, ConsoleEmailSender>();
+        services.AddTransient<IEmailSender, EmailSender>();
+        services.AddTransient<Microsoft.AspNetCore.Identity.IEmailSender<User>, EmailSender>();  // ... .MapIdentityApi<>() needs transient services
+
+        var buildSettings = new Func<IConfiguration, EmailCommunicationServiceConfig>(_ =>
+        {
+            var settings = _.GetSection("mail").Get<EmailCommunicationServiceConfig>();
+
+            return settings;
+        });
+        // igy lenne a legszebb: services.AddOptions<CrmWebApiSettings>().Bind(configuration.GetSection("D365"));
+        services.AddTransient<IOptions<EmailCommunicationServiceConfig>>(p => new OptionsWrapper<EmailCommunicationServiceConfig>(buildSettings(configuration)));
     }
 
     private static void RegistertMapper(this IServiceCollection services)

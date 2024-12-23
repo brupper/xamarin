@@ -56,6 +56,13 @@ public class UsersController : AAreaController
 
         var allUsersExceptCurrentUser = (await userManager.Users.ToListAsync()).AsQueryable();
 
+        if (!isSuperAdmin)
+        {
+            allUsersExceptCurrentUser = allUsersExceptCurrentUser
+                .Where(x => x.TenantId == currentUser!.TenantId)
+                .AsQueryable();
+        }
+
         var userModels = mapper.ProjectTo<UserEditViewModel>(allUsersExceptCurrentUser).ToList();
         userModels.ForEach(model => model.Tenants = tenants.ToList());
 
@@ -106,7 +113,7 @@ public class UsersController : AAreaController
 
             userExists = await userManager.FindByEmailAsync(model.Email);
 
-            await emailSender.SendConfirmationLinkAsync(userExists, model.Email, "Identity/Account/ResetPassword");
+            await emailSender.SendAccountConfirmEmail(model.Email, "Identity/Account/ResetPassword");
 
             return RedirectToAction(nameof(Index));
         }
@@ -177,7 +184,7 @@ public class UsersController : AAreaController
                 return RedirectToAction(nameof(Index));
             }
 
-            await emailSender.SendConfirmationLinkAsync(user, user.Email, "Identity/Account/ResetPassword");
+            await emailSender.SendAccountConfirmEmail(user.Email, "Identity/Account/ResetPassword");
 
             TempData.Put(AjaxNotifcationModel.Key, AjaxNotifcationModel.Success(Labels.general_signin_password_verificationsent));
         }
@@ -308,6 +315,6 @@ public class UsersController : AAreaController
 
         var tenants = await tenantRepository.GetAsync(t => isSuperAdmin || t.Id == tenantId);
 
-        return tenants;
+        return [.. tenants.OrderBy(x => x.Name)];
     }
 }

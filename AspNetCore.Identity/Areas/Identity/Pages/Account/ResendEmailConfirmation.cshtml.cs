@@ -86,7 +86,7 @@ public class ResendEmailConfirmationModel<TUser> : ResendEmailConfirmationModel 
             return Page();
         }
 
-        await _emailSender.SendConfirmationLinkAsync(user, Input.Email, "Identity/Account/ResetPassword");
+        await _emailSender.SendAccountConfirmEmail(Input.Email, "Identity/Account/ResetPassword");
 
         ModelState.AddModelError(string.Empty, Labels.general_signin_password_verificationsent);
         return Page();
