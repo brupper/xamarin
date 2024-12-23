@@ -1,28 +1,27 @@
 ﻿using Brupper.Core.Models;
 using System;
 
-namespace Brupper.Data.Entities
+namespace Brupper.Data.Entities;
+
+public interface IBaseEntity
 {
-    public interface IBaseEntity
-    {
-        string Id { get; }
+    string Id { get; }
 
-        IBaseEntity GenerateId();
+    IBaseEntity GenerateId();
+}
+
+public class BaseEntity : NotifyPropertyChanged, IBaseEntity
+{
+    public BaseEntity()
+    {
+        GenerateId();
     }
 
-    public class BaseEntity : NotifyPropertyChanged, IBaseEntity
+    public IBaseEntity GenerateId()
     {
-        public BaseEntity()
-        {
-            GenerateId();
-        }
-
-        public IBaseEntity GenerateId()
-        {
-            Id = Guid.NewGuid().ToString();
-            return this;
-        }
-
-        public virtual string Id { get; set; }
+        Id = Guid.NewGuid().ToString();
+        return this;
     }
+
+    public virtual string Id { get; set; }
 }

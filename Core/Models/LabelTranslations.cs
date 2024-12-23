@@ -11,10 +11,17 @@ public class LabelTranslation
     public string LanguageCode { get; set; } = default!;
 
     public string? Text { get; set; }
+
+    public LabelTranslation GenerateId()
+    {
+        Id = System.Guid.NewGuid().ToString();
+        return this;
+    }
 }
 
 /// <summary> </summary>
 [System.Diagnostics.DebuggerDisplay("{Id,nq} - {DefaultValue,nq}")]
+// [Keyless]
 public class TranslatableLabel
 {
     public string Id { get; set; } = default!;
@@ -22,4 +29,10 @@ public class TranslatableLabel
     public string? DefaultValue { get; set; }
 
     public List<LabelTranslation>? LabelTranslations { get; set; } = [];
+
+    public TranslatableLabel GenerateId()
+    {
+        Id = System.Guid.NewGuid().ToString();
+        return this;
+    }
 }

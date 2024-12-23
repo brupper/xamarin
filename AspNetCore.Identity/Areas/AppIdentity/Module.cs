@@ -135,8 +135,9 @@ public static class Module
             cookieExpireTimeSpan: TimeSpan.FromDays(7),
             slidingExpiration: true
         )
+
             // https://github.com/dotnet/aspnetcore/blob/main/src/Identity/Core/src/IdentityBuilderExtensions.cs#L94
-            // .AddApiEndpoints() // Adds configuration and services needed to support <see cref="IdentityApiEndpointRouteBuilderExtensions.MapIdentityApi{TUser}(IEndpointRouteBuilder)"/>
+            .AddApiEndpoints() // Adds configuration and services needed to support <see cref="IdentityApiEndpointRouteBuilderExtensions.MapIdentityApi{TUser}(IEndpointRouteBuilder)"/>
 
             .AddEntityFrameworkStores<IdentityDataContext>()
             .AddDefaultUI()
