@@ -3,10 +3,13 @@ using System;
 
 namespace Brupper.Data.Entities;
 
-public interface IBaseEntity
+public interface IEntity
 {
     string Id { get; }
+}
 
+public interface IBaseEntity : IEntity
+{
     IBaseEntity GenerateId();
 }
 
