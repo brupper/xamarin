@@ -3,7 +3,7 @@ using CommunityToolkit.Diagnostics;
 
 namespace Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
 
-public class BaseEntity : Brupper.Data.Entities.BaseEntity
+public class BaseEntity : Brupper.Data.Entities.EntityAggregate
 {
     [Required]
     public virtual string PartitionKey { get; set; } = default!;
@@ -19,7 +19,7 @@ public class BaseEntity : Brupper.Data.Entities.BaseEntity
         PartitionKey = partitionKey;
     }
 
-    public BaseEntity() : base() { PartitionKey = "identity"; } // generates Id a.k.a. PrimaryKey
+    public BaseEntity() : base() { PartitionKey = "identity"; }
 
     #endregion
 

@@ -15,6 +15,7 @@ public class TenantDataContext(DbContextOptions<TenantDataContext> options)
         modelBuilder.ToContainer("tenants");
         modelBuilder.HasPartitionKey(o => o.PartitionKey);
         modelBuilder.HasKey(o => o.Id);
+        modelBuilder.Property(o => o.Id).ValueGeneratedOnAdd();
 
         var l = modelBuilder.OwnsMany(p => p.Licences);
         // l.HasKey(x => x.Id); // nem unique, nem kell => .HasKey(x => x.Id);

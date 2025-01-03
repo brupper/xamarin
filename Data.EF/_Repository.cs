@@ -1,5 +1,4 @@
-﻿using Brupper.Data.EF.Contexts;
-using Brupper.Data.Entities;
+﻿using Brupper.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace Brupper.Data.EF
 {
     /// <inheritdoc/>
     public class Repository<TEntity> : IRepository<TEntity>, IDisposable
-        where TEntity : BaseEntity
+        where TEntity : EntityAggregate, IEntityAggregate
     {
         private bool disposed;
         protected bool tracking = true;

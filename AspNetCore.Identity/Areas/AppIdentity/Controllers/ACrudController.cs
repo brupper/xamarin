@@ -13,7 +13,7 @@ namespace Brupper.AspNetCore.Identity.Areas.AppIdentity.Controllers;
 [Area(AreaConstants.AreaName)]
 public abstract class ACrudController<TRepository, TEntity, TViewModel, TListViewModel, TListItemViewModel, TEditViewModel, TDetailsViewModel>
     : Brupper.AspNetCore.Controllers.ACrudController<TRepository, TEntity, TViewModel, TListViewModel, TListItemViewModel, TEditViewModel, TDetailsViewModel>
-    where TEntity : BaseEntity, new()
+    where TEntity : EntityAggregate, new()
     where TViewModel : class, new()
     where TListItemViewModel : class, new()
     where TListViewModel : ListViewModel<TListItemViewModel>, new()
