@@ -92,21 +92,4 @@ public static class HashExtensions
         foreach (byte b in bytes) result += b.ToString("x2");
         return result;
     }
-
-    public static bool NullOrEmpty(this string? value)
-    {
-        return string.IsNullOrEmpty(value);
-    }
-    public static bool NotNullOrEmpty(this string? value)
-    {
-        return !string.IsNullOrEmpty(value);
-    }
-    public static bool NullOrWhiteSpace(this string? value)
-    {
-        return string.IsNullOrWhiteSpace(value);
-    }
-    public static bool NotNullOrWhiteSpace(this string? value)
-    {
-        return !string.IsNullOrWhiteSpace(value);
-    }
 }
