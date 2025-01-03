@@ -201,9 +201,50 @@ namespace Brupper.Data.EF
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
+        public Task RevertAsync(TEntity entity)
+        {
+            return context.Entry(entity).ReloadAsync();
+        }
+
         #endregion
 
         #region Helpers
+
+        public virtual async Task<TEntity> FirstOrDefault(
+           Expression<Func<TEntity, bool>> filter = null,
+           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+           string includeProperties = "",
+           CancellationToken cancellationToken = default)
+        {
+            return (await GetAsync(filter, orderBy, 1, 0, includeProperties, cancellationToken)).FirstOrDefault();
+        }
+
+        public virtual async Task<int> Count(
+            Expression<Func<TEntity, bool>> filter = null,
+            CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> queryable = dbSet.AsNoTracking();
+            cancellationToken.ThrowIfCancellationRequested();
+            if (filter != null)
+            {
+                queryable = queryable.Where(filter);
+            }
+            return await queryable.CountAsync(cancellationToken);
+        }
+
+        public virtual async Task<bool> Any(
+            Expression<Func<TEntity, bool>> filter = null,
+            CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> queryable = dbSet.AsNoTracking();
+            cancellationToken.ThrowIfCancellationRequested();
+            if (filter != null)
+            {
+                queryable = queryable.Where(filter);
+            }
+            return (await queryable.CountAsync(cancellationToken)) > 0;
+        }
 
         #endregion
 

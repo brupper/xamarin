@@ -47,8 +47,30 @@ public static class HashExtensions
         }
         return result.ToString();
     }
-	
-	    /// <summary> Compute the file's hash. </summary>
+
+    /// <summary> Compute the stream's hash. </summary>
+    public static string GetHashSha256OfFile(this Stream stream) => stream.ComputeHashSha256OfFile().BytesToString();
+
+    /// <summary> Compute the file's hash. </summary>
+    private static byte[] ComputeHashSha256OfFile(this Stream stream)
+    {
+        var originalPosition = stream.Position;
+        stream.Seek(0, SeekOrigin.Begin);
+
+        try
+        {
+            // The cryptographic service provider.
+            var sha256 = SHA256.Create();
+
+            return sha256.ComputeHash(stream);
+        }
+        finally
+        {
+            stream.Seek(originalPosition, SeekOrigin.Begin);
+        }
+    }
+
+    /// <summary> Compute the file's hash. </summary>
     public static string GetHashSha256OfFile(this string filename) => filename.ComputeHashSha256OfFile().BytesToString();
 
     /// <summary> Compute the file's hash. </summary>
@@ -71,19 +93,19 @@ public static class HashExtensions
         return result;
     }
 
-    public static bool NullOrEmpty(this string value)
+    public static bool NullOrEmpty(this string? value)
     {
         return string.IsNullOrEmpty(value);
     }
-    public static bool NotNullOrEmpty(this string value)
+    public static bool NotNullOrEmpty(this string? value)
     {
         return !string.IsNullOrEmpty(value);
     }
-    public static bool NullOrWhiteSpace(this string value)
+    public static bool NullOrWhiteSpace(this string? value)
     {
         return string.IsNullOrWhiteSpace(value);
     }
-    public static bool NotNullOrWhiteSpace(this string value)
+    public static bool NotNullOrWhiteSpace(this string? value)
     {
         return !string.IsNullOrWhiteSpace(value);
     }
