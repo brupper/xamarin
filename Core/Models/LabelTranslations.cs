@@ -6,6 +6,19 @@ namespace Brupper;
 [System.Diagnostics.DebuggerDisplay("{Id,nq} - {LanguageCode,nq}")]
 public class LabelTranslation
 {
+    public LabelTranslation() { }
+    public LabelTranslation(string id, string code, string text)
+    {
+        Id = id;
+        LanguageCode = code;
+        Text = text;
+    }
+    public LabelTranslation(string code, string text)
+    {
+        LanguageCode = code;
+        Text = text;
+    }
+
     public string Id { get; set; } = default!;
 
     public string LanguageCode { get; set; } = default!;

@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="AspNetCore.Identity.CosmosDb" />
-    <PackageReference Include="GitInfo" />
+    <!--<PackageReference Include="GitInfo" />-->
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" />

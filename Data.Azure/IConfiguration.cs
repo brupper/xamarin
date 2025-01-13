@@ -1,7 +1,8 @@
-﻿namespace Brupper.Data.Azure
+﻿namespace Brupper.Data.Azure;
+
+public interface IConfiguration
 {
-    public interface IConfiguration
-    {
-        string AzureTableConnectionString { get; }
-    }
+    string SasToken { get; set; }
+    string TablesSasToken { get; set; }
+    string BlobSasToken { get; set; }
 }
