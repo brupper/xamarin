@@ -2,6 +2,7 @@ set setApiKey=
 set version=0.9.1
 
 dotnet nuget push .artifacts/Brupper.AspNetCore.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
+dotnet nuget push .artifacts/Brupper.AspNetCore.Breadcrumbs.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 dotnet nuget push .artifacts/Brupper.AspNetCore.Identity.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 dotnet nuget push .artifacts/Brupper.AspNetCore.Identity..B2C.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 dotnet nuget push .artifacts/Brupper.Core.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
