@@ -20,11 +20,11 @@ public abstract class ABaseTestFixtureGeneric<TSubject, TTestEnvironment> : ASer
         ClearAll();
     }
 
-    public virtual TTestEnvironment GetEnvironment()
+    public virtual TTestEnvironment CreateEnvironment()
     {
         var env = Activator.CreateInstance<TTestEnvironment>();
 
-        env.SetupEnvironment(HostEnvironment);
+        HostEnvironment = env.SetupEnvironment();
 
         return env;
     }
