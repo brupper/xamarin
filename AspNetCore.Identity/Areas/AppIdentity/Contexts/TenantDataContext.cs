@@ -1,12 +1,19 @@
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
 using Brupper.Data.EF.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Brupper.AspNetCore.Identity.Areas.AppIdentity.Contexts;
 
 public class TenantDataContext(DbContextOptions<TenantDataContext> options)
     : ADataContext(options)
 {
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        //  https://aka.ms/ef-cosmos-nosync
+        optionsBuilder.ConfigureWarnings(w => w.Ignore(CosmosEventId.SyncNotSupported));
+    }
+
     public DbSet<Tenant> Tenants { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder builder)
