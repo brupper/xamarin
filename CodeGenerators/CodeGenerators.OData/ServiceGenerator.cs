@@ -1,13 +1,15 @@
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using OData.Generators.Templates;
 
 namespace OData.Generators;
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public class ServiceGenerator : ISourceGenerator
 {
     public void Initialize(GeneratorInitializationContext context)
@@ -15,7 +17,7 @@ public class ServiceGenerator : ISourceGenerator
         //#if DEBUG
         //        if (!Debugger.IsAttached){Debugger.Launch();}
         //#endif
-        Debug.WriteLine("Initalize code generator");
+        Debug.WriteLine("Initialize code generator");
 
         context.RegisterForSyntaxNotifications(() => new AttributeSyntaxReceiver<GenerateServiceAttribute>());
     }
@@ -87,7 +89,7 @@ public class ServiceGenerator : ISourceGenerator
                 $"{symbol.Name}{templateParameter ?? "Controller"}.g.cs",
                 SourceText.From(sourceCode, Encoding.UTF8));
 
-            Console.WriteLine(classSyntax);
+            Debug.WriteLine(classSyntax);
         }
         sb.AppendLine("loop END");
 
@@ -97,8 +99,8 @@ public class ServiceGenerator : ISourceGenerator
 
     private string GetSourceCodeFor(INamedTypeSymbol symbol, string template = null, string className = null)
     {
-        // If template isn't provieded, use default one from embeded resources.
-        template ??= GetEmbededResource("OData.Generators.Templates.Default.txt");
+        // If template isn't provided, use default one from embeded resources.
+        template ??= GetEmbeddedResource("Brupper.CodeGenerators.OData.Templates.Default.txt");
 
         // Can't use scriban at the moment, make it manually for now.
         return template
@@ -108,7 +110,7 @@ public class ServiceGenerator : ISourceGenerator
             ;
     }
 
-    private string GetEmbededResource(string path)
+    private string GetEmbeddedResource(string path)
     {
         using var stream = GetType().Assembly.GetManifestResourceStream(path);
 
