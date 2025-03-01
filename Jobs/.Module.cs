@@ -1,11 +1,13 @@
-using Microsoft.Extensions.DependencyInjection;
+using Brupper.Jobs;
 
-namespace Brupper.Jobs;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class Module
 {
     public static IServiceCollection AddBackgroundJobAbstractions(this IServiceCollection services)
     {
+        services.AddBackgroundQueueServices();
+
         services.AddSingleton<IBackgroundTaskLogRepository, BackgroundTaskLogRepository>();
         services.AddSingleton<IBackgroundTaskRepository, BackgroundTaskRepository>();
 

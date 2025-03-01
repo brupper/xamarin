@@ -40,7 +40,7 @@ public class FakeLongRunningTask(
         try
         {
             var totalEllapsed = 0d;
-            Timer timer = new();
+            System.Timers.Timer timer = new();
             timer.AutoReset = true;
             timer.Interval = 100;
             timer.Elapsed += (object sender, ElapsedEventArgs e) =>
