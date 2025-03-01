@@ -4,11 +4,11 @@ namespace Brupper
 {
     public sealed class SimpleStateHolder : IDisposable
     {
-        private readonly Action cleanUpAction;
+        private readonly Action? cleanUpAction;
 
         public bool IsOnState { get; private set; }
 
-        public SimpleStateHolder(bool initialState = true, Action cleanUpAction = null)
+        public SimpleStateHolder(bool initialState = true, Action? cleanUpAction = null)
         {
             IsOnState = initialState;
             this.cleanUpAction = cleanUpAction;

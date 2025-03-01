@@ -9,10 +9,10 @@ namespace Brupper;
 /// <summary> Add extensions for <see cref="System.Threading.Tasks.Task"/>. </summary>
 public static class TaskExtensions
 {
-    public static Task<T> RetryOnFault<T>(this object fake, Func<Task<T>> functionToRetry, int maxTries, Func<Task> retryWhen = null)
+    public static Task<T> RetryOnFault<T>(this object fake, Func<Task<T>> functionToRetry, int maxTries, Func<Task>? retryWhen = null)
         => RetryOnFault(functionToRetry, maxTries, retryWhen);
 
-    public static async Task<T> RetryOnFault<T>(Func<Task<T>> functionToRetry, int maxTries, Func<Task> retryWhen = null)
+    public static async Task<T> RetryOnFault<T>(Func<Task<T>> functionToRetry, int maxTries, Func<Task>? retryWhen = null)
     {
         for (var i = 0; i < maxTries; i++)
         {
@@ -28,10 +28,10 @@ public static class TaskExtensions
         return default;
     }
 
-    public static Task RetryOnFault(this object fake, Func<Task> functionToRetry, int maxTries, Func<Task> retryWhen = null)
+    public static Task RetryOnFault(this object fake, Func<Task> functionToRetry, int maxTries, Func<Task>? retryWhen = null)
         => RetryOnFault(functionToRetry, maxTries, retryWhen);
 
-    public static async Task RetryOnFault(Func<Task> functionToRetry, int maxTries, Func<Task> retryWhen = null)
+    public static async Task RetryOnFault(Func<Task> functionToRetry, int maxTries, Func<Task>? retryWhen = null)
     {
         for (var i = 0; i < maxTries; i++)
         {
@@ -58,7 +58,7 @@ public static class TaskExtensions
     /// <param name="onError"></param>
     /// <param name="token"></param>
     /// <returns></returns>
-    public static async Task RunSafe(this Task task, Func<Exception, Task> onError = null, CancellationToken token = default)
+    public static async Task RunSafe(this Task task, Func<Exception, Task>? onError = null, CancellationToken token = default)
     {
         Exception exception = null;
 
