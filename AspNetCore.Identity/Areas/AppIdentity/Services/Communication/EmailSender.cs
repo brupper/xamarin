@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Communication;
 
-public class EmailSender(IEmailService emailService) : IEmailSender, IEmailSender<User>
+public class EmailSender(IEmailServiceFactory emailServiceFactory) : IEmailSender, IEmailSender<User>
 {
-    private readonly IEmailService emailService = emailService;
-
     #region IEmailSender
 
-    public Task SendEmailAsync(string emailAddress, string subject, string htmlMessage)
-        => emailService.SendEmailAsync(new() { Subject = subject, Body = htmlMessage, ToEmails = new() { new() { Email = emailAddress, Name = emailAddress } } });
+    public async Task SendEmailAsync(string emailAddress, string subject, string htmlMessage)
+    {
+        var emailService = await emailServiceFactory.CreateForSystemAsync();
+        await emailService.SendEmailAsync(new() { Subject = subject, Body = htmlMessage, ToEmails = new() { new() { Email = emailAddress, Name = emailAddress } } });
+    }
 
     #endregion
 

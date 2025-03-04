@@ -10,6 +10,8 @@ public interface IBrandContextAccessor
     Task<IEnumerable<string>> GetBrandIdsAsync();
 
     Task<EmailCommunicationServiceConfig> GetBrandEmailConfigurationAsync();
+
+    Task<EmailCommunicationServiceConfig> GetEmailConfigurationByBrandIdAsync(string brandId);
 }
 
 public interface IBrandContextAccessor<TEntity> : IBrandContextAccessor
