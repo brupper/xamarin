@@ -7,4 +7,6 @@ public class EmailCommunicationServiceConfig
     public string FromEmail { get; set; } = default!;
 
     public string FromName { get; set; } = default!;
+    
+    public string? ReplyToEmail { get; set; }
 }

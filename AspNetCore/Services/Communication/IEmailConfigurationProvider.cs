@@ -36,6 +36,7 @@ public class EmailConfigurationProvider(IBrandContextAccessor brandContextAccess
             ConnectionString = brandEmailConfiguration.ConnectionString!,
             FromEmail = brandEmailConfiguration.FromEmail!,
             FromName = brandEmailConfiguration.FromName!,
+            ReplyToEmail = brandEmailConfiguration.ReplyToEmail,
         };
     }
 
@@ -53,6 +54,7 @@ public class EmailConfigurationProvider(IBrandContextAccessor brandContextAccess
             ConnectionString = brandEmailConfiguration.ConnectionString!,
             FromEmail = brandEmailConfiguration.FromEmail!,
             FromName = brandEmailConfiguration.FromName!,
+            ReplyToEmail = brandEmailConfiguration.ReplyToEmail,
         };
     }
 }
