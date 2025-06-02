@@ -11,7 +11,7 @@ namespace Brupper.Data.EF
 {
     /// <inheritdoc/>
     public class Repository<TEntity> : IRepository<TEntity>, IDisposable
-        where TEntity : EntityAggregate, IEntityAggregate
+        where TEntity : class, Entities.IBaseEntity, new()
     {
         private bool disposed;
         protected bool tracking = true;

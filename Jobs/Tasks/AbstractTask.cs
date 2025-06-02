@@ -115,7 +115,7 @@ public abstract class AbstractTask : IBackgroundTask
             return;
         }
 
-        Exception exception = null;
+        Exception? exception = null;
 
         SetStatus(TaskStatus.Running, "Starting task");
         progress.ReportProgress(0);

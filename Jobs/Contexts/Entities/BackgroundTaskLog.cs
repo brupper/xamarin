@@ -10,16 +10,16 @@ public class BackgroundTaskLog
     #region Public Properties
 
     /// <summary> The task id. </summary>
-    public string TaskId { get; set; }
+    public string TaskId { get; set; } = default!;
 
     /// <summary> The string version of task status. </summary>
-    public string TaskStatus { get; set; }
+    public string TaskStatus { get; set; } = default!;
 
     /// <summary> The comment. </summary>
-    public string Comment { get; set; }
+    public string Comment { get; set; } = default!;
 
     /// <summary> The string version of the date when the task status is changed. </summary>
-    public string DateString { get; set; }
+    public string DateString { get; set; } = default!;
 
     #endregion
 

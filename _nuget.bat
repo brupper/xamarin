@@ -1,5 +1,6 @@
 set setApiKey=
-set version=9.0.1
+
+set version=9.0.2.1
 
 dotnet nuget push .artifacts/Brupper.AspNetCore.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 dotnet nuget push .artifacts/Brupper.AspNetCore.Breadcrumbs.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
@@ -13,7 +14,7 @@ dotnet nuget push .artifacts/Brupper.Data.Sqlite.%version%.nupkg --api-key %setA
 dotnet nuget push .artifacts/Brupper.Identity.B2C.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 dotnet nuget push .artifacts/Brupper.Jobs.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 dotnet nuget push .artifacts/Brupper.Jobs.FileTransfer.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
-dotnet nuget push .artifacts/Brupper.Maui.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
+rem dotnet nuget push .artifacts/Brupper.Maui.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 rem dotnet nuget push .artifacts/Brupper.Push.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 rem dotnet nuget push .artifacts/Brupper.%version%.nupkg --api-key %setApiKey% --source https://api.nuget.org/v3/index.json --skip-duplicate
 pause

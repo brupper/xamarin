@@ -12,25 +12,25 @@ public class BackgroundTask
 
     /// <summary> The task id. </summary>
     [Key]
-    public string TaskId { get; set; }
+    public string TaskId { get; set; } = default!;
 
     /// <summary> The rank. </summary>
     public int Rank { get; set; }
 
     /// <summary> The string version of task type. </summary>
-    public string TaskTypeString { get; set; }
+    public string TaskTypeString { get; set; } = default!;
 
     /// <summary> The string version of task status.</summary>
-    public string TaskStatus { get; set; }
+    public string TaskStatus { get; set; } = default!;
 
     /// <summary> Global unique id of referenced item.</summary>
-    public string ItemId { get; set; }
+    public string ItemId { get; set; } = default!;
 
     /// <summary> The string version of the task's last modification date. </summary>
-    public string ModifiedAtString { get; set; }
+    public string ModifiedAtString { get; set; } = default!;
 
     /// <summary> The string version of the task's creation date. </summary>
-    public string CreatedAtString { get; set; }
+    public string CreatedAtString { get; set; } = default!;
 
     #endregion
 

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 namespace Brupper.AspNetCore.Caching.Repositories;
 
 public abstract class CachingRepository<TEntity>(ADataContext context, ICacheService cacheService) : Repository<TEntity>(context)
-    where TEntity : EntityAggregate
+    where TEntity : class, global::Brupper.Data.Entities.IBaseEntity, new()
 {
     protected abstract string CachingKey { get; }
 

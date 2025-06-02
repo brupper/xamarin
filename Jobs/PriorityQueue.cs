@@ -92,7 +92,7 @@ public class PriorityQueue(
         return Add(task, t => tasks.AddFirst(t));
     }
 
-    public IBackgroundTask Find(string id)
+    public IBackgroundTask? Find(string id)
     {
         if (!taskLookupById.ContainsKey(id))
         {
@@ -108,21 +108,21 @@ public class PriorityQueue(
         return tasks.GetEnumerator();
     }
 
-    public IBackgroundTask PeekLast()
+    public IBackgroundTask? PeekLast()
     {
         if (tasks.Count == 0) return null;
 
-        return tasks.Last.Value;
+        return tasks.Last?.Value;
     }
 
-    public IBackgroundTask PeekNext()
+    public IBackgroundTask? PeekNext()
     {
         if (tasks.Count == 0) return null;
 
-        return tasks.First.Value;
+        return tasks.First?.Value;
     }
 
-    public async Task<IBackgroundTask> Remove(IBackgroundTask task)
+    public async Task<IBackgroundTask?> Remove(IBackgroundTask task)
     {
         if (task != null)
         {

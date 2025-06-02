@@ -8,7 +8,7 @@ namespace Brupper.Data.EF
     public static class RepositoryExtensions
     {
         public static IQueryable<TEntity> SafeInclude<TEntity>(this IQueryable<TEntity> query, string includeProperties = "")
-            where TEntity : EntityAggregate
+            where TEntity : class, Entities.IBaseEntity, new()
         {
             if (!string.IsNullOrEmpty(includeProperties))
             {
@@ -22,7 +22,7 @@ namespace Brupper.Data.EF
         }
 
         public static IQueryable<TEntity> SafeInclude<TEntity>(this DbSet<TEntity> dbSet, string includeProperties = "")
-            where TEntity : EntityAggregate
+            where TEntity : class, Entities.IBaseEntity, new()
         {
             IQueryable<TEntity> query = dbSet.AsNoTracking();
             return query.SafeInclude(includeProperties);
