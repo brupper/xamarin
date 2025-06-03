@@ -98,23 +98,22 @@ public static class HashHelper
         }
     }
 
-    private static byte[] EncryptAes128(byte[] plainBytes, Aes rijndaelManaged)
+    private static byte[] EncryptAes128(byte[] plainBytes, RijndaelManaged rijndaelManaged)
     {
         return rijndaelManaged.CreateEncryptor().TransformFinalBlock(plainBytes, 0, plainBytes.Length);
     }
 
-    private static byte[] DecryptAes128(byte[] encryptedData, Aes rijndaelManaged)
+    private static byte[] DecryptAes128(byte[] encryptedData, RijndaelManaged rijndaelManaged)
     {
         return rijndaelManaged.CreateDecryptor().TransformFinalBlock(encryptedData, 0, encryptedData.Length);
     }
 
-    private static Aes GetRijndaelManaged(string secretKey)
+    private static RijndaelManaged GetRijndaelManaged(string secretKey)
     {
         byte[] numArray = new byte[16];
         byte[] bytes = Encoding.UTF8.GetBytes(secretKey);
         Array.Copy((Array)bytes, (Array)numArray, Math.Min(numArray.Length, bytes.Length));
-        //RijndaelManaged rijndaelManaged = new RijndaelManaged();
-        using var rijndaelManaged = Aes.Create("AesManaged");
+        var rijndaelManaged = new RijndaelManaged();
         rijndaelManaged.Mode = CipherMode.ECB;
         rijndaelManaged.Padding = PaddingMode.PKCS7;
         rijndaelManaged.KeySize = 128;
@@ -140,7 +139,7 @@ public static class HashHelper
 
         // Create an AesManaged object
         // with the specified key and IV.
-        using (var aesAlg = Aes.Create("AesManaged"))
+        using (var aesAlg = new AesManaged())
         {
             aesAlg.Mode = CipherMode.ECB;
             aesAlg.Padding = PaddingMode.PKCS7;
@@ -178,4 +177,5 @@ public static class HashHelper
         }
         return result.ToString();
     }
+
 }
