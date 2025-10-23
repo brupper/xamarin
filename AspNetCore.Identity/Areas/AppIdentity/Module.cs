@@ -1,17 +1,12 @@
 using Administration.Identity.Areas.AppIdentity;
 using AspNetCore.Identity.CosmosDb.Extensions;
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.Contexts;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Filters;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.MapperProfiles;
 using Brupper.AspNetCore.Identity.Areas.AppIdentity.Models;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Repositories;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Communication;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users;
-using Brupper.AspNetCore.Identity.Permission;
-using Brupper.AspNetCore.Identity.Services;
+using Brupper.AspNetCore.Identity.Contexts;
+using Brupper.AspNetCore.Identity.Entities;
+using Brupper.AspNetCore.Identity.Repositories;
+using Brupper.AspNetCore.Identity.Services.Communication;
 using Brupper.AspNetCore.Services.Communication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -26,7 +21,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using System.Reflection;
-using IdentityConstants = Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users.IdentityConstants;
 
 namespace Brupper.AspNetCore.Identity.Areas.AppIdentity;
 
@@ -46,15 +40,7 @@ public static class Module
         return endpoints;
     }
 
-    public static async Task InitIdentityDatabaseAsync(this IServiceCollection services)
-    {
-        using var sp = services.BuildServiceProvider();
-        using var sc = sp.CreateScope();
-
-        await DefaultUsers.InitAndSeedDatabaseAsync(sc.ServiceProvider);
-    }
-
-    public static void AddAppIdentityAdministration(this IServiceCollection services, IConfiguration configuration)
+    public static void AddIdentityAdministration(this IServiceCollection services, IConfiguration configuration)
     {
         var assembly = typeof(Module).GetTypeInfo().Assembly;
 
@@ -63,26 +49,13 @@ public static class Module
             .AddRazorRuntimeCompilation();
 
         services.Configure<MvcRazorRuntimeCompilationOptions>(options => options.FileProviders.Add(new EmbeddedFileProvider(assembly)));
-
+        services.AddIdentityCustomAdministration(configuration);
 
         services.AddAuthentication();
-
-        services.AddAuthorization(options =>
-        {
-            options.FallbackPolicy = options.DefaultPolicy;
-            options.AddPolicy(IdentityConstants.AuthorizationPolicy, policy => policy.RequireAuthenticatedUser()  /*jelenleg nincs korlatozva a menupont, mivel egy cegen belül mindenki menedzselheti a usereit. */ );
-            // majd igy kapcsold vissza => options.AddPolicy(IdentityConstants.AuthorizationPolicy, policy => policy.RequireRole(IdentityConstants.Roles.SuperAdmin, IdentityConstants.Roles.TenantAdmin) );
-            options.AddPolicy(IdentityConstants.Roles.SuperAdmin, policy => policy.RequireRole(IdentityConstants.Roles.SuperAdmin));
-        });
-
-        services.AddScoped<IUserService, UserService>();
-        services.AddSingleton<IUserContextAccessor, UserNameContextAccessor>(); // singleton volt.
 
         services.AddCommunication(configuration);
         services.RegisterIdentity(configuration);
         services.RegisterRepositories(configuration);
-
-        services.RegistertMapper();
 
 #if DEBUG
         // This should be removed in production and the authority url changed to https
@@ -124,7 +97,7 @@ public static class Module
         services.AddCosmosIdentity<IdentityDataContext, User, IdentityRole, string>(
             opts =>
             {
-                opts.Password.RequiredLength = 8;
+                opts.Password.RequiredLength = 6;
                 opts.Password.RequireDigit = false;
                 opts.Password.RequireLowercase = false;
                 opts.Password.RequireUppercase = false;
@@ -143,33 +116,13 @@ public static class Module
             .AddDefaultUI()
             .AddDefaultTokenProviders()
             ;
-
-        services.Configure<SecurityStampValidatorOptions>(options =>
-        {
-            // enables immediate logout, after updating the user's stat.
-            options.ValidationInterval = TimeSpan.Zero;
-        });
-
-        services.Configure<DataProtectionTokenProviderOptions>(o =>
-        {
-            // The default token life span is 1 day.
-            // Set token life span to 5 days
-            o.TokenLifespan = TimeSpan.FromDays(5); // set password reset token lifetime 
-        });
-
-        services.AddScoped<TokenUrlEncoderService>();
-
-        //Microsoft.AspNetCore.Authorization.DefaultAuthorizationService
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-        services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-        services.AddTransient<IAuthorizationHandler, AuthorizationHandler>();
-
     }
 
     private static void RegisterRepositories(this IServiceCollection services, IConfiguration configuration)
     {
-        services.RegisterContextOptions<TenantDataContext>(configuration);
-        services.AddDbContext<TenantDataContext>();
+        services.RegisterContextOptions<CosmosTenantDataContext>(configuration);
+        services.AddDbContext<CosmosTenantDataContext>();
+        services.AddDbContext<TenantDataContext, CosmosTenantDataContext>();
 
         services.AddScoped<ITenantRepository, TenantRepository>();
     }
@@ -192,16 +145,11 @@ public static class Module
 
         var buildSettings = new Func<IConfiguration, EmailCommunicationServiceConfig>(_ =>
         {
-            var settings = _.GetSection("mail").Get<EmailCommunicationServiceConfig>();
+            var settings = _.GetSection("mail").Get<EmailCommunicationServiceConfig>()!;
 
             return settings;
         });
         // igy lenne a legszebb: services.AddOptions<CrmWebApiSettings>().Bind(configuration.GetSection("D365"));
         services.AddTransient<IOptions<EmailCommunicationServiceConfig>>(p => new OptionsWrapper<EmailCommunicationServiceConfig>(buildSettings(configuration)));
-    }
-
-    private static void RegistertMapper(this IServiceCollection services)
-    {
-        services.AddAutoMapper(typeof(DomainToViewModelMappingProfile));
     }
 }

@@ -2,9 +2,9 @@
 
 public interface IUserContextAccessor
 {
-    string Name { get; }
-    string Email { get; }
-    string Id { get; }
+    string? Name { get; }
+    string? Email { get; }
+    string? Id { get; }
     string? TenantId { get; }
     bool IsNotSuperAdmin { get; }
 }

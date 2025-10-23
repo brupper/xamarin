@@ -1,9 +1,10 @@
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Models;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Repositories;
-using Brupper.AspNetCore.Identity.Resources;
 using AutoMapper;
 using Brupper.AspNetCore.Exceptions;
+using Brupper.AspNetCore.Identity.Entities;
+using Brupper.AspNetCore.Identity.Models;
+using Brupper.AspNetCore.Identity.Repositories;
+using Brupper.AspNetCore.Identity.Resources;
+using Brupper.AspNetCore.Identity.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 namespace Brupper.AspNetCore.Identity.Areas.AppIdentity.Controllers;

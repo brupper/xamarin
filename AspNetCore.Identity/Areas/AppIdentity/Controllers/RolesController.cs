@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users.IdentityConstants;
+using static Brupper.AspNetCore.Identity.Services.Users.IdentityConstants;
 
 namespace Brupper.AspNetCore.Identity.Areas.Identity.Controllers;
 

@@ -1,4 +1,4 @@
-@using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
+@using Brupper.AspNetCore.Identity.Entities;
 
 @model UserListViewModel
 @{
@@ -55,14 +55,14 @@
                                     <i style="color: #6F7785; font-size: 20px;" class="fa-regular fa-pen-to-square"></i>
                                 </button>
                                 <a asp-action="ResetPassword" asp-route-userId="@user.Id" class="btn" title="@Labels.general_signin_forgotpasswordconfirm_title"
-                                   asp-authorize asp-policy="@Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users.IdentityConstants.Roles.SuperAdmin">
+                                   asp-authorize asp-policy="@Brupper.AspNetCore.Identity.Services.Users.IdentityConstants.Roles.SuperAdmin">
                                     <i style="color: #6F7785; font-size: 20px;" class="fa-solid fa-key"></i>
                                 </a>
                                 <a asp-action="emailconfirm" asp-route-userId="@user.Id" class="btn" title="@Labels.general_signin_emailconfirmation_title">
                                     <i style="color: #6F7785; font-size: 20px;" class="fa-regular fa-paper-plane"></i>
                                 </a>
                                 <a asp-controller="userroles" asp-action="edit" asp-route-userId="@user.Id" class="btn" title="@Labels.general_roles"
-                                   asp-authorize asp-policy="@Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users.IdentityConstants.Roles.SuperAdmin">
+                                   asp-authorize asp-policy="@Brupper.AspNetCore.Identity.Services.Users.IdentityConstants.Roles.SuperAdmin">
                                     <i style="color: #6F7785; font-size: 20px;" class="fa-solid fa-shield-halved"></i>
                                 </a>
 

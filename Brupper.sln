@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brupper.CodeGenerators.ODat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brupper.CodeGenerators.OData.Attributes", "CodeGenerators\CodeGenerators.OData.Attributes\Brupper.CodeGenerators.OData.Attributes.csproj", "{CCA6DBF2-D3A1-4A54-88C2-CDCA1D790245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brupper.AspNetCore.Identity.Core", "AspNetCore.Identity.Core\Brupper.AspNetCore.Identity.Core.csproj", "{B013E664-AD23-8AD0-15F3-BEBFC141ED68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,10 @@ Global
 		{CCA6DBF2-D3A1-4A54-88C2-CDCA1D790245}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCA6DBF2-D3A1-4A54-88C2-CDCA1D790245}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCA6DBF2-D3A1-4A54-88C2-CDCA1D790245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B013E664-AD23-8AD0-15F3-BEBFC141ED68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B013E664-AD23-8AD0-15F3-BEBFC141ED68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B013E664-AD23-8AD0-15F3-BEBFC141ED68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B013E664-AD23-8AD0-15F3-BEBFC141ED68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +158,7 @@ Global
 		{9A453749-748C-487C-91D0-547DC33ACE88} = {ACD2D487-4034-4BDF-8109-6F497FC104E7}
 		{89677F98-C021-41D2-B8A2-29BEA00B16EA} = {D6A70022-B71E-49BA-B4EA-63BBCF73806D}
 		{CCA6DBF2-D3A1-4A54-88C2-CDCA1D790245} = {D6A70022-B71E-49BA-B4EA-63BBCF73806D}
+		{B013E664-AD23-8AD0-15F3-BEBFC141ED68} = {60405477-AE33-4660-9818-7922AC4D1066}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EEF8BC6B-B3F8-4900-B9AC-4794612FD4CD}

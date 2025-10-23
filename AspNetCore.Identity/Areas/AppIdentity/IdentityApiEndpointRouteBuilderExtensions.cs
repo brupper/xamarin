@@ -1,6 +1,6 @@
 ﻿using Brupper.AspNetCore;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Repositories;
+using Brupper.AspNetCore.Identity.Entities;
+using Brupper.AspNetCore.Identity.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -45,7 +45,7 @@ internal static class IdentityApiEndpointRouteBuilderExtensions
     {
         var tenantRepository = sp.GetRequiredService<ITenantRepository>();
         var brandContextAccessor = sp.GetRequiredService<IBrandContextAccessor>();
-        var appUser = user as Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities.User;
+        var appUser = user as Brupper.AspNetCore.Identity.Entities.User;
 
         var tenant = await tenantRepository.GetByIdAsync(appUser.TenantId);
 

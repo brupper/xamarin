@@ -1,4 +1,4 @@
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
+using Brupper.AspNetCore.Identity.Entities;
 using AspNetCore.Identity.CosmosDb;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

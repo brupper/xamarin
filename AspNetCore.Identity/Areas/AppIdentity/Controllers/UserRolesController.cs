@@ -1,5 +1,5 @@
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Entities;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Models;
+using Brupper.AspNetCore.Identity.Entities;
+using Brupper.AspNetCore.Identity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

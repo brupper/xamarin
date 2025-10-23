@@ -5,7 +5,6 @@ namespace Brupper.AspNetCore.Identity.Areas.Identity;
 
 public class TokenUrlEncoderService
 {
-
     public virtual string EncodeToken(string token)
         => WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 

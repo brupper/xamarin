@@ -29,8 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AspNetCore.Identity.Core\Brupper.AspNetCore.Identity.Core.csproj" />
     <ProjectReference Include="..\AspNetCore\Brupper.AspNetCore.csproj" />
-    <ProjectReference Include="..\Data.EF\Brupper.Data.EF.csproj" />
   </ItemGroup>
 
   <ItemGroup>

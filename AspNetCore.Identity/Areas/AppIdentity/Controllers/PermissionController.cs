@@ -1,14 +1,14 @@
-﻿using Brupper.AspNetCore.Identity.Areas.AppIdentity.Models;
-using Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users;
+﻿using Brupper.AspNetCore.Identity.Models;
+using Brupper.AspNetCore.Identity.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using static Brupper.AspNetCore.Identity.Areas.AppIdentity.Services.Users.IdentityConstants;
+using static Brupper.AspNetCore.Identity.Services.Users.IdentityConstants;
 
 namespace Brupper.AspNetCore.Identity.Areas.Identity.Controllers;
 
 [Authorize(Roles = Roles.SuperAdmin)]
-[Area(AreaConstants.AreaName)]
+[Area(AppIdentity.Models.AreaConstants.AreaName)]
 public class PermissionController : Controller
 {
     private readonly RoleManager<IdentityRole> _roleManager;

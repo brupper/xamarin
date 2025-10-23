@@ -2,14 +2,14 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-    <AspnetVersion>9.0.2</AspnetVersion>
-    <EfCoreVersion>9.0.2</EfCoreVersion>
-    <BrupperVersion>0.9.1</BrupperVersion>
-    <MicrosoftExtensionsVersion>9.0.2</MicrosoftExtensionsVersion>
-    <AspireVersion>9.1.0</AspireVersion>
-    <AspireUnstablePackagesVersion>9.1.0-preview.1.25121.10</AspireUnstablePackagesVersion>
-    <OpenAIUnstablePackagesVersion>9.3.0-preview.1.25114.11</OpenAIUnstablePackagesVersion>
-    <GrpcVersion>2.67.0</GrpcVersion>
+    <AspnetVersion>9.0.9</AspnetVersion>
+    <EfCoreVersion>9.0.9</EfCoreVersion>
+    <BrupperVersion>9.0.9.1</BrupperVersion>
+    <MicrosoftExtensionsVersion>9.0.9</MicrosoftExtensionsVersion>
+    <AspireVersion>9.5.1</AspireVersion>
+    <AspireUnstablePackagesVersion>9.5.1-preview.1.25502.11</AspireUnstablePackagesVersion>
+    <OpenAIUnstablePackagesVersion>9.5.1-preview.1.25502.11</OpenAIUnstablePackagesVersion>
+    <GrpcVersion>2.71.0</GrpcVersion>
     <DuendeVersion>7.1.0</DuendeVersion>
     <ApiVersioningVersion>8.1.0</ApiVersioningVersion>
   </PropertyGroup>
@@ -185,7 +185,7 @@
     <PackageVersion Include="Microsoft.AppCenter" Version="5.0.6" />
     <PackageVersion Include="Microsoft.AppCenter.Analytics" Version="5.0.7" />
     <PackageVersion Include="Microsoft.AppCenter.Crashes" Version="5.0.7" />
-    <PackageVersion Include="Microsoft.Identity.Client" Version="4.68.0" />
+    <PackageVersion Include="Microsoft.Identity.Client" Version="4.77.1" />
     <!--<PackageVersion Include="Microsoft.Maui.Dependencies" Version="9.0.0" />-->
     <!--<PackageVersion Include="Microsoft.Maui.Extensions" Version="9.0.0" />-->
     <!--<PackageVersion Include="Microsoft.Maui.Essentials.Ref.any" Version="7.0.59" />
@@ -195,9 +195,9 @@
     <PackageVersion Include="Microsoft.Maui.Essentials.Ref.ios" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Controls.Ref.ios" Version="7.0.59" />-->
     <PackageVersion Include="Microsoft.Maui.Essentials" Version="9.0.40" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.40" />   
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.40" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />   
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
     <PackageVersion Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageVersion Include="FFImageLoadingCompat.Maui" Version="0.1.1" />
     <PackageVersion Include="FFImageLoadingCompat.Svg.Maui" Version="0.1.1" />

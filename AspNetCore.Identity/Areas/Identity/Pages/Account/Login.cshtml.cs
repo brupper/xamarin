@@ -56,7 +56,7 @@ public abstract class LoginModel : PageModel
         /// </summary>
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = default!;
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -64,7 +64,7 @@ public abstract class LoginModel : PageModel
         /// </summary>
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Password { get; set; } = default!;
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -98,7 +98,7 @@ public class LoginModel<TUser> : LoginModel where TUser : class
         _logger = logger;
     }
 
-    public override async Task OnGetAsync(string returnUrl = null)
+    public override async Task OnGetAsync(string? returnUrl = null)
     {
         if (!string.IsNullOrEmpty(ErrorMessage))
         {
@@ -115,7 +115,7 @@ public class LoginModel<TUser> : LoginModel where TUser : class
         ReturnUrl = returnUrl;
     }
 
-    public override async Task<IActionResult> OnPostAsync(string returnUrl = null)
+    public override async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
         returnUrl ??= Url.Content("~/");
 
@@ -124,10 +124,10 @@ public class LoginModel<TUser> : LoginModel where TUser : class
         if (ModelState.IsValid)
         {
             var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
-            if (user is AppIdentity.Entities.User appUser)
+            if (user is Brupper.AspNetCore.Identity.Entities.User appUser)
             {
                 // TODO: appUser.TenantId
-                var tenants = Array.Empty<AppIdentity.Entities.Tenant>();
+                var tenants = Array.Empty<Brupper.AspNetCore.Identity.Entities.Tenant>();
                 if (tenants.Any() && tenants.All(x => x.Deleted))
                 {
                     ModelState.AddModelError(string.Empty, "Your tenant is inactive. Please contact your tenant administrator.");
