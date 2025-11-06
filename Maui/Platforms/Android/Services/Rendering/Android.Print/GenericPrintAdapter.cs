@@ -2,19 +2,19 @@
 using Android.OS;
 using Android.Print.Pdf;
 using Android.Runtime;
-using Android.Views;
+using AndroidView = Android.Views.View;
 using System.IO;
 
 namespace Android.Print;
 
 public class GenericPrintAdapter : PrintDocumentAdapter
 {
-    View view;
+    AndroidView view;
     Context context;
     PrintedPdfDocument document;
     float scale;
 
-    public GenericPrintAdapter(Context context, View view)
+    public GenericPrintAdapter(Context context, AndroidView view)
     {
         this.view = view;
         this.context = context;

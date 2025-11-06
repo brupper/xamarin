@@ -6,6 +6,7 @@ using Microsoft.Maui.ApplicationModel;
 using static Microsoft.Maui.ApplicationModel.Permissions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AndroidApplication = Android.App.Application;
 
 namespace Brupper.Maui.Platforms.Android.Services;
 
@@ -13,7 +14,7 @@ internal class PermissionHelper : IPermissionHelper
 {
     public bool RegisteredForNotifications()
     {
-        var nm = NotificationManagerCompat.From(Application.Context);
+        var nm = NotificationManagerCompat.From(AndroidApplication.Context);
         bool enabled = nm.AreNotificationsEnabled();
         return enabled;
     }

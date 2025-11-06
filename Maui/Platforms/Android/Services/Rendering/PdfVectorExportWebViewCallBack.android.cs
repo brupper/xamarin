@@ -1,12 +1,12 @@
 ﻿using Android.Graphics;
 using Android.Print;
-using Android.Webkit;
+using AndroidWebView = Android.Webkit.WebView;
 using Brupper.Maui.Models.Rendering;
 using System.Threading.Tasks;
 
 namespace Brupper.Maui.Platforms.Android.Services;
 
-public class PdfVectorExportWebViewCallBack : WebViewClient
+public class PdfVectorExportWebViewCallBack : global::Android.Webkit.WebViewClient
 {
     private TaskCompletionSource<string> source;
     private string fileNameWithPath;
@@ -25,13 +25,13 @@ public class PdfVectorExportWebViewCallBack : WebViewClient
         this.paperSize = pageSize;
     }
 
-    public override void OnPageStarted(WebView view, string url, Bitmap favicon)
+    public override void OnPageStarted(AndroidWebView view, string url, Bitmap favicon)
     {
         base.OnPageStarted(view, url, favicon);
         checkOnPageStartedCalled = true;
     }
 
-    public override void OnPageFinished(WebView view, string url)
+    public override void OnPageFinished(AndroidWebView view, string url)
     {
         if (!checkOnPageStartedCalled)
         {

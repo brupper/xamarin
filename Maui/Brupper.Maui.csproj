@@ -13,6 +13,13 @@
 
     <Nullable>enable</Nullable>
     <UseMauiEssentials>true</UseMauiEssentials>
+
+    <!-- Code Analysis Configuration (T011) -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -118,6 +125,21 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Brupper.Core.csproj" />
     <ProjectReference Include="..\Data\Brupper.Data.csproj" />
+  </ItemGroup>
+
+  <!-- Code Analysis Analyzers (T011) -->
+  <!-- Microsoft.CodeAnalysis.NetAnalyzers is already in Directory.Build.targets -->
+  <!-- StyleCop analyzer added for MAUI-specific code style rules -->
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- StyleCop configuration -->
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
 </Project>

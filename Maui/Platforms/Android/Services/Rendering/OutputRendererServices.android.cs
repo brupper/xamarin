@@ -92,7 +92,7 @@ public class OutputRendererServices : Maui.Services.Concretes.AOutputRendererSer
             {
                 var context = GetApplicationContext();
 
-                WebView.EnableSlowWholeDocumentDraw();
+                global::Android.Webkit.WebView.EnableSlowWholeDocumentDraw();
                 var view = new global::Android.Webkit.WebView(context);
                 view.Settings.JavaScriptEnabled = true;
                 view.Settings.OffscreenPreRaster = true;

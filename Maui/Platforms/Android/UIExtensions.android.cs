@@ -1,4 +1,4 @@
-﻿using Android.Webkit;
+﻿using AndroidWebView = Android.Webkit.WebView;
 using System.Threading.Tasks;
 
 namespace Brupper.Maui.Platforms.Android;
@@ -6,7 +6,7 @@ namespace Brupper.Maui.Platforms.Android;
 public static class UIExtensions
 {
     // MAKE SURE YOU ARE CALLING IT FROM MAIN THREAD
-    public static async Task<(int width, int height)> GetInnerSize(this WebView webView)
+    public static async Task<(int width, int height)> GetInnerSize(this AndroidWebView webView)
     {
         var jsrHeight = new JavascriptResult();
         webView.EvaluateJavascript(ViewExtensions.JavaSciptGetWindowHeight, jsrHeight); // ide WINDOW height kell --- document.documentElement.clientHeight

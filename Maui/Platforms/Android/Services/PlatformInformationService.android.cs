@@ -9,6 +9,7 @@ using Microsoft.Maui.Devices;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AndroidApplication = Android.App.Application;
 
 namespace Brupper.Maui.Platforms.Android.Services;
 
@@ -21,7 +22,7 @@ public class PlatformInformationService : BasePlatformInformationService, IPlatf
 
     public override string GetVersion()
     {
-        var context = Application.Context;
+        var context = AndroidApplication.Context;
 
         PackageManager manager = context?.PackageManager;
         PackageInfo info = manager?.GetPackageInfo(context.PackageName, 0);
@@ -37,7 +38,7 @@ public class PlatformInformationService : BasePlatformInformationService, IPlatf
 
     public override string GetCarrier()
     {
-        var manager = (TelephonyManager)Application.Context.GetSystemService(Application.TelephonyService);
+        var manager = (TelephonyManager)AndroidApplication.Context.GetSystemService(AndroidApplication.TelephonyService);
         return manager.NetworkOperatorName;
     }
 
@@ -49,7 +50,7 @@ public class PlatformInformationService : BasePlatformInformationService, IPlatf
         var devInfo = new DetailedDeviceInformation();
 
         //* Gets the main memory (RAM) information.
-        var activityManager = (ActivityManager)Application.Context.GetSystemService(Application.ActivityService);
+        var activityManager = (ActivityManager)AndroidApplication.Context.GetSystemService(AndroidApplication.ActivityService);
 
         var memInfo = new ActivityManager.MemoryInfo();
         activityManager.GetMemoryInfo(memInfo);
