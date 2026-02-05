@@ -60,7 +60,7 @@ public static class TaskExtensions
     /// <returns></returns>
     public static async Task RunSafe(this Task task, Func<Exception, Task>? onError = null, CancellationToken token = default)
     {
-        Exception exception = null;
+        Exception? exception = null;
 
         try
         {
@@ -124,7 +124,7 @@ public static class TaskExtensions
     /// the task and forget about it. Optionally you can pass an error handler to the method. This 
     /// error handler will be called when the task throws an exception.
     /// </summary>
-    public static void FireAndForget(this Task task, Action<Exception> errorHandler = default)
+    public static void FireAndForget(this Task task, Action<Exception>? errorHandler = default)
     {
         task.ContinueWith(t =>
         {

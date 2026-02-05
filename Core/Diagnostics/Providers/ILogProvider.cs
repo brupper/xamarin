@@ -17,17 +17,17 @@ namespace Brupper.Diagnostics
         /// <param name="pageName">The name of the page to be logged.</param>
         /// <param name="metaData">Additional meta data associated to the page. Provided in the form of an enumeration of
         /// <see cref="T:System.Collections.Generic.KeyValuePair{string,string}"/>.</param>
-        Task StartTrackPageViewAsync(string pageName, IEnumerable<KeyValuePair<string, string>> metaData = null);
+        Task StartTrackPageViewAsync(string pageName, IEnumerable<KeyValuePair<string, string>>? metaData = null);
 
         /// <summary> Stops page time tracking asynchronously. </summary>
         /// <param name="pageName">The name of the page to be logged.</param>
         Task StopTrackPageViewAsync(string pageName);
 
         /// <summary> Starts time tracking of a process asynchronously. </summary>
-        Task StartTrackTimeAsync(string key, string processId = null);
+        Task StartTrackTimeAsync(string key, string? processId = null);
 
         /// <summary> Stops time tracking of a process asynchronously. </summary>
-        Task StopTrackTimeAsync(string key, string processId = null);
+        Task StopTrackTimeAsync(string key, string? processId = null);
 
         /// <summary> Sends an exception message asynchronously. </summary>
         /// <param name="message">The message to send.</param>

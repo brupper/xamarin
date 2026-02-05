@@ -96,7 +96,7 @@ namespace Brupper.Diagnostics
         public void TrackTrace(
             LogTag tag,
             string message,
-            IEnumerable<KeyValuePair<string, string>> metaData = null,
+            IEnumerable<KeyValuePair<string, string>>? metaData = null,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = -1)
@@ -115,7 +115,7 @@ namespace Brupper.Diagnostics
 
         public void TrackException(
             Exception exception,
-            IEnumerable<KeyValuePair<string, string>> metaData = null,
+            IEnumerable<KeyValuePair<string, string>>? metaData = null,
             LogLevel logLevel = LogLevel.All,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
@@ -269,7 +269,7 @@ namespace Brupper.Diagnostics
             return msg;
         }
 
-        public void TrackEvent(string eventName, IEnumerable<KeyValuePair<string, string>> metaData = null)
+        public void TrackEvent(string eventName, IEnumerable<KeyValuePair<string, string>>? metaData = null)
         {
             var msg = BuildBaseLogMessage(null, null, 0, metaData);
             msg.EventName = eventName;
@@ -281,7 +281,7 @@ namespace Brupper.Diagnostics
             }
         }
 
-        public void StartTrackPageView(string pageName, LogTag tag, IEnumerable<KeyValuePair<string, string>> metaData = null)
+        public void StartTrackPageView(string pageName, LogTag tag, IEnumerable<KeyValuePair<string, string>>? metaData = null)
         {
             for (int i = 0; i < logProviders.Count; i++)
             {
@@ -302,7 +302,7 @@ namespace Brupper.Diagnostics
             }
         }
 
-        public void StartTrackTime(string key, LogTag tag, string processId = null)
+        public void StartTrackTime(string key, LogTag tag, string? processId = null)
         {
             Guid processGuid = Guid.NewGuid();
 
@@ -321,7 +321,7 @@ namespace Brupper.Diagnostics
             }
         }
 
-        public void StopTrackTime(string key, LogTag tag, string processId = null)
+        public void StopTrackTime(string key, LogTag tag, string? processId = null)
         {
             string recordkey = processId ?? key;
 

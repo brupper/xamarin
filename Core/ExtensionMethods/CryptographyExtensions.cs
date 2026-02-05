@@ -135,7 +135,7 @@ public static class HashHelper
 
         // Declare the string used to hold
         // the decrypted text.
-        string plaintext = null;
+        string? plaintext = null;
 
         // Create an AesManaged object
         // with the specified key and IV.

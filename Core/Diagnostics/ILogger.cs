@@ -29,7 +29,7 @@ namespace Brupper.Diagnostics
         /// <summary> Logs an event. </summary>
         /// <param name="eventName">The name of the event to be logged.</param>
         /// <param name="metaData">Additional meta data associated to the event. Provided in the form of an enumeration of <see cref="T:System.Collections.Generic.KeyValuePair{string,string}"/>.</param>
-        void TrackEvent(string eventName, IEnumerable<KeyValuePair<string, string>> metaData = null);
+        void TrackEvent(string eventName, IEnumerable<KeyValuePair<string, string>>? metaData = null);
 
         /// <summary> Logs a message asynchronously. </summary>
         /// <param name="tag">The incident tags.</param>
@@ -47,7 +47,7 @@ namespace Brupper.Diagnostics
         void TrackTrace(
             LogTag tag,
             string message,
-            IEnumerable<KeyValuePair<string, string>> metaData = null,
+            IEnumerable<KeyValuePair<string, string>>? metaData = null,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
@@ -66,7 +66,7 @@ namespace Brupper.Diagnostics
         /// </remarks>
         void TrackException(
             Exception exception,
-            IEnumerable<KeyValuePair<string, string>> metaData = null,
+            IEnumerable<KeyValuePair<string, string>>? metaData = null,
             LogLevel logLevel = LogLevel.All,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
@@ -76,7 +76,7 @@ namespace Brupper.Diagnostics
         /// <param name="pageName">The name of the page to be logged.</param>
         /// <param name="tag">The incident tags.</param>
         /// <param name="metaData">Additional meta data associated to the page. Provided in the form of an enumeration of <see cref="T:System.Collections.Generic.KeyValuePair{string,string}"/>.</param>
-        void StartTrackPageView(string pageName, LogTag tag, IEnumerable<KeyValuePair<string, string>> metaData = null);
+        void StartTrackPageView(string pageName, LogTag tag, IEnumerable<KeyValuePair<string, string>>? metaData = null);
 
         /// <summary> Stops page time tracking. </summary>
         /// <param name="pageName">The name of the page to be logged.</param>
@@ -85,11 +85,11 @@ namespace Brupper.Diagnostics
         /// <summary> Starts time tracking of a process. </summary>
         /// <param name="key">The key of the tracked process.</param>
         /// <param name="tag">The incident tags.</param>
-        void StartTrackTime(string key, LogTag tag, string processId = null);
+        void StartTrackTime(string key, LogTag tag, string? processId = null);
 
         /// <summary> Stops time tracking of a process. </summary>
         /// <param name="key">The key of the tracked process.</param>
-        void StopTrackTime(string key, LogTag tag, string processId = null);
+        void StopTrackTime(string key, LogTag tag, string? processId = null);
 
         /// <summary> Registers and creates an instance of <see cref="T:ILogProvider" /> that will listen to log submissions. </summary>
         /// <typeparam name="T">The implementation of <see cref="T:ILogProvider"/>.</typeparam>

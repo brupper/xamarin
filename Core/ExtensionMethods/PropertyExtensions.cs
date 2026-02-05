@@ -13,7 +13,7 @@ public static partial class PropertyExtensions
 {
     public static object? GetPropertyValue(this object obj, string propertyPath)
     {
-        object propertyValue = null;
+        object? propertyValue = null;
         if (propertyPath.IndexOf(".") < 0)
         {
             var objType = obj.GetType();

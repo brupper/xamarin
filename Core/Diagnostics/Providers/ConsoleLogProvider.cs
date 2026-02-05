@@ -21,7 +21,7 @@ namespace Brupper.Diagnostics
             return Task.FromResult(false);
         }
 
-        public override Task StartTrackPageViewAsync(string pageName, IEnumerable<KeyValuePair<string, string>> metaData = null)
+        public override Task StartTrackPageViewAsync(string pageName, IEnumerable<KeyValuePair<string, string>>? metaData = null)
         {
             TrackTimeHandler.Start(pageName);
 
@@ -46,7 +46,7 @@ namespace Brupper.Diagnostics
             return Task.FromResult(false);
         }
 
-        public override Task StartTrackTimeAsync(string key, string processId = null)
+        public override Task StartTrackTimeAsync(string key, string? processId = null)
         {
             TrackTimeHandler.Start(key, processId);
 
@@ -60,7 +60,7 @@ namespace Brupper.Diagnostics
             return Task.FromResult(false);
         }
 
-        public override Task StopTrackTimeAsync(string key, string processId = null)
+        public override Task StopTrackTimeAsync(string key, string? processId = null)
         {
             var ellapsedTime = TrackTimeHandler.Stop(key, processId);
 

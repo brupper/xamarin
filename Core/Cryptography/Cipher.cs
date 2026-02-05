@@ -83,7 +83,7 @@ public static class Cipher
 
     static byte[] Encrypt(byte[] bytesToBeEncrypted, byte[] passwordBytes, byte[] saltBytes)
     {
-        byte[] encryptedBytes = null;
+        byte[]? encryptedBytes = null;
 
         // Set your salt here, change it to meet your flavor:
         // The salt bytes must be at least 8 bytes.
@@ -117,7 +117,7 @@ public static class Cipher
 
     static byte[] Decrypt(byte[] bytesToBeDecrypted, byte[] passwordBytes, byte[] saltBytes)
     {
-        byte[] decryptedBytes = null;
+        byte[]? decryptedBytes = null;
 
         // Set your salt here, change it to meet your flavor:
         // The salt bytes must be at least 8 bytes.

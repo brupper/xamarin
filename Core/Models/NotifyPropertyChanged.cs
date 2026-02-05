@@ -26,7 +26,7 @@ namespace Brupper.Core.Models
             PropertyChanged?.Invoke(this, changedArgs);
         }
 
-        protected virtual void SetProperty<T>(ref T storage, T value, Action<bool> action, [CallerMemberName] string propertyName = null)
+        protected virtual void SetProperty<T>(ref T storage, T value, Action<bool> action, [CallerMemberName] string? propertyName = null)
         {
             if (action == null)
             {
@@ -36,7 +36,7 @@ namespace Brupper.Core.Models
             action.Invoke(SetProperty(ref storage, value, propertyName));
         }
 
-        protected virtual bool SetProperty<T>(ref T storage, T value, Action afterAction, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetProperty<T>(ref T storage, T value, Action afterAction, [CallerMemberName] string? propertyName = null)
         {
             if (SetProperty(ref storage, value, propertyName))
             {
@@ -47,7 +47,7 @@ namespace Brupper.Core.Models
             return false;
         }
 
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(storage, value))
             {

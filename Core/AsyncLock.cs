@@ -74,7 +74,7 @@ namespace Brupper
 
         public void Release()
         {
-            TaskCompletionSource<bool> toRelease = null;
+            TaskCompletionSource<bool>? toRelease = null;
             lock (m_waiters)
             {
                 if (m_waiters.Count > 0)
