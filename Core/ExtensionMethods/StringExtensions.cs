@@ -3,10 +3,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Brupper;
 
-public static class StringExtensions
+public static partial class StringExtensions
 {
     //   - The following reserved characters:
     //
@@ -60,7 +61,7 @@ public static class StringExtensions
         return (sb.ToString().Normalize(NormalizationForm.FormC));
     }
 
-    public static Func<string, bool> CreateStringComparisonFilter(this string filterTextParam) =>  new Func<string, bool>(x =>
+    public static Func<string, bool> CreateStringComparisonFilter(this string filterTextParam) => new Func<string, bool>(x =>
     {
         return !string.IsNullOrEmpty(x)
                 && (x.IndexOf(filterTextParam, 0, StringComparison.CurrentCultureIgnoreCase) != -1
@@ -172,4 +173,22 @@ public static class StringExtensions
     public static bool IsNotNullOrEmpty(this string? value) => !string.IsNullOrEmpty(value);
     public static bool IsNullOrWhiteSpace(this string? value) => string.IsNullOrWhiteSpace(value);
     public static bool IsNotNullOrWhiteSpace(this string? value) => !string.IsNullOrWhiteSpace(value);
+
+    public static bool IsNullOrWhitespace(this string? s) => string.IsNullOrEmpty(s) || string.IsNullOrEmpty(s.Trim());
+
+    public static string StripDiacritics(this string? s)
+    {
+        if (string.IsNullOrWhiteSpace(s))
+        {
+            return s;
+        }
+
+        var simpleChars = s.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark);
+        return new string(simpleChars.ToArray());
+    }
+
+    public static string? ToBasicLatin(this string? value) => string.IsNullOrWhiteSpace(value) ? value : StripDiacriticsRegex().Replace(value.StripDiacritics(), "");
+
+    [GeneratedRegex(@"[^\p{IsBasicLatin}]+")]
+    private static partial Regex StripDiacriticsRegex();
 }
