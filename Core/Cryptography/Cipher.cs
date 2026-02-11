@@ -81,6 +81,7 @@ public static class Cipher
         return Encoding.UTF8.GetString(bytesDecrypted);
     }
 
+#pragma warning disable SYSLIB0022
     static byte[] Encrypt(byte[] bytesToBeEncrypted, byte[] passwordBytes, byte[] saltBytes)
     {
         byte[]? encryptedBytes = null;
@@ -114,6 +115,7 @@ public static class Cipher
 
         return encryptedBytes;
     }
+#pragma warning restore SYSLIB0022
 
     static byte[] Decrypt(byte[] bytesToBeDecrypted, byte[] passwordBytes, byte[] saltBytes)
     {

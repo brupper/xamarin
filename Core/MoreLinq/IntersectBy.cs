@@ -161,7 +161,7 @@ namespace MoreLinq
         private static IEnumerable<TSource> IntersectKeysImpl<TSource, TKey>(IEnumerable<TSource> first,
             IEnumerable<TKey> second,
             Func<TSource, TKey> keySelector,
-            IEqualityComparer<TKey> keyComparer)
+            IEqualityComparer<TKey>? keyComparer)
         {
 
             var keys = new HashSet<TKey>(second, keyComparer);

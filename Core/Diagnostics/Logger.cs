@@ -247,8 +247,8 @@ namespace Brupper.Diagnostics
 
         //// Build the common base to the different type of log message
         private LogMessage BuildBaseLogMessage(
-            string memberName,
-            string sourceFilePath,
+            string? memberName,
+            string? sourceFilePath,
             int sourceLineNumber,
             IEnumerable<KeyValuePair<string, string>> metaData)
         {

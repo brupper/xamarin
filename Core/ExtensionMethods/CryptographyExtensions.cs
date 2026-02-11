@@ -13,6 +13,7 @@ public static class HashHelper
 
         using (var algorithm = SHA512.Create())
         {
+            // var hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
             var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(literalToHash));
             return hash.GetStringFromHash();
         }
@@ -170,6 +171,7 @@ public static class HashHelper
 
     private static string GetStringFromHash(this byte[] hash)
     {
+        // return String.Join("", hash.Select(b => b.ToString("x2"))).ToUpper();
         var result = new StringBuilder();
         for (int i = 0; i < hash.Length; i++)
         {
