@@ -115,7 +115,6 @@ public static class Cipher
 
         return encryptedBytes;
     }
-#pragma warning restore SYSLIB0022
 
     static byte[] Decrypt(byte[] bytesToBeDecrypted, byte[] passwordBytes, byte[] saltBytes)
     {
@@ -149,4 +148,5 @@ public static class Cipher
 
         return decryptedBytes;
     }
+#pragma warning restore SYSLIB0022
 }

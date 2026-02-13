@@ -1,8 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <!-- this is a packable library, we  want to publish it to NuGet -->
+    <IsLibraryProject>true</IsLibraryProject>
+    <IsTestProject>false</IsTestProject>
+    <IsPackable>True</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net9.0-android;net9.0-ios</TargetFrameworks>
+    <TargetFrameworks>net10.0;net10.0-android;net10.0-ios</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -9,7 +9,7 @@
     <RootNamespace>Brupper.Maui</RootNamespace>
     <Description>This package contains Brupper to use with Maui</Description>
     <PackageId>Brupper.Maui</PackageId>
-    <GenerateLibraryLayout Condition=" $(TargetFramework.StartsWith('net9.0-windows')) ">true</GenerateLibraryLayout>
+    <GenerateLibraryLayout Condition=" $(TargetFramework.StartsWith('net10.0-windows')) ">true</GenerateLibraryLayout>
 
     <Nullable>enable</Nullable>
     <UseMauiEssentials>true</UseMauiEssentials>
@@ -23,7 +23,7 @@
     <None Include="readme.md" Pack="true" PackagePath="." />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard'))  OR $(TargetFramework.StartsWith('net8')) OR $(TargetFramework.StartsWith('net9')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard'))  OR $(TargetFramework.StartsWith('net10')) OR $(TargetFramework.StartsWith('net10')) ">
     <Compile Include="Platforms\Netstandard\**\*.cs" />
   </ItemGroup>
 
@@ -63,14 +63,14 @@
     <PackageReference Include="Xamarin.Google.Android.Material" />-->
   </ItemGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net9-windows')) ">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net10-windows')) ">
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>Brupper</RootNamespace>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net9-windows')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net10-windows')) ">
     <Compile Include="Platforms\Windows\**\*.cs" />
     <Compile Include="Platforms\WinUi\**\*.cs" />
     <Page Include="Platforms\WinUi\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />

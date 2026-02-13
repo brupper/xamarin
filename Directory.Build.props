@@ -6,7 +6,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <Authors>.NET Foundation and Contributors</Authors>
     <Owners>Brupper;adambarath</Owners>
-    <PackageTags>mvvm;;maui;android;ios;mac;net;net9;uwp;tizen</PackageTags>
+    <PackageTags>mvvm;maui;android;ios;mac;net;net10;uwp;tizen</PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/brupper/xamarin</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <Version>9.0.2.1</Version>
+    <Version>10.0.3</Version>
     <!--By default, GitInfo will also set `$(Version)` and `$(PackageVersion)` which the .NET
     SDK uses for deriving the AssemblyInfo, FileVersion and InformationalVersion values,
     as well as for packing. This default version is formatted from the following populated
@@ -31,7 +31,7 @@
     <IsTrimmable>false</IsTrimmable>
 
 
-    <IsTestProject>$(MSBuildProjectName.Contains('UnitTest'))</IsTestProject>
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsLibraryProject>$(MSBuildProjectName.Contains('Brupper'))</IsLibraryProject>
 
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
@@ -98,9 +98,11 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <!-- Include README.md in the NuGet package -->
   <ItemGroup Condition="'$(IsLibraryProject)' == 'true'">
     <None Include="$(MSBuildThisFileDirectory)\LICENSE" Pack="true" PackagePath="\" />
     <None Include="$(MSBuildThisFileDirectory)\icon.png" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)\readme.md" Pack="true" PackagePath="\" Link="README.md" />
   </ItemGroup>
 
 </Project>

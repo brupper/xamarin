@@ -164,6 +164,9 @@ public static class Module
 
     private static void RegistertMapper(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(DomainToViewModelMappingProfile));
+        services.AddAutoMapper((opts) =>
+        {
+            opts.AddProfile<DomainToViewModelMappingProfile>();
+        });
     }
 }

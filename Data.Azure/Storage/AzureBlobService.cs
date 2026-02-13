@@ -56,7 +56,7 @@ public class AzureBlobService(
 
         var containerClient = await GetContainerClientAsync(cancellationToken);
 
-        var blobsInFolder = containerClient.GetBlobs(prefix: folderName);
+        var blobsInFolder = containerClient.GetBlobs(new global::Azure.Storage.Blobs.Models.GetBlobsOptions() { Prefix= folderName }, cancellationToken);
 
         if (blobsInFolder is not null)
         {

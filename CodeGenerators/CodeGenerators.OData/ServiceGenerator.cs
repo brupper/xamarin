@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Text;
@@ -9,95 +10,51 @@ using OData.Generators.Templates;
 
 namespace OData.Generators;
 
-[Generator(LanguageNames.CSharp)]
-public class ServiceGenerator : ISourceGenerator
+[
+    Generator(LanguageNames.CSharp)
+]
+public sealed class ServiceGenerator : IIncrementalGenerator
 {
-    public void Initialize(GeneratorInitializationContext context)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        //#if DEBUG
-        //        if (!Debugger.IsAttached){Debugger.Launch();}
-        //#endif
         Debug.WriteLine("Initialize code generator");
 
-        context.RegisterForSyntaxNotifications(() => new AttributeSyntaxReceiver<GenerateServiceAttribute>());
-    }
-
-    public void Execute(GeneratorExecutionContext context)
-    {
-        Debug.WriteLine("Execute code generator");
-
-        var sb = new StringBuilder();
-        sb.AppendLine("/*");
-        sb.AppendLine($"{DateTime.Now.ToShortTimeString()}");
-
-        if (context.SyntaxReceiver is not AttributeSyntaxReceiver<GenerateServiceAttribute> syntaxReceiver)
-        {
-            sb.AppendLine("context.SyntaxReceiver is not AttributeSyntaxReceiver<GenerateServiceAttribute>");
-            syntaxReceiver = new AttributeSyntaxReceiver<GenerateServiceAttribute>();
-
-            //foreach (var item in context.Compilation.SourceModule.ReferencedAssemblies){ sb.AppendLine($"{item.Name}"); }
-            //context.AddSource($"Log", SourceText.From(sb.ToString(), Encoding.UTF8));
-            /*
-            var types = context.Compilation.SourceModule.ReferencedAssemblySymbols.SelectMany(a =>
+        var attributedClasses = context.SyntaxProvider.ForAttributeWithMetadataName(
+            typeof(GenerateServiceAttribute).FullName!,
+            static (node, _) => node is ClassDeclarationSyntax,
+            static (syntaxContext, _) =>
             {
-                try
-                {
-                    var main = a.Identity.Name.Split('.').Aggregate(a.GlobalNamespace, (s, c) => s.GetNamespaceMembers().Single(m => m.Name.Equals(c)));
-
-                    return GetAllTypes(main);
-                }
-                catch { return Enumerable.Empty<ITypeSymbol>(); }
+                var classSymbol = (INamedTypeSymbol)syntaxContext.TargetSymbol;
+                var attributeData = syntaxContext.Attributes[0];
+                return new ServiceGenerationTarget(classSymbol, attributeData);
             });
 
-            foreach (var item in types.SelectMany(x => x.DeclaringSyntaxReferences.Select(x => x.GetSyntax())).ToList())
-            {
-                syntaxReceiver.OnVisitSyntaxNode(item);
-            }
-            */
-        }
+        var additionalFiles = context.AdditionalTextsProvider.Collect();
+        var combined = attributedClasses.Collect().Combine(additionalFiles);
 
-        sb.AppendLine(string.Join("\r\n", syntaxReceiver.Log));
-        sb.AppendLine($"loop START, Any: {syntaxReceiver.Classes?.Any()}");
-        foreach (var classSyntax in syntaxReceiver.Classes)
+        context.RegisterSourceOutput(combined, (sourceProductionContext, source) =>
         {
-            sb.AppendLine("foreach");
+            var (targets, files) = source;
+            if (targets.IsDefaultOrEmpty)
+            {
+                return;
+            }
 
-            // Converting the class to semantic model to access much more meaningful data.
-            var model = context.Compilation.GetSemanticModel(classSyntax.SyntaxTree);
-            // Parse to declared symbol, so you can access each part of code separately, such as interfaces, methods, members, contructor parameters etc.
-            var symbol = model.GetDeclaredSymbol(classSyntax);
+            foreach (var target in targets)
+            {
+                var templateParameter = GetConstructorArgument(target.AttributeData, 0);
+                var className = GetClassName(target.AttributeData);
+                var overriddenTemplate = TryGetTemplate(files, templateParameter);
+                var sourceCode = GetSourceCodeFor(target.Symbol, overriddenTemplate, className);
 
-            // Finding my GenerateServiceAttribute over it. I'm sure this attribute is placed, because my syntax receiver already checked before.
-            // So, I can surely execute following query.
-            var attribute = syntaxReceiver.GetFrom(classSyntax);
-
-            // Getting constructor parameter of the attribute. It might be not presented.
-            var templateParameter = attribute.ArgumentList?.Arguments.FirstOrDefault()?.GetLastToken().ValueText; // Temprorary... Attribute has only one argument for now.
-            var className = attribute.ArgumentList?.Arguments.Count > 1 ?
-                    attribute.ArgumentList?.Arguments.Skip(1).FirstOrDefault()?.GetLastToken().ValueText : null;
-
-            // Can't access embeded resource of main project.
-            // So overridden template must be marked as Analyzer Additional File to be able to be accessed by an analyzer.
-            var overridenTemplate = templateParameter != null ?
-                context.AdditionalFiles.FirstOrDefault(x => x.Path.EndsWith(templateParameter))?.GetText().ToString() :
-                null;
-
-            // Generate the real source code. Pass the template parameter if there is a overriden template.
-            var sourceCode = GetSourceCodeFor(symbol, overridenTemplate, className);
-
-            context.AddSource(
-                $"{symbol.Name}{templateParameter ?? "Controller"}.g.cs",
-                SourceText.From(sourceCode, Encoding.UTF8));
-
-            Debug.WriteLine(classSyntax);
-        }
-        sb.AppendLine("loop END");
-
-        sb.AppendLine("*/");
-        context.AddSource($"Log", SourceText.From(sb.ToString(), Encoding.UTF8));
+                sourceProductionContext.AddSource(
+                    $"{target.Symbol.Name}{templateParameter ?? "Controller"}.g.cs",
+                    SourceText.From(sourceCode, Encoding.UTF8));
+            }
+        });
     }
 
-    private string GetSourceCodeFor(INamedTypeSymbol symbol, string template = null, string className = null)
+    private static string GetSourceCodeFor(INamedTypeSymbol symbol, string? template = null, string? className = null)
     {
         // If template isn't provided, use default one from embeded resources.
         template ??= GetEmbeddedResource("Brupper.CodeGenerators.OData.Templates.Default.txt");
@@ -110,16 +67,16 @@ public class ServiceGenerator : ISourceGenerator
             ;
     }
 
-    private string GetEmbeddedResource(string path)
+    private static string GetEmbeddedResource(string path)
     {
-        using var stream = GetType().Assembly.GetManifestResourceStream(path);
+        using var stream = typeof(ServiceGenerator).Assembly.GetManifestResourceStream(path);
 
         using var streamReader = new StreamReader(stream);
 
         return streamReader.ReadToEnd();
     }
 
-    private string GetNamespaceRecursively(INamespaceSymbol symbol)
+    private static string GetNamespaceRecursively(INamespaceSymbol symbol)
     {
         if (symbol.ContainingNamespace == null)
         {
@@ -129,21 +86,56 @@ public class ServiceGenerator : ISourceGenerator
         return (GetNamespaceRecursively(symbol.ContainingNamespace) + "." + symbol.Name).Trim('.');
     }
 
-    private static IEnumerable<ITypeSymbol> GetAllTypes(INamespaceSymbol root)
+    private static string? GetConstructorArgument(AttributeData attributeData, int index)
     {
-        foreach (var namespaceOrTypeSymbol in root.GetMembers())
+        if (attributeData.ConstructorArguments.Length <= index)
         {
-            if (namespaceOrTypeSymbol is INamespaceSymbol @namespace)
+            return null;
+        }
+
+        return attributeData.ConstructorArguments[index].Value as string;
+    }
+
+    private static string? GetClassName(AttributeData attributeData)
+    {
+        var className = GetConstructorArgument(attributeData, 1);
+        if (!string.IsNullOrWhiteSpace(className))
+        {
+            return className;
+        }
+
+        foreach (var namedArgument in attributeData.NamedArguments)
+        {
+            if (namedArgument.Key == nameof(GenerateServiceAttribute.ClassName))
             {
-                foreach (var nested in GetAllTypes(@namespace))
-                {
-                    yield return nested;
-                }
-            }
-            else if (namespaceOrTypeSymbol is ITypeSymbol type)
-            {
-                yield return type;
+                return namedArgument.Value.Value as string;
             }
         }
+
+        return null;
+    }
+
+    private static string? TryGetTemplate(ImmutableArray<AdditionalText> additionalFiles, string? templateParameter)
+    {
+        if (string.IsNullOrWhiteSpace(templateParameter))
+        {
+            return null;
+        }
+
+        var file = additionalFiles.FirstOrDefault(x => x.Path.EndsWith(templateParameter, StringComparison.OrdinalIgnoreCase));
+        return file?.GetText()?.ToString();
+    }
+
+    private sealed class ServiceGenerationTarget
+    {
+        public ServiceGenerationTarget(INamedTypeSymbol symbol, AttributeData attributeData)
+        {
+            Symbol = symbol;
+            AttributeData = attributeData;
+        }
+
+        public INamedTypeSymbol Symbol { get; }
+
+        public AttributeData AttributeData { get; }
     }
 }

@@ -1,26 +1,27 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net9.0-android;net9.0-ios</TargetFrameworks>
+    <TargetFrameworks>net10.0;net10.0-android;net10.0-ios</TargetFrameworks>
     <OutputType>Library</OutputType>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" />
-    <!--<PackageReference Include="Microsoft.Maui.Essentials" />-->
+    <PackageReference Include="Microsoft.Maui.Essentials" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="B2CAuthenticationService.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) OR $(TargetFramework.StartsWith('net8')) OR $(TargetFramework.StartsWith('net9'))">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) OR $(TargetFramework.StartsWith('net10'))">
     <PackageReference Include="Microsoft.Identity.Client" />
     <Compile Include="B2CAuthenticationService.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) or $(TargetFramework.EndsWith('android'))">
-    <PackageReference Include="Plugin.CurrentActivity" />
+
   </ItemGroup>
 
 </Project>

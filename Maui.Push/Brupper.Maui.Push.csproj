@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net9.0-android;net9.0-ios</TargetFrameworks>
+    <TargetFrameworks>net10.0;net10.0-android;net10.0-ios</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -39,11 +39,11 @@
     <None Include="..\azure-notificationhubs-xamarin\src\Microsoft.Azure.NotificationHubs.Client\NotificationHubMessageDelegate.ios.cs" Link="NotificationHubs\NotificationHubMessageDelegate.ios.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net9')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net10')) ">
     <Compile Include="Platforms\Netstandard\**\*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
     <Compile Include="..\azure-notificationhubs-xamarin\src\Microsoft.Azure.NotificationHubs.Client\NotificationHub.net.cs" Link="NotificationHubs\NotificationHub.net.cs" />
   </ItemGroup>
 
@@ -60,7 +60,7 @@
 
   <ItemGroup Condition=" $(TargetFramework.EndsWith('ios')) ">
     <!-- Add Xamarin iOS bindings -->
-    <!--<PackageReference Include="Xamarin.Azure.NotificationHubs.iOS" />-->
+    <PackageReference Include="Xamarin.Azure.NotificationHubs.iOS" />
 
     <!-- iOS files have ios.cs -->
     <!--<Compile Include="**\*.ios.cs" />-->
@@ -74,7 +74,7 @@
 
   <ItemGroup Condition=" $(TargetFramework.EndsWith('android')) ">
     <!-- Add Xamarin Android bindings -->
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" />
+    <!--<PackageReference Include="Xamarin.AndroidX.AppCompat" />-->
     <!--<PackageReference Include="Xamarin.AndroidX.Migration" />-->
 
 
@@ -82,8 +82,8 @@
     <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" />
     <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportRuntime" />
     <PackageReference Include="Xamarin.Firebase.Messaging" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Iid" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Base" />
+    <!--<PackageReference Include="Xamarin.GooglePlayServices.Iid" />-->
+    <!--<PackageReference Include="Xamarin.GooglePlayServices.Base" />-->
     <PackageReference Include="Xamarin.Android.Volley" />
     <PackageReference Include="Xamarin.Azure.NotificationHubs.Android" />
 
@@ -112,7 +112,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Essentials" />
     <PackageReference Include="Microsoft.Maui.Controls" />
-    <PackageReference Include="MvvmCross" />
+    <!--<PackageReference Include="MvvmCross" />-->
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 

@@ -16,9 +16,13 @@
 
         public object GetCurrentParentWindow()
         {
-            //var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+            // Get the current Activity
+            var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+            
 
-            var activity = Plugin.CurrentActivity.CrossCurrentActivity.Current;
+            // Or wait for it if needed during startup
+            // var activity = await Platform.WaitForActivityAsync();
+                
             return activity;
         }
     }
