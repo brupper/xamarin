@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -9,7 +9,7 @@ namespace Brupper.Data
 {
     /// <summary> Based on article: https://docs.microsoft.com/en-us/aspnet/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application#implement-a-generic-repository-and-a-unit-of-work-class </summary>
     public interface IRepository<TEntity> : IDisposable
-        where TEntity : Entities.IBaseEntity
+        where TEntity : class, Entities.IBaseEntity, new()
     {
         // /// <summary> </summary>
         // IRepository<TEntity> WithTracking();

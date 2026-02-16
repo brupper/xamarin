@@ -1,15 +1,12 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
-  <!--<Project Sdk="Microsoft.NET.Sdk">-->
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!--net7.0-android;net7.0-ios-->
-    <TargetFrameworks>netstandard2.1;xamarin.ios10;monoandroid13.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Microsoft.Extensions.Http" />
-    <PackageReference Include="Xamarin.Essentials.Interfaces" />
   </ItemGroup>
 
   <ItemGroup>

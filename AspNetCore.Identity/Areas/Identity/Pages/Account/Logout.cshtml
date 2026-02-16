@@ -1,0 +1,21 @@
+@page
+@model LogoutModel<User>
+@{
+    ViewData["Title"] = @Labels.general_signout;
+}
+
+<header>
+    <h1>@ViewData["Title"]</h1>
+    @{
+        if (User.Identity!.IsAuthenticated)
+        {
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="btn btn-primary">@Labels.general_signout</button>
+            </form>
+        }
+        else
+        {
+            <p>@Labels.general_signout_succes</p>
+        }
+    }
+</header>

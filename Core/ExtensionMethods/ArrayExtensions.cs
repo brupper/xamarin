@@ -1,4 +1,5 @@
-﻿
+﻿namespace Brupper;
+
 public static class ArrayExtensions
 {
     public static int[,] ConvertTo2DArray(this int[][] jaggedArray, int numOfColumns, int numOfRows)

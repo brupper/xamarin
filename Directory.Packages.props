@@ -1,103 +1,227 @@
 <Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <AspnetVersion>10.0.3</AspnetVersion>
+    <EfCoreVersion>10.0.3</EfCoreVersion>
+    <BrupperVersion>10.0.1.1</BrupperVersion>
+    <MicrosoftExtensionsVersion>10.0.3</MicrosoftExtensionsVersion>
+    <AspireVersion>13.1.1</AspireVersion>
+    <AspireUnstablePackagesVersion>13.1.1-preview.1.26105.8</AspireUnstablePackagesVersion>
+    <OpenAIUnstablePackagesVersion>10.3.0</OpenAIUnstablePackagesVersion>
+    <OpenTelemetryPackagesVersion>1.9.0</OpenTelemetryPackagesVersion>
+    <GrpcVersion>2.71.0</GrpcVersion>
+    <DuendeVersion>7.1.0</DuendeVersion>
+    <ApiVersioningVersion>8.1.1</ApiVersioningVersion>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="AutoMapper" Version="11.0.0" />
-    <PackageVersion Include="AsyncFixer" Version="1.6.0" />
-    <PackageVersion Include="Azure.Data.Tables" Version="12.8.0" />
-    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.0-preview2" />
-    <PackageVersion Include="Microsoft.Maui.Dependencies" Version="6.0.552" />
-    <PackageVersion Include="Microsoft.Maui.Extensions" Version="6.0.552" />
-    <PackageVersion Include="WindowsAzure.Storage" Version="9.3.3" />
-    <PackageVersion Include="Microsoft.AppCenter" Version="5.0.1" />
-    <PackageVersion Include="Microsoft.AppCenter.Analytics" Version="5.0.1" />
-    <PackageVersion Include="Microsoft.AppCenter.Crashes" Version="5.0.1" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+    <!-- Version together with Aspire -->
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Hosting.Azure.CognitiveServices" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Hosting.Redis" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Npgsql" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.RabbitMQ.Client" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.StackExchange.Redis" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Azure.AI.OpenAI" Version="$(AspireUnstablePackagesVersion)" />
+    <PackageVersion Include="Audit.EntityFramework.Core" Version="27.4.1" />
+    <PackageVersion Include="Audit.EntityFramework.Identity.Core" Version="27.4.1" />
+    <PackageVersion Include="Audit.WebApi.Core" Version="27.4.1" />
+    <PackageVersion Include="AWSSDK.SimpleEmailV2" Version="3.7.408.3" />
+    <PackageVersion Include="Azure.AI.OpenAI" Version="2.2.0-beta.2" />
+    <PackageVersion Include="Azure.AI.Translation.Text" Version="1.0.0" />
+    <PackageVersion Include="ExtCore.FileStorage.Abstractions" Version="9.0.0" />
+    <PackageVersion Include="ExtCore.FileStorage.Azure" Version="9.0.0" />
+    <PackageVersion Include="ExtCore.FileStorage.FileSystem" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(AspireVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="$(AspireVersion)" />
+    <!-- Version together with Asp.Versioning -->
+    <PackageVersion Include="Asp.Versioning.Http" Version="$(ApiVersioningVersion)" />
+    <PackageVersion Include="Asp.Versioning.Http.Client" Version="$(ApiVersioningVersion)" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="$(ApiVersioningVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.ApiDescription.Server" Version="$(AspnetVersion)">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <!-- Version together with ASP.NET -->
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.QuickGrid" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.3.0" />
+    <!-- Version together with EF -->
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(EfCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EfCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Cosmos" Version="$(EfCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(EfCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />
+    <!-- MissingMethodException: IAnnotation.FindAnnotation -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EfCoreVersion)" />
+    <PackageVersion Include="Pgvector" Version="0.3.2" />
+    <PackageVersion Include="Pgvector.EntityFrameworkCore" Version="0.3.0" />
+    <!-- Version together with runtime -->
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Azure" Version="1.13.1" />
+    <!-- Xabaril packages -->
+    <PackageVersion Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
+    <!-- AI -->
+    <PackageVersion Include="Microsoft.Extensions.AI" Version="$(OpenAIUnstablePackagesVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="$(OpenAIUnstablePackagesVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="$(OpenAIUnstablePackagesVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.AI.Ollama" Version="$(OpenAIUnstablePackagesVersion)" />
+    <PackageVersion Include="Microsoft.SemanticKernel" version="1.70.0" />
+    <!-- Open Telemetry -->
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="$(OpenTelemetryPackagesVersion)" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="$(OpenTelemetryPackagesVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="$(OpenTelemetryPackagesVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.GrpcNetClient" Version="1.15.0-beta.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="$(OpenTelemetryPackagesVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="$(OpenTelemetryPackagesVersion)" />
+    <!-- IdentityServer -->
+    <!--<PackageVersion Include="Duende.IdentityServer" Version="$(DuendeVersion)" />
+    <PackageVersion Include="Duende.IdentityServer.AspNetIdentity" Version="$(DuendeVersion)" />
+    <PackageVersion Include="Duende.IdentityServer.EntityFramework" Version="$(DuendeVersion)" />
+    <PackageVersion Include="Duende.IdentityServer.EntityFramework.Storage" Version="$(DuendeVersion)" />
+    <PackageVersion Include="Duende.IdentityServer.Storage" Version="$(DuendeVersion)" />-->
+    <!-- VS Test -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.6.3" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.6.3" />
+    <!--<PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />-->
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
+    <PackageVersion Include="NSubstitute" Version="5.3.0" />
+    <PackageVersion Include="NUnit" Version="4.4.0" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="6.1.0" />
+    <!-- Scaffolding -->
+    <PackageVersion Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+    <!-- Grpc -->
+    <!--<PackageVersion Include="Grpc.AspNetCore" Version="$(GrpcVersion)" />
+    <PackageVersion Include="Grpc.AspNetCore.Server.ClientFactory" Version="$(GrpcVersion)" />
+    <PackageVersion Include="Grpc.Tools" Version="2.67.0" PrivateAssets="All" />
+    <PackageVersion Include="RevolutAPI" Version="4.0.0" />
+    <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.6" />-->
+    <!-- System.ServiceModel -->
+    <PackageVersion Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageVersion Include="System.ServiceModel.Http" Version="8.1.1" />
+    <PackageVersion Include="System.ServiceModel.NetTcp" Version="8.1.1" />
+    <PackageVersion Include="System.ServiceModel.Security" Version="6.0.0" />
+    <!-- Miscellaneous -->
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageVersion Include="Serilog" Version="2.12.0" />
+    <PackageVersion Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageVersion Include="Serilog.Sinks.Debug" Version="2.0.0" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Identity.Client" Version="4.52.0" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.3.0.106239" />
+    <PackageVersion Include="AsyncFixer" Version="1.6.0" />
+    <PackageVersion Include="GitInfo" Version="3.6.0" />
+    <PackageVersion Include="MediatR" Version="14.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.13.0" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.103" />
+    <PackageVersion Include="Microsoft.SourceLink.AzureRepos.Git" Version="8.0.0" />
+    <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageVersion Include="XunitXml.TestLogger" Version="3.0.70" />
+    <PackageVersion Include="xunit" Version="2.4.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
+    <PackageVersion Include="Microsoft.Graph.Auth" Version="1.0.0-preview.7" />
+    <PackageVersion Include="Microsoft.Identity.Web" Version="4.3.0" />
+    <PackageVersion Include="Microsoft.Identity.Web.UI" Version="4.3.0" />
+    <PackageVersion Include="Microsoft.Identity.Web.MicrosoftGraph" Version="4.3.0" />
+    <!--<PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />-->
+    <!--<PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />-->
+    <!--<PackageVersion Include="Azure.Identity" Version="1.8.2" />-->
+    <!--5.29.0-preview-->
+    <PackageVersion Include="Microsoft.Graph.Beta" Version="4.27.0-preview" />
+    <PackageVersion Include="AspNetCore.Identity.CosmosDb" Version="9.0.1.2" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.103" />
+    <PackageVersion Include="AutoMapper" Version="16.0.0" />
+    <PackageVersion Include="Azure.Storage.Blobs" Version="12.27.0" />
+    <PackageVersion Include="Azure.Data.Tables" Version="12.11.0" />
+    <PackageVersion Include="CommunityToolkit.Common" Version="8.4.0" />
+    <PackageVersion Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageVersion Include="CommunityToolkit.Maui" Version="14.0.0" />
+    <PackageVersion Include="CommunityToolkit.Maui.Markup" Version="7.0.0" />
+    <PackageVersion Include="SkiaSharp.Svg" Version="1.60.0" />
+    <PackageVersion Include="SkiaSharp.Views.Maui.Controls.Compatibility" Version="2.88.9" />
+    <!--<PackageVersion Include="WindowsAzure.Storage" Version="9.3.3" />-->
+    <PackageVersion Include="Microsoft.AppCenter" Version="5.0.7" />
+    <PackageVersion Include="Microsoft.AppCenter.Analytics" Version="5.0.7" />
+    <PackageVersion Include="Microsoft.AppCenter.Crashes" Version="5.0.7" />
+    <PackageVersion Include="Microsoft.Identity.Client" Version="4.82.1" />
+    <!--<PackageVersion Include="Microsoft.Maui.Dependencies" Version="9.0.0" />-->
+    <!--<PackageVersion Include="Microsoft.Maui.Extensions" Version="9.0.0" />-->
     <!--<PackageVersion Include="Microsoft.Maui.Essentials.Ref.any" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Controls.Ref.any" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Essentials.Ref.android" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Controls.Ref.android" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Essentials.Ref.ios" Version="7.0.59" />
     <PackageVersion Include="Microsoft.Maui.Controls.Ref.ios" Version="7.0.59" />-->
-    <PackageVersion Include="Microsoft.Maui.Essentials" Version="8.0.0-preview.2.7871" />
-    <PackageVersion Include="Microsoft.Maui.Controls" Version="8.0.0-preview.2.7871" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
-    <PackageVersion Include="Moq" Version="4.18.4" />
-    <PackageVersion Include="MvvmCross" Version="8.0.2" />
-    <PackageVersion Include="MvvmCross.Forms" Version="8.0.2" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="Microsoft.Maui.Essentials" Version="10.0.40" />
+    <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.40" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.260209005" />
     <PackageVersion Include="Rg.Plugins.Popup" Version="2.1.0" />
-    <PackageVersion Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
-    <PackageVersion Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
-    <PackageVersion Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
+    <PackageVersion Include="FFImageLoadingCompat.Maui" Version="0.1.1" />
+    <PackageVersion Include="FFImageLoadingCompat.Svg.Maui" Version="0.1.1" />    
     <PackageVersion Include="Xamarin.Azure.NotificationHubs.iOS" Version="3.1.1" />
-    <PackageVersion Include="Plugin.CurrentActivity" Version="2.1.0.4" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.2.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageVersion>
-    <PackageVersion Include="Serilog" Version="2.12.0" />
-    <PackageVersion Include="Serilog.Extensions.Logging" Version="3.1.0" />
-    <PackageVersion Include="Serilog.Sinks.Debug" Version="2.0.0" />
-    <PackageVersion Include="Serilog.Sinks.Xamarin" Version="1.0.0" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="8.51.0.59060" />
-    <PackageVersion Include="SourceLink.Create.CommandLine" Version="2.8.3" />
-    <PackageVersion Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageVersion Update="SidebarNavigation" Version="2.1.0" />
-    <PackageVersion Include="Xamarin.AndroidX.AppCompat" Version="1.5.1.1" />
-    <PackageVersion Include="Xamarin.AndroidX.AppCompat.AppCompatResources" Version="1.5.0" />
-    <PackageVersion Include="Xamarin.AndroidX.CardView" Version="1.0.0.16" />
-    <PackageVersion Include="Xamarin.AndroidX.ExifInterface" Version="1.3.3.2" />
-    <PackageVersion Include="Xamarin.AndroidX.Fragment" Version="1.5.4" />
-    <PackageVersion Include="Xamarin.AndroidX.Leanback" Version="1.0.0.17" />
-    <PackageVersion Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0.10" />
-    <PackageVersion Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.5.1.1" />
-    <PackageVersion Include="Xamarin.AndroidX.MediaRouter" Version="1.3.0.1" />
-    <PackageVersion Include="Xamarin.AndroidX.Preference" Version="1.2.0.3" />
-    <PackageVersion Include="Xamarin.AndroidX.RecyclerView" Version="1.2.1.8" />
-    <PackageVersion Include="Xamarin.AndroidX.SwipeRefreshLayout" Version="1.1.0.10" />
-    <PackageVersion Include="Xamarin.AndroidX.ViewPager" Version="1.0.0.15" />
-    <PackageVersion Include="Xamarin.AndroidX.Migration" Version="1.0.10" />
-
-    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" Version="3.0.0.1" />
-    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportRuntime" Version="3.0.1.1" />
-    <PackageVersion Include="Xamarin.Firebase.Messaging" Version="122.0.0.3" />
-    <PackageVersion Include="Xamarin.GooglePlayServices.Iid" Version="117.0.0.3" />
-    <PackageVersion Include="Xamarin.GooglePlayServices.Base" Version="117.6.0.3" />
-    <PackageVersion Include="Xamarin.Android.Volley" Version="1.1.1.1" />
     <PackageVersion Include="Xamarin.Azure.NotificationHubs.Android" Version="1.1.4.1" />
+    <PackageVersion Include="sqlite-net-pcl" Version="1.9.172" />
+    <!--<PackageVersion Update="SidebarNavigation" Version="3.0.0" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.AppCompat" Version="1.7.1.12" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.AppCompat.AppCompatResources" Version="1.7.1.12" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.CardView" Version="1.0.0.37" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.ExifInterface" Version="1.4.2.1" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.Fragment" Version="1.8.9.1" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.Leanback" Version="1.2.0.2" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0.35" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.10.0.1" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.MediaRouter" Version="1.8.1.2" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.Preference" Version="1.2.1.16" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.RecyclerView" Version="1.4.0.4" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.SwipeRefreshLayout" Version="1.2.0.1" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.ViewPager" Version="1.1.0.5" />-->
+    <!--<PackageVersion Include="Xamarin.AndroidX.Migration" Version="1.0.10" />-->
 
-    <PackageVersion Include="Xamarin.Forms" Version="5.0.0.2578" />
-    <PackageVersion Include="Xamarin.CommunityToolkit"  Version="2.0.6" />
-    <PackageVersion Include="Xamarin.CommunityToolkit.Markup"  Version="2.0.6" />
-    <PackageVersion Include="Xamarin.Essentials"  Version="1.7.4" />
-    <PackageVersion Include="Xamarin.Essentials.Interfaces"  Version="1.7.4" />
-    <PackageVersion Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
-    <PackageVersion Include="Xamarin.Google.Android.Material" Version="1.7.0.1" />
-    <PackageVersion Include="Xamarin.GooglePlayServices.Basement" Version="118.1.0.1" />
-    <PackageVersion Include="Xamarin.GooglePlayServices.Location" Version="120.0.0" />
-    <PackageVersion Include="XunitXml.TestLogger" Version="3.0.70" />
-    <PackageVersion Include="xunit" Version="2.4.2" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
 
-    <!--<PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />-->
-    <!--<PackageVersion Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />-->
-    <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="7.0.5" />
-    <PackageVersion Include="Microsoft.Identity.Web" Version="2.1.0" />
-    <PackageVersion Include="Microsoft.Graph.Auth" Version="1.0.0-preview.6" />
-    <PackageVersion Include="Azure.Identity" Version="1.8.2" />
-    <!--5.29.0-preview-->
-    <PackageVersion Include="Microsoft.Graph.Beta" Version="4.27.0-preview" />
+    <!-- Android bindings in Xamarin.Azure.NotificationHubs.Android -->
+    <PackageVersion Include="Xamarin.Android.Volley" Version="1.2.1.19" />
+    <PackageVersion Include="Xamarin.Firebase.Messaging" Version="125.0.1.1" />
+    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" Version="4.0.0.6" />
+    <PackageVersion Include="Xamarin.Google.Android.DataTransport.TransportRuntime" Version="4.0.0.6" />
+
+    <!--<PackageVersion Include="Xamarin.Google.Android.Material" Version="1.13.0.1" />-->
+    <!--<PackageVersion Include="Xamarin.GooglePlayServices.Iid" Version="117.0.0.24" />-->
+    <!--<PackageVersion Include="Xamarin.GooglePlayServices.Base" Version="118.9.0.1" />-->
+    <!--<PackageVersion Include="Xamarin.GooglePlayServices.Basement" Version="118.9.0.1" />-->
+    <!--<PackageVersion Include="Xamarin.GooglePlayServices.Location" Version="121.3.0.8" />-->
+    <!--END MAUI -->
   </ItemGroup>
 </Project>

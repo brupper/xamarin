@@ -1,0 +1,125 @@
+@using Brupper.AspNetCore.Identity.Entities;
+
+@model UserListViewModel
+@{
+    ViewData["Title"] = Labels.users_title;
+}
+
+@section Header {
+    <div class="header-container d-flex justify-content-center align-items-center">
+        <partial name="~/Views/Shared/_SearchPartial.cshtml" />
+        <button class="btn btn-sm btn-outline-primary command-create-user" data-bs-toggle="modal" data-bs-target="#modal-create-user"><i class="fa-solid fa-plus"></i> @Labels.user_create</button>
+    </div>
+}
+
+<main class="container-xxl py-2 mx-auto" role="main">
+    <div class="align-items-center p-3 my-3 bg-body rounded shadow-sm">
+        <table class="table table-hover" data-datatable data-datatable-options='{ }'>
+            <thead>
+                <tr>
+                    <th data-sortable="false" data-orderable="false" data-targets="0" data-searchable="false">&nbsp;</th>
+                    <th data-sortable="false" data-orderable="false" data-targets="0">&nbsp;</th>
+                    <th data-sortable="false" data-orderable="false" data-targets="0" data-searchable="false">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 1;
+                }
+                @foreach (var user in Model.Items)
+                {
+                    <tr>
+                        <td class="ps-4"> <span class="fs-3 fw-500" style="color: #6F7785;">#@(i++.ToString("D2"))</span> </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm">
+                                    @if (user.LockoutEnabled && user.LockoutEnd > DateTime.Now)
+                                    {
+                                        <i style="color: red; font-size: 20px;" class="fa-solid fa-lock"></i>
+                                        <span style="color: red; font-size: 16px;">[@Labels.user_locked]</span>
+                                    }
+                                    <span class="fs-3 fw-500"> @user.Name </span>
+                                    <br>
+                                    <span class="fs-5">  @Model.Tenants.FirstOrDefault(x=>x.Id == user.TenantId)?.Name </span>
+                                    @if (!string.IsNullOrEmpty(user.Email))
+                                    {
+                                        <span class="fs-5"> - @user.Email </span>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="btn-group float-end">
+                                @* <a asp-controller="users" asp-action="edit" asp-route-userId="@user.Id" class="btn" title="@Labels.general_modify"><img height="20" width="20" src="/img/table/edit.svg" /></a> *@
+                                <button type="button" class="btn" title="@Labels.general_modify" data-bs-toggle="modal" data-bs-target="#edit-@user.Id-modal" data-rowkey="@user.Id">
+                                    <i style="color: #6F7785; font-size: 20px;" class="fa-regular fa-pen-to-square"></i>
+                                </button>
+                                <a asp-action="ResetPassword" asp-route-userId="@user.Id" class="btn" title="@Labels.general_signin_forgotpasswordconfirm_title"
+                                   asp-authorize asp-policy="@Brupper.AspNetCore.Identity.Services.Users.IdentityConstants.Roles.SuperAdmin">
+                                    <i style="color: #6F7785; font-size: 20px;" class="fa-solid fa-key"></i>
+                                </a>
+                                <a asp-action="emailconfirm" asp-route-userId="@user.Id" class="btn" title="@Labels.general_signin_emailconfirmation_title">
+                                    <i style="color: #6F7785; font-size: 20px;" class="fa-regular fa-paper-plane"></i>
+                                </a>
+                                <a asp-controller="userroles" asp-action="edit" asp-route-userId="@user.Id" class="btn" title="@Labels.general_roles"
+                                   asp-authorize asp-policy="@Brupper.AspNetCore.Identity.Services.Users.IdentityConstants.Roles.SuperAdmin">
+                                    <i style="color: #6F7785; font-size: 20px;" class="fa-solid fa-shield-halved"></i>
+                                </a>
+
+                                @if (user.LockoutEnabled && user.LockoutEnd > DateTime.Now)
+                                {
+                                    <a asp-action="unlock" asp-route-userId="@user.Id" class="btn" title="@Labels.users_unlock">
+                                        <i style="font-size: 20px;" class="fa-solid fa-unlock text-success"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-action="lock" asp-route-userId="@user.Id" class="btn" title="@Labels.users_lock">
+                                        <i style="color: #6F7785; font-size: 20px;" class="fa-solid fa-lock"></i>
+                                    </a>
+                                }
+
+                                @*
+                                <button type="button" class="btn" title="@Labels.general_delete" data-bs-toggle="modal" data-bs-target="#delete-@user.Id-modal" data-rowkey="@user.Id">
+                                    <i style="color: #6F7785; font-size: 20px;" class="fa-regular fa-trash-can"></i>
+                                </button>
+                                *@
+                            </div>
+
+                            <partial name="__ModalDeletePartial" model="@(new Brupper.AspNetCore.Models.GeneralDeleteViewModel{ PrimaryKey = user.Id, SummaryText = user.Name })" />
+                            <partial name="__ModalEditPartial" model="user" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div id="modal-create-user" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Labels.user_create</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="create-user-form">
+                    <partial name="_FormCreatePartial" model="(new UserEditViewModel(){ Tenants = Model.Tenants})" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        $(function () {
+            setupDatatablesFilter(function (searchViewModel) { $('[data-datatable]').DataTable().search(searchViewModel.filterText).draw(); });
+        });
+
+    </script>
+}

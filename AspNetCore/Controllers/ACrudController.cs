@@ -15,7 +15,7 @@ namespace Brupper.AspNetCore.Controllers;
 [Authorize]
 public abstract class ACrudController<TRepository, TEntity, TViewModel, TListViewModel, TListItemViewModel, TEditViewModel, TDetailsViewModel>
     : ACrudTypedKeyController<TRepository, TEntity, TViewModel, TListViewModel, TListItemViewModel, TEditViewModel, TDetailsViewModel, string>
-    where TEntity : BaseEntity, new()
+    where TEntity : EntityAggregate, new()
     where TViewModel : class, new()
     where TListItemViewModel : class, new()
     where TListViewModel : ListViewModel<TListItemViewModel>, new()
@@ -42,7 +42,7 @@ public abstract class ACrudController<TRepository, TEntity, TViewModel, TListVie
 public abstract class ACrudTypedKeyController
     <TRepository, TEntity, TViewModel, TListViewModel, TListItemViewModel, TEditViewModel, TDetailsViewModel, TKeyType>
     : AAreaController
-    where TEntity : BaseEntity, new()
+    where TEntity : EntityAggregate, new()
     where TViewModel : class, new()
     where TListItemViewModel : class, new()
     where TListViewModel : ListViewModel<TListItemViewModel>, new()

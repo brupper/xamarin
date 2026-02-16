@@ -1,0 +1,65 @@
+@model ManageUserRolesViewModel
+
+@{
+    ViewData["Title"] = Labels.userroles_edit;
+    var backModel = new Brupper.AspNetCore.Models.GeneralConfirmViewModel
+            {
+                Action = "Index",
+                Controller = "Users",//ViewContext.RouteData.Values["Controller"]?.ToString(),
+                Area = ViewContext.RouteData.Values["Area"]?.ToString(),
+                // PrimaryKey = Model.ProjectId,
+            }.AddToViewData("back-url", ViewData, Url);
+}
+
+<main class="container-xxl py-2 mx-auto" role="main">
+    <div class="align-items-center p-3 my-3 bg-body rounded shadow-sm">
+
+        <form asp-controller="userroles" asp-action="edit" asp-route-id="@Model.UserId">
+            <input asp-for="UserId" type="hidden" />
+
+            <div class="">
+                <div class="">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>@Labels.userroles_role</th>
+                                <th>@Labels.userroles_status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int i = 0; i < Model.UserRoles.Count(); i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input asp-for="@Model.UserRoles[i].RoleName" type="hidden" />
+                                        @Model.UserRoles[i].RoleName
+                                    </td>
+                                    <td>
+                                        <div class="form-check m-1">
+                                            <input asp-for="@Model.UserRoles[i].Selected" class="form-check-input" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="">
+                    <div class="d-flex justify-content-center align-items-center pt-5 pb-2">
+                        <div>
+                            <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> @Labels.general_save_close</button>
+                            <button asp-action="edit" asp-route-continueEditing="true" class="btn btn-outline-secondary"><i class="fa-regular fa-floppy-disk"></i> @Labels.general_save_continue_editing </button>
+                            <a href="@ViewData["back-url"]" class="btn btn-outline-secondary"><i class="fa-solid fa-xmark"></i> @Labels.general_cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* DO NOT move to: @section Modals, because of HasConfirmAndCloseButton *@
+            <partial name="__ModalConfirmPartial" model="backModel" />
+
+        </form>
+
+    </div>
+</main>

@@ -1,0 +1,48 @@
+﻿using Android.Graphics.Drawables;
+using Android.Runtime;
+using Brupper.Forms.Effects;
+using Microsoft.Maui.Controls;
+using System.ComponentModel;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
+
+[assembly: ResolutionGroupName("Brupper")]
+[assembly: ExportEffect(typeof(Brupper.Forms.Platforms.Android.Effects.EntryEffect), nameof(EntryEffect))]
+namespace Brupper.Forms.Platforms.Android.Effects
+{
+    [Preserve(AllMembers = true)]
+    public class EntryEffect : PlatformEffect<Brupper.Forms.Platforms.Android.Effects.EntryEffect, EntryEffect>
+    {
+        protected override void OnAttached()
+        {
+            UpdateDrawable();
+        }
+
+        protected override void OnDetached()
+        {
+        }
+
+        private void UpdateDrawable()
+        {
+            var drawable = new GradientDrawable();
+            drawable.SetColor(Forms.Effects.EntryEffect.GetBackgroundColor(base.Control).ToAndroid());
+            drawable.SetStroke(Forms.Effects.EntryEffect.GetBorderWidth(Element), Forms.Effects.EntryEffect.GetBorderColor(Element).ToAndroid());
+            drawable.SetCornerRadius(Forms.Effects.EntryEffect.GetCornerRadius(Element));
+
+            Control.SetBackground(drawable);
+        }
+
+        protected override void OnElementPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnElementPropertyChanged(args);
+
+            if (args.PropertyName == Forms.Effects.EntryEffect.BackgroundColorProperty.PropertyName ||
+                args.PropertyName == Forms.Effects.EntryEffect.BorderColorProperty.PropertyName ||
+                args.PropertyName == Forms.Effects.EntryEffect.BorderWidthProperty.PropertyName ||
+                args.PropertyName == Forms.Effects.EntryEffect.CornerRadiusProperty.PropertyName)
+            {
+                UpdateDrawable();
+            }
+        }
+    }
+}

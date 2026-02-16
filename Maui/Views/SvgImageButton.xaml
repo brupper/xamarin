@@ -1,0 +1,24 @@
+﻿<Grid
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Brupper.Maui.Views.SvgImageButton"
+    x:Name="View"
+    HeightRequest="64"
+    WidthRequest="64"
+    VerticalOptions="Center"
+    HorizontalOptions="Start">
+
+    <Frame x:Name="MiddleFrame" Padding="0" BackgroundColor="#FFFFFF" HorizontalOptions="FillAndExpand" HasShadow="True">
+
+        <Image x:Name="Icon"
+                       Source="{Binding Source, Source={x:Reference View}}"
+                       Aspect="AspectFit"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="CenterAndExpand"
+        />
+
+        <Frame.GestureRecognizers>
+            <TapGestureRecognizer BindingContext="{x:Reference View}" Tapped="Handle_Tapped" />
+        </Frame.GestureRecognizers>
+    </Frame>
+</Grid>

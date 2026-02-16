@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
+namespace Brupper;
+
 public static class EnumExtensions
 {
     public static IEnumerable<TEnum> GetEnumValues<TEnum>(this TEnum value)

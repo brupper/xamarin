@@ -1,0 +1,9 @@
+@page
+@model LockoutModel
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    ViewData["Title"] = Labels.user_lockout_title;
+}
+
+<h1 class="text-danger">@ViewData["Title"]</h1>
+<p class="text-danger text-center">@Labels.user_lockout_desc</p>

@@ -1,0 +1,22 @@
+﻿<Grid
+    x:Class="Brupper.Maui.Views.IsTestEnvironmentView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    mc:Ignorable="d"
+    x:Name="This"    
+    Rotation="45"
+    TranslationX="32"
+    TranslationY="20"
+    WidthRequest="140"
+    HeightRequest="32"
+    HorizontalOptions="End"
+    VerticalOptions="Start"
+    IsClippedToBounds="True"
+    >
+
+    <BoxView BackgroundColor="#F25022" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" HeightRequest="32" />
+    <Label Text="{Binding Text, Source={x:Reference This}}" TextColor="White" FontSize="24" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"  HorizontalTextAlignment="Center"/>
+
+</Grid>

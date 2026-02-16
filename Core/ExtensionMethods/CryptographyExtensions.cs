@@ -3,6 +3,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
+namespace Brupper;
+
 public static class HashHelper
 {
     public static string GetSha512(this string literalToHash)
@@ -11,6 +13,7 @@ public static class HashHelper
 
         using (var algorithm = SHA512.Create())
         {
+            // var hash = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
             var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(literalToHash));
             return hash.GetStringFromHash();
         }
@@ -96,23 +99,22 @@ public static class HashHelper
         }
     }
 
-    private static byte[] EncryptAes128(byte[] plainBytes, Aes rijndaelManaged)
+    private static byte[] EncryptAes128(byte[] plainBytes, RijndaelManaged rijndaelManaged)
     {
         return rijndaelManaged.CreateEncryptor().TransformFinalBlock(plainBytes, 0, plainBytes.Length);
     }
 
-    private static byte[] DecryptAes128(byte[] encryptedData, Aes rijndaelManaged)
+    private static byte[] DecryptAes128(byte[] encryptedData, RijndaelManaged rijndaelManaged)
     {
         return rijndaelManaged.CreateDecryptor().TransformFinalBlock(encryptedData, 0, encryptedData.Length);
     }
 
-    private static Aes GetRijndaelManaged(string secretKey)
+    private static RijndaelManaged GetRijndaelManaged(string secretKey)
     {
         byte[] numArray = new byte[16];
         byte[] bytes = Encoding.UTF8.GetBytes(secretKey);
         Array.Copy((Array)bytes, (Array)numArray, Math.Min(numArray.Length, bytes.Length));
-        //RijndaelManaged rijndaelManaged = new RijndaelManaged();
-        using var rijndaelManaged = Aes.Create("AesManaged");
+        var rijndaelManaged = new RijndaelManaged();
         rijndaelManaged.Mode = CipherMode.ECB;
         rijndaelManaged.Padding = PaddingMode.PKCS7;
         rijndaelManaged.KeySize = 128;
@@ -134,11 +136,11 @@ public static class HashHelper
 
         // Declare the string used to hold
         // the decrypted text.
-        string plaintext = null;
+        string? plaintext = null;
 
         // Create an AesManaged object
         // with the specified key and IV.
-        using (var aesAlg = Aes.Create("AesManaged"))
+        using (var aesAlg = new AesManaged())
         {
             aesAlg.Mode = CipherMode.ECB;
             aesAlg.Padding = PaddingMode.PKCS7;
@@ -169,6 +171,7 @@ public static class HashHelper
 
     private static string GetStringFromHash(this byte[] hash)
     {
+        // return String.Join("", hash.Select(b => b.ToString("x2"))).ToUpper();
         var result = new StringBuilder();
         for (int i = 0; i < hash.Length; i++)
         {
@@ -176,4 +179,5 @@ public static class HashHelper
         }
         return result.ToString();
     }
+
 }

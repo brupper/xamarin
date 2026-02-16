@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Brupper.Data
 {
     public class MockRepository<TEntity> : IRepository<TEntity>
-        where TEntity : IBaseEntity
+        where TEntity : class, Entities.IBaseEntity, new()
     {
         private bool disposed;
 

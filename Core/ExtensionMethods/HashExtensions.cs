@@ -1,7 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+
+namespace Brupper;
 
 public static class HashExtensions
 {
@@ -37,15 +38,6 @@ public static class HashExtensions
         return sb.ToString();
     }
 
-    public static string GetSha1(this string literalToHash)
-    {
-        using (var algorithm = SHA1.Create())
-        {
-            var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(literalToHash));
-            return hash.GetStringFromHash();
-        }
-    }
-
     private static string GetStringFromHash(this byte[] hash)
     {
         var result = new StringBuilder();
@@ -55,8 +47,30 @@ public static class HashExtensions
         }
         return result.ToString();
     }
-	
-	    /// <summary> Compute the file's hash. </summary>
+
+    /// <summary> Compute the stream's hash. </summary>
+    public static string GetHashSha256OfFile(this Stream stream) => stream.ComputeHashSha256OfFile().BytesToString();
+
+    /// <summary> Compute the file's hash. </summary>
+    private static byte[] ComputeHashSha256OfFile(this Stream stream)
+    {
+        var originalPosition = stream.Position;
+        stream.Seek(0, SeekOrigin.Begin);
+
+        try
+        {
+            // The cryptographic service provider.
+            var sha256 = SHA256.Create();
+
+            return sha256.ComputeHash(stream);
+        }
+        finally
+        {
+            stream.Seek(originalPosition, SeekOrigin.Begin);
+        }
+    }
+
+    /// <summary> Compute the file's hash. </summary>
     public static string GetHashSha256OfFile(this string filename) => filename.ComputeHashSha256OfFile().BytesToString();
 
     /// <summary> Compute the file's hash. </summary>
@@ -77,31 +91,5 @@ public static class HashExtensions
         var result = "";
         foreach (byte b in bytes) result += b.ToString("x2");
         return result;
-    }
-
-    public static string GetSha256(this string literalToHash)
-    {
-        using (var algorithm = SHA256.Create())
-        {
-            var hash = algorithm.ComputeHash(Encoding.ASCII.GetBytes(literalToHash));
-            return hash.GetStringFromHash();
-        }
-    }
-
-    public static bool NullOrEmpty(this string value)
-    {
-        return string.IsNullOrEmpty(value);
-    }
-    public static bool NotNullOrEmpty(this string value)
-    {
-        return !string.IsNullOrEmpty(value);
-    }
-    public static bool NullOrWhiteSpace(this string value)
-    {
-        return string.IsNullOrWhiteSpace(value);
-    }
-    public static bool NotNullOrWhiteSpace(this string value)
-    {
-        return !string.IsNullOrWhiteSpace(value);
     }
 }

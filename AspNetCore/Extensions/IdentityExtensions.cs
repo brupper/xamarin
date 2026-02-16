@@ -5,9 +5,15 @@ namespace Brupper.AspNetCore;
 
 public static class IdentityExtensions
 {
+    public const string ObjectIdentifierType = "http://schemas.microsoft.com/identity/claims/objectidentifier";
+    public const string NameIdentifierType = ClaimTypes.NameIdentifier;
+
     public static string GetEmail(this ClaimsPrincipal User) => User?.Identity?.Name ?? User?.Claims?.FirstOrDefault(x => x.Type == "emails")?.Value ?? "unknown";
 
-    public static string GetUserId(this ClaimsPrincipal User) => User?.Claims?.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value ?? "unknown";
+    public static string GetUserId(this ClaimsPrincipal User)
+        => User?.Claims?.FirstOrDefault(x => x.Type == ObjectIdentifierType)?.Value
+        ?? User?.Claims?.FirstOrDefault(x => x.Type == NameIdentifierType)?.Value
+        ?? "unknown";
 
     public static string[] GetUserLanguages(this HttpRequest request) => request.GetTypedHeaders()
             .AcceptLanguage

@@ -1,0 +1,48 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using {{Namespace}};
+
+namespace {{PrefferredNamespace}}.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public partial class {{ClassName}}Controller : ControllerBase
+{
+    private static readonly List<{{ClassName}}> _collection = new();
+
+    [HttpGet]
+    public virtual List<{{ClassName}}> Get()
+    {
+        return _collection;
+    }
+
+    [HttpGet("{id}")]
+    public virtual {{ClassName}} GetSingle(Guid id)
+    {
+        return _collection.SingleOrDefault(x => x.Id == id);
+    }
+
+    [HttpPost]
+    public virtual void Create({{ClassName}} item)
+    {
+        item.Id = Guid.NewGuid();
+        _collection.Add(item);
+    }
+
+    [HttpPut("{id}")]
+    public virtual void Update(Guid id, {{ClassName}} item)
+    {
+        var existing = _collection.Single(x => x.Id == id);
+
+        item.Id = id;
+        _collection.Remove(existing);
+        _collection.Add(item);
+    }
+
+    [HttpDelete("{id}")]
+    public virtual void Delete(Guid id)
+    {
+        var existing = _collection.Single(x => x.Id == id);
+
+        _collection.Remove(existing);
+    }
+}

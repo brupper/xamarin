@@ -1,0 +1,116 @@
+@model TenantViewModel
+
+@{
+    Layout = null;
+}
+
+@if (Model == null)
+{
+    <partial name="_LoadFailedPartial" />
+}
+else
+{
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Contact" class="form-label"></label>
+        <input asp-for="Contact" class="form-control" />
+        <span asp-validation-for="Contact" class="text-danger"></span>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-2">
+            <label asp-for="Zip" class="form-label"></label>
+            <input asp-for="Zip" class="form-control" />
+            <span asp-validation-for="Zip" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-10">
+            <label asp-for="City" class="form-label"></label>
+            <input asp-for="City" class="form-control" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-10">
+            <label asp-for="Address" class="form-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-2">
+            <label asp-for="Number" class="form-label"></label>
+            <input asp-for="Number" class="form-control" />
+            <span asp-validation-for="Number" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-group">
+            <label class="form-label"> @Html.Raw(Labels.customer_postaladdress) </label>
+            <div class="form-check">
+                <input asp-for="SamePostalAddress" class="form-check-input" data-type="boolean" data-bind="checked: samePostalAddress, events: { change: samePostalAddressChanged }" />
+                <label asp-for="SamePostalAddress" class="form-check-label"></label>
+            </div>
+        </div>
+        <span asp-validation-for="SamePostalAddress" class="text-danger"></span>
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-sm-2" data-bind="invisible: samePostalAddress">
+            <label asp-for="PostalZip" class="form-label"></label>
+            <input asp-for="PostalZip" class="form-control" />
+            <span asp-validation-for="PostalZip" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-10" data-bind="invisible: samePostalAddress">
+            <label asp-for="PostalCity" class="form-label"></label>
+            <input asp-for="PostalCity" class="form-control" />
+            <span asp-validation-for="PostalCity" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-10" data-bind="invisible: samePostalAddress">
+            <label asp-for="PostalAddress" class="form-label"></label>
+            <input asp-for="PostalAddress" class="form-control" />
+            <span asp-validation-for="PostalAddress" class="text-danger"></span>
+        </div>
+
+        <div class="col-sm-2" data-bind="invisible: samePostalAddress">
+            <label asp-for="PostalNumber" class="form-label"></label>
+            <input asp-for="PostalNumber" class="form-control" />
+            <span asp-validation-for="PostalNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Phone" class="form-label"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="row mb-3">
+        <label asp-for="Modules" class="form-label"></label>
+        <div class="form-group">
+            @for (var i = 0; i < Model.Modules.Count; i++)
+            {
+                <div class="form-check m-1">
+                    <input asp-for="Modules[i].Name" type="hidden" />
+                    <input class="form-check-input" asp-for="Modules[i].Selected" />
+                    <label class="form-check-label" asp-for="Modules[i].Selected"> @Model.Modules[i].Name </label>
+                </div>
+            }
+        </div>
+    </div>
+
+}
+

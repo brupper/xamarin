@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 
+namespace Brupper;
+
 /// <summary> . </summary>
 public static class DateExtensions
 {
