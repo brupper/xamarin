@@ -1,5 +1,7 @@
 ﻿using System;
 
+namespace Brupper;
+
 public static class MathExtensions
 {
     public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>

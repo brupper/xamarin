@@ -1,0 +1,64 @@
+@model TenantViewModel
+
+@{
+    ViewData["Title"] = ViewContext.RouteData.Values["id"] == null ? Labels.tenant_create : Labels.tenant_edit;
+    var backModel = new Brupper.AspNetCore.Models.GeneralConfirmViewModel
+            {
+                Action = "Index",
+                Controller = ViewContext.RouteData.Values["Controller"]?.ToString(),
+                Area = ViewContext.RouteData.Values["Area"]?.ToString(),
+                // PrimaryKey = Model.ProjectId,
+            }.AddToViewData("back-url", ViewData, Url);
+
+    var viewId = Guid.NewGuid().ToString();
+}
+
+<main class="container-xxl py-2 mx-auto" role="main">
+    <div class="align-items-center p-3 my-3 bg-body rounded shadow-sm">
+
+        <form id="@viewId" asp-action="Edit">
+            @if (ViewContext.RouteData.Values["id"] != null)
+            {
+                <input asp-for="@Model.PrimaryKey" type="hidden" />
+            }
+
+            <div class="">
+                <partial name="_FormCreatePartial" model="Model" />
+            </div>
+
+            <div class="">
+                <div class="d-flex justify-content-center align-items-center pt-5 pb-2">
+                    <div>
+                        <button type="submit" class="btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> @Labels.general_save_close</button>
+                        <button asp-action="Edit" asp-route-continueEditing="true" class="btn btn-outline-secondary"><i class="fa-regular fa-floppy-disk"></i> @Labels.general_save_continue_editing </button>
+                        <a href="@ViewData["back-url"]" class="btn btn-outline-secondary"><i class="fa-solid fa-xmark"></i> @Labels.general_cancel</a>
+                    </div>
+                </div>
+            </div>
+
+            @* DO NOT move to: @section Modals, because of HasConfirmAndCloseButton *@
+            <partial name="__ModalConfirmPartial" model="backModel" />
+        </form>
+
+    </div>
+</main>
+
+@section Modals {
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script on-content-loaded="true">
+
+        const viewSelector = '#@viewId';
+
+        const vm = kendo.observable({
+            samePostalAddress: @Html.Raw(Json.Serialize(Model?.HasSamePostalAddress() ?? false)),
+            samePostalAddressChanged: function () { },
+        });
+
+        kendo.bind(viewSelector, vm);
+
+    </script>
+}

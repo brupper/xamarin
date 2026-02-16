@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 
+namespace Brupper;
+
 public static class HtmlExtensions
 {
     public static string MakeImageSrcData(this string filename)
@@ -19,7 +21,7 @@ public static class HtmlExtensions
     public static string MakeImageSrcData(this Stream fs)
     {
         var filebytes = new byte[fs.Length];
-        fs.Read(filebytes, 0, Convert.ToInt32(fs.Length));
+        fs.ReadExactly(filebytes, 0, Convert.ToInt32(fs.Length));
         return "data:image/png;base64," + Convert.ToBase64String(filebytes, Base64FormattingOptions.None);
     }
 }

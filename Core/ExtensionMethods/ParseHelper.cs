@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+namespace Brupper;
+
 public static class ParseHelper
 {
     public static readonly string[] RecordDelimiter = new[] { "##" };

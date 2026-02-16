@@ -1,0 +1,18 @@
+@model UserEditViewModel
+
+<div class="modal fade" id="edit-@Model.Id-modal" tabindex="-1" aria-labelledby="edit-@Model.Id-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="@Model.Id-modalLabel">@Labels.user_edit</h5>
+                <div class="btn-close" data-bs-dismiss="modal"></div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <partial name="_FormCreatePartial" model="Model" />
+                </div>
+            </div>
+            @* <div class="modal-footer"><button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">@Labels.general_close</button></div> *@
+        </div>
+    </div>
+</div>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="customer_data_title" xml:space="preserve">
+    <value>Megrendelő (opcionális adat)</value>
+  </data>
+  <data name="customer_contact_name" xml:space="preserve">
+    <value>Képviselő</value>
+  </data>
+  <data name="created_at" xml:space="preserve">
+    <value>Létrehozva</value>
+  </data>
+  <data name="customers_create" xml:space="preserve">
+    <value>Új ügyfél</value>
+  </data>
+  <data name="customers_edit" xml:space="preserve">
+    <value>Ügyfél adatlap módosítása</value>
+  </data>
+  <data name="customers_title" xml:space="preserve">
+    <value>Ügyfelek listája</value>
+  </data>
+  <data name="customer_address_city" xml:space="preserve">
+    <value>Város</value>
+  </data>
+  <data name="customer_address_street" xml:space="preserve">
+    <value>Cím</value>
+  </data>
+  <data name="customer_address_streetnumber" xml:space="preserve">
+    <value>Házszám</value>
+  </data>
+  <data name="customer_address_zip" xml:space="preserve">
+    <value>Ir. szám</value>
+  </data>
+  <data name="customer_contact" xml:space="preserve">
+    <value>Képviselő</value>
+  </data>
+  <data name="customer_name" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="date" xml:space="preserve">
+    <value>Dátum</value>
+  </data>
+  <data name="general_cancel" xml:space="preserve">
+    <value>Mégsem</value>
+  </data>
+  <data name="general_clone" xml:space="preserve">
+    <value>Másolás</value>
+  </data>
+  <data name="general_close" xml:space="preserve">
+    <value>Bezárás</value>
+  </data>
+  <data name="general_confirm_dialog_cancel" xml:space="preserve">
+    <value>Mégse</value>
+    <comment>Bezárás mentéssel</comment>
+  </data>
+  <data name="general_confirm_dialog_ok" xml:space="preserve">
+    <value>Bezárás mentés nélkül</value>
+  </data>
+  <data name="general_confirm_dialog_question" xml:space="preserve">
+    <value>A nem mentett módosítások el fognak veszni. Biztosan folytatja?</value>
+  </data>
+  <data name="general_confirm_dialog_title" xml:space="preserve">
+    <value>Megerősítés</value>
+  </data>
+  <data name="general_designer_data_title" xml:space="preserve">
+    <value>Generál tervező (opcionális adat)</value>
+  </data>
+  <data name="general_delete" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="general_delete_dialog_title" xml:space="preserve">
+    <value>Biztosan törli?</value>
+  </data>
+  <data name="general_delete_failed" xml:space="preserve">
+    <value>Sikertelen törlés... {0}</value>
+  </data>
+  <data name="general_delete_succes" xml:space="preserve">
+    <value>Sikeres törlés!</value>
+  </data>
+  <data name="general_details" xml:space="preserve">
+    <value>Adatok</value>
+  </data>
+  <data name="general_download_failed" xml:space="preserve">
+    <value>Sikertelen letöltés... {0}</value>
+  </data>
+  <data name="general_edit" xml:space="preserve">
+    <value>Módosítás</value>
+  </data>
+  <data name="general_entity_notfound" xml:space="preserve">
+    <value>Nem található bejegyzés a '{0}' azonosítóval.</value>
+  </data>
+  <data name="general_load_failed" xml:space="preserve">
+    <value>Sikertelen adat betöltés: {0}</value>
+  </data>
+  <data name="general_nodata" xml:space="preserve">
+    <value>Nincs megjeleníthető adat.</value>
+  </data>
+  <data name="general_ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="general_preview" xml:space="preserve">
+    <value>Előnézet</value>
+  </data>
+  <data name="general_save" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="general_save_close" xml:space="preserve">
+    <value>Mentés és bezárás</value>
+  </data>
+  <data name="general_save_continue_editing" xml:space="preserve">
+    <value>Mentés bezárás nélkül</value>
+  </data>
+  <data name="general_save_failed" xml:space="preserve">
+    <value>Sikertelen mentés... {0}</value>
+  </data>
+  <data name="general_save_succes" xml:space="preserve">
+    <value>Sikeres mentés!</value>
+  </data>
+  <data name="general_signin" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="general_signout" xml:space="preserve">
+    <value>Kijelentkezés</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="net_sum_floor_area" xml:space="preserve">
+    <value>Az épület (tűzszakaszainak) nettó összesített alapterülete</value>
+  </data>
+  <data name="customer_postaladdress" xml:space="preserve">
+    <value>Levelezési cím</value>
+  </data>
+  <data name="customer_postaladdress_sameasaddress" xml:space="preserve">
+    <value>Megegyezik az állandó címmel</value>
+  </data>
+  <data name="customer_postaladdress_zip" xml:space="preserve">
+    <value>Ir. szám</value>
+  </data>
+  <data name="customer_postaladdress_city" xml:space="preserve">
+    <value>Város</value>
+  </data>
+  <data name="customer_postaladdress_address" xml:space="preserve">
+    <value>Cím</value>
+  </data>
+  <data name="general_limitless" xml:space="preserve">
+    <value>Korlátlan</value>
+  </data>
+  <data name="general_user" xml:space="preserve">
+    <value>Felhasználó</value>
+  </data>
+  <data name="menu_access" xml:space="preserve">
+    <value>Jogosultságkezelés</value>
+  </data>
+  <data name="menu_admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="general_data_details" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="general_rename" xml:space="preserve">
+    <value>Átnevezés</value>
+  </data>
+  <data name="general_rename_dialog_title" xml:space="preserve">
+    <value>Átnevezés</value>
+  </data>
+  <data name="general_rename_success" xml:space="preserve">
+    <value>Sikeres átnevezés!</value>
+  </data>
+  <data name="general_rename_failed" xml:space="preserve">
+    <value>Sikertelen átnevezés: {0}</value>
+  </data>
+  <data name="new_name" xml:space="preserve">
+    <value>Új név</value>
+  </data>
+  <data name="general_modify" xml:space="preserve">
+    <value>Szerkesztés</value>
+  </data>
+  <data name="general_copyof" xml:space="preserve">
+    <value>{0}  másolata</value>
+  </data>
+  <data name="general_search" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
+  <data name="user_create" xml:space="preserve">
+    <value>Új felhasználó hozzáadása</value>
+  </data>
+  <data name="user_edit" xml:space="preserve">
+    <value>Felhasználó adatainak módosítása</value>
+  </data>
+  <data name="user_email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="user_tenant" xml:space="preserve">
+    <value>Cég</value>
+  </data>
+  <data name="users_title" xml:space="preserve">
+    <value>Jogosultságok kezelése</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="phone" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="tenants_title" xml:space="preserve">
+    <value>Cégek listája</value>
+  </data>
+  <data name="tenant_create" xml:space="preserve">
+    <value>Új cég hozzáadása</value>
+  </data>
+  <data name="tenant_edit" xml:space="preserve">
+    <value>Cég módosítása</value>
+  </data>
+  <data name="tenant_modules" xml:space="preserve">
+    <value>Modulok</value>
+  </data>
+  <data name="general_signin_email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="general_signin_forgotpassword" xml:space="preserve">
+    <value>Elfelejtette jelszavát?</value>
+  </data>
+  <data name="general_signin_password" xml:space="preserve">
+    <value>Jelszó</value>
+  </data>
+  <data name="general_signin_rememberme" xml:space="preserve">
+    <value>Emlékezzen rám</value>
+  </data>
+  <data name="general_signout_succes" xml:space="preserve">
+    <value>Sikeresen kijelentkezett az alkalmazásból!</value>
+  </data>
+  <data name="general_signin_resendconfirmation" xml:space="preserve">
+    <value>E-mail megerősítés újra küldése</value>
+  </data>
+  <data name="general_signin_forgotpasswordconfirm_desc" xml:space="preserve">
+    <value>Ellenőrizze leveleit és kezdeményezze a visszaállítás folyamatot.</value>
+  </data>
+  <data name="general_signin_forgotpasswordconfirm_title" xml:space="preserve">
+    <value>Jelszó visszaállítás folyamat</value>
+  </data>
+  <data name="general_signin_passwordconfirm" xml:space="preserve">
+    <value>Jelszó megerősítése</value>
+  </data>
+  <data name="general_signin_reset" xml:space="preserve">
+    <value>Jelszó visszaállítása</value>
+  </data>
+  <data name="general_signin_resetclickhere" xml:space="preserve">
+    <value>Kattintson ide a bejelentkezéshez.</value>
+  </data>
+  <data name="general_signin_resetconfirm" xml:space="preserve">
+    <value>Jelszó visszaállítása megtörtént.</value>
+  </data>
+  <data name="general_signin_resetpassword" xml:space="preserve">
+    <value>Jelszó visszaállítása</value>
+  </data>
+  <data name="general_signin_emailconfirmation" xml:space="preserve">
+    <value>Küldés</value>
+  </data>
+  <data name="general_signin_emailconfirmation_title" xml:space="preserve">
+    <value>Megerősítő e-mail újra küldése.</value>
+  </data>
+  <data name="general_signin_password_verificationsent" xml:space="preserve">
+    <value>Megerősítő e-mail kiküldve.</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Hibás token.</value>
+  </data>
+  <data name="general_roles" xml:space="preserve">
+    <value>Szerepkörök</value>
+  </data>
+  <data name="userroles_edit" xml:space="preserve">
+    <value>Szerepkör hozzárendelése a felhasználóhoz</value>
+  </data>
+  <data name="userroles_role" xml:space="preserve">
+    <value>Szerepkör</value>
+  </data>
+  <data name="userroles_status" xml:space="preserve">
+    <value>Állapot</value>
+  </data>
+  <data name="users_lock" xml:space="preserve">
+    <value>Felhasználó zárolása</value>
+  </data>
+  <data name="users_unlock" xml:space="preserve">
+    <value>zárolás feloldása</value>
+  </data>
+  <data name="user_locked" xml:space="preserve">
+    <value>zárolt felh.</value>
+  </data>
+  <data name="user_accessdenied_desc" xml:space="preserve">
+    <value>Nincs hozzáférése a kért tartalomhoz.</value>
+  </data>
+  <data name="user_accessdenied_title" xml:space="preserve">
+    <value>Hozzáférés megtagadva</value>
+  </data>
+  <data name="user_lockout_desc" xml:space="preserve">
+    <value>Zárolt fiókkal nem léphet be. Lépjen kapcsolatba a rendszergazdával.</value>
+  </data>
+  <data name="user_lockout_title" xml:space="preserve">
+    <value>Fiókját zárolták.</value>
+  </data>
+  <data name="account_settings" xml:space="preserve">
+    <value>Felhasználó adatainak módosítása</value>
+  </data>
+  <data name="general_changepassword_currentpassword" xml:space="preserve">
+    <value>Jelenlegi jelszó</value>
+  </data>
+  <data name="general_changepassword_password" xml:space="preserve">
+    <value>Új jelszó</value>
+  </data>
+  <data name="general_changepassword_passwordconfirm" xml:space="preserve">
+    <value>Új jelszó megerősítése</value>
+  </data>
+  <data name="general_changepassword_save" xml:space="preserve">
+    <value>Jelszó frissítése</value>
+  </data>
+  <data name="general_changepassword_title" xml:space="preserve">
+    <value>Jelszó módosítása</value>
+  </data>
+  <data name="general_changepassword_success" xml:space="preserve">
+    <value>Sikeresen frissítette jelszavát!</value>
+  </data>
+  <data name="users_lock_success" xml:space="preserve">
+    <value>Felhasználói fiók zárolásva. Ezt követően a felhasználó NEM tud bejelentkezni a rendszerbe.</value>
+  </data>
+  <data name="users_unlock_success" xml:space="preserve">
+    <value>Zárolás sikeresen feloldásra került. Ezt követően a felhasználó be tud jelentkezni a rendszerbe.</value>
+  </data>
+  <data name="users_delete_failedself" xml:space="preserve">
+    <value>Saját magát nem törölheti!</value>
+  </data>
+  <data name="users_lock_failedself" xml:space="preserve">
+    <value>Saját magát nem zárolhatja!</value>
+  </data>
+</root>

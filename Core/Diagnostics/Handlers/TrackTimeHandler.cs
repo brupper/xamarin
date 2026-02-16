@@ -11,7 +11,7 @@ namespace Brupper.Diagnostics
 
         private static readonly IDictionary<string, DateTime> SubProcessStartDates = new Dictionary<string, DateTime>();
 
-        public static void Start(string key, string processId = null)
+        public static void Start(string key, string? processId = null)
         {
             if (processId != null)
             {
@@ -23,7 +23,7 @@ namespace Brupper.Diagnostics
             }
         }
 
-        public static TimeSpan Stop(string key, string processId = null)
+        public static TimeSpan Stop(string key, string? processId = null)
         {
             DateTime startTime;
 

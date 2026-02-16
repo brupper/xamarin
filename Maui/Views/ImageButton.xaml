@@ -1,0 +1,41 @@
+﻿<Frame
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Brupper.Maui.Views.ImageButton"
+    x:Name="This"
+    Padding="6,0"
+    HasShadow="False">
+    <Frame.Triggers>
+        <Trigger TargetType="Frame" Property="IsEnabled" Value="False">
+            <Setter Property="BackgroundColor" Value="#00000029"/>
+        </Trigger>
+    </Frame.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="ButtonLayout">
+            <Button x:Name="Button"
+                    IsEnabled="{Binding IsEnabled, Source={x:Reference This}}"
+                    Text="{Binding Text, Source={x:Reference This}}"
+                    TextColor="{Binding TextColor, Source={x:Reference This}}"
+                    BorderColor="Transparent" BorderWidth="0"
+                    BackgroundColor="Transparent" Margin="0" Padding="12,0"
+                    FontSize="{Binding FontSize, Source={x:Reference This}}"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="Center"
+                    Pressed="OnButtonPressed" Clicked="OnButtonClicked"/>
+
+            <Image x:Name="IconImage" InputTransparent="True"
+                   Source="{Binding ImageSource, Source={x:Reference This}}"
+                   HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,18,0"/>
+
+            <Grid x:Name="LoadingIndicatorLayout" IsVisible="False"
+                  BackgroundColor="{Binding BackgroundColor, Source={x:Reference This}}">
+                <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center"
+                                   IsRunning="{Binding IsVisible, Source={x:Reference LoadingIndicatorLayout}}"
+                                   Color="White"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Frame>

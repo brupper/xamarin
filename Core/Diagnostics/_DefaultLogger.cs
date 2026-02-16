@@ -1,6 +1,6 @@
 ﻿using Brupper.Diagnostics;
 
-namespace Brupper.Forms.Diagnostics
+namespace Brupper.Maui.Diagnostics
 {
     public class DefaultLogger : Logger
     {

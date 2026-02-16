@@ -8,7 +8,8 @@ namespace Brupper.Identity.B2C.Entities
         {
             if (source == null || destination == null)
             {
-                throw new ArgumentNullException("IApplicationUser.CopyFrom: neither source, nor destination can not be NULL");
+                ArgumentNullException.ThrowIfNull(source, "IApplicationUser.CopyFrom: source cannot be NULL");
+                ArgumentNullException.ThrowIfNull(destination, "IApplicationUser.CopyFrom: destination cannot be NULL");
             }
 
             destination.Email = source.Email;

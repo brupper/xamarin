@@ -40,7 +40,7 @@ namespace Brupper.Logic
             foreach (var child in children)
             {
                 child.Traverse(action);
-            }                
+            }
         }
 
         public IEnumerable<T> Flatten() => new[] { Value }.Concat(children.SelectMany(x => x.Flatten()));

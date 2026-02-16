@@ -9,7 +9,7 @@ namespace Brupper.Diagnostics
     public class LocalStorageLogProvider : TextLogProvider, ILocalStorageLogProvider
     {
         public static readonly string LocalLogFolder = "logs";
-        
+
         public string Folder { get; }
 
         public LocalStorageLogProvider()
@@ -45,7 +45,7 @@ namespace Brupper.Diagnostics
                 string.Format(LoggingLabels.LocalStorageEventLabel, message.OccurredOn, message.EventName, stringMessage, Environment.NewLine));
         }
 
-        public override Task StartTrackPageViewAsync(string pageName, IEnumerable<KeyValuePair<string, string>> metaData = null)
+        public override Task StartTrackPageViewAsync(string pageName, IEnumerable<KeyValuePair<string, string>>? metaData = null)
         {
             TrackTimeHandler.Start(pageName);
 
@@ -72,7 +72,7 @@ namespace Brupper.Diagnostics
                 string.Format(LoggingLabels.LocalStorageTrackExceptionLabel, message.OccurredOn, stringMessage, Environment.NewLine));
         }
 
-        public override Task StartTrackTimeAsync(string key, string processId = null)
+        public override Task StartTrackTimeAsync(string key, string? processId = null)
         {
             TrackTimeHandler.Start(key, processId);
 
@@ -88,7 +88,7 @@ namespace Brupper.Diagnostics
                 string.Format(LoggingLabels.LocalStorageStartTimeTrackLabel, DateTime.UtcNow, key, Environment.NewLine));
         }
 
-        public override Task StopTrackTimeAsync(string key, string processId = null)
+        public override Task StopTrackTimeAsync(string key, string? processId = null)
         {
             var ellapsedTime = TrackTimeHandler.Stop(key, processId);
 

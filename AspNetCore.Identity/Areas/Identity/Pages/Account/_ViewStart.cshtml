@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+
+@inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
+
+@{
+    if (Layout != "_Layout")
+    {
+        ViewData["ParentLayout"] = "~/Views/Shared/_Layout.cshtml";
+        Layout = "~/Views/Shared/_Layout.cshtml";//"./_Layout.cshtml";
+    }
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}

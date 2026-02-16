@@ -1,67 +1,45 @@
 <Project>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
-    <DefineConstants>$(DefineConstants);NETSTANDARD;PORTABLE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <DefineConstants>$(DefineConstants);NET;WPF;XAML</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('uap'))">
-    <DefineConstants>$(DefineConstants);NETFX_CORE;XAML;WINDOWS;WINDOWS_UWP;UWP</DefineConstants>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('xamarin.ios'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-ios'))">
     <DefineConstants>$(DefineConstants);MONO;UIKIT;COCOA;APPLE;IOS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('xamarin.mac'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-macos'))">
     <DefineConstants>$(DefineConstants);MONO;COCOA;APPLE;MAC</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('xamarin.tvos'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-maccatalyst'))">
+    <DefineConstants>$(DefineConstants);MONO;COCOA;APPLE;IOS;MACCATALYST</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-tvos'))">
     <DefineConstants>$(DefineConstants);MONO;COCOA;APPLE;TVOS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('xamarin.watchos'))">
-    <DefineConstants>$(DefineConstants);MONO;COCOA;APPLE;WATCHOS</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('monoandroid'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-android'))">
     <DefineConstants>$(DefineConstants);MONO;ANDROID</DefineConstants>
-    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
-    <AndroidResgenClass>Resource</AndroidResgenClass>
-    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'monoandroid10.0'">
-    <DefineConstants>$(DefineConstants);__ANDROID_29__;</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('netcoreapp'))">
-    <DefineConstants>$(DefineConstants);NETCORE;NETCOREAPP</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('netcoreapp3.'))">
-    <DefineConstants>$(DefineConstants);WPF</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('tizen'))">
-    <DefineConstants>$(DefineConstants);TIZEN</DefineConstants>
-    <TargetFrameworkIdentifier>Tizen</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-  </PropertyGroup>
-
-  <Import Project="XamarinForms.targets" Condition="'$(IsXamarinForms)' == 'true'"/>
 
   <ItemGroup>
-    <!--<PackageReference Update="Xamarin.AndroidX.RecyclerView" Version="1.1.0.2" />-->
-    <!--<PackageReference Update="Xamarin.AndroidX.Leanback" Version="1.0.0.2" />-->
-    <!--<PackageReference Update="Xamarin.AndroidX.SwipeRefreshLayout" Version="1.0.0.2" />-->
-    <!--<PackageReference Update="Xamarin.AndroidX.CardView" Version="1.0.0.2" />-->
-    <!--<PackageReference Update="Xamarin.AndroidX.AppCompat" Version="1.3.1" />-->
-    <!--<PackageReference Update="Xamarin.AndroidX.Fragment" Version="1.2.4.2" />-->
-    <!--<PackageReference Update="Xamarin.AndroidX.Preference" Version="1.1.1.2" />-->
-    <!--<PackageReference Update="Xamarin.AndroidX.ViewPager" Version="1.0.0.2" />-->
-    <!--<PackageReference Update="Xamarin.AndroidX.ExifInterface" Version="1.1.0.2" />-->
-    <!--<PackageReference Update="Xamarin.Google.Android.Material" Version="1.4.0" />-->
-    <!--<PackageReference Update="Xamarin.GooglePlayServices.Location" Version="71.1600.4" />-->
+    <!--<PackageReference Include="Roslynator.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>-->
+    <!--<PackageReference Include="AsyncFixer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>-->
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="SonarAnalyzer.CSharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="GitInfo" />
+    <PackageReference Update="GitInfo">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
-    <!--<PackageReference Update="Microsoft.CodeAnalysis" />-->
-
-    <!--<PackageReference Update="Newtonsoft.Json" />-->
-
-    <!--<PackageReference Update="SidebarNavigation" />-->
+  <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsLibraryProject)' == 'true'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
   </ItemGroup>
 </Project>

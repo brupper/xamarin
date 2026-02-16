@@ -16,13 +16,13 @@ namespace Brupper.Diagnostics
 
         public abstract Task TrackEventAsync(LogMessage message);
 
-        public abstract Task StartTrackPageViewAsync(string pageName, IEnumerable<KeyValuePair<string, string>> metaData = null);
+        public abstract Task StartTrackPageViewAsync(string pageName, IEnumerable<KeyValuePair<string, string>>? metaData = null);
 
         public abstract Task StopTrackPageViewAsync(string pageName);
 
-        public abstract Task StartTrackTimeAsync(string key, string processId = null);
+        public abstract Task StartTrackTimeAsync(string key, string? processId = null);
 
-        public abstract Task StopTrackTimeAsync(string key, string processId = null);
+        public abstract Task StopTrackTimeAsync(string key, string? processId = null);
 
         public abstract Task TrackExceptionAsync(LogMessage message);
 

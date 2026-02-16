@@ -1,0 +1,51 @@
+@model UserEditViewModel
+
+@{
+    Layout = null;
+
+    var backModel = new Brupper.AspNetCore.Models.GeneralConfirmViewModel
+            {
+                Action = "Index",
+                Controller = "Users",
+                Area = ViewContext.RouteData.Values["Area"]?.ToString(),
+            }.AddToViewData("back-url", ViewData, Url);
+}
+
+@if (Model == null)
+{
+    <partial name="_LoadFailedPartial" />
+}
+else
+{
+    <form asp-controller="users" asp-action="edit" asp-route-id="@Model.Id">
+        <input asp-for="Id" type="hidden" />
+
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" type="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="TenantId" class="form-label"></label>
+            <select asp-for="TenantId" class="form-select" asp-items="@Model.Tenants.Select(x => new SelectListItem(x.Name, x.Id))"></select>
+            <span asp-validation-for="TenantId" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-left align-items-center pt-5 pb-2 gap-2">
+            <button type="submit" class="btn btn-primary"> @Labels.general_save_close</button>
+            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-secondary"> @Labels.general_cancel</button>
+        </div>
+
+        @* DO NOT move to: @section Modals, because of HasConfirmAndCloseButton *@
+        <partial name="__ModalConfirmPartial" model="backModel" />
+
+    </form>
+}
+

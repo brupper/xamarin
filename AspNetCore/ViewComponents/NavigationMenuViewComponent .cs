@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Brupper.AspNetCore.ViewComponents;
 
+[ViewComponent]
 public class NavigationMenuViewComponent : ViewComponent
 {
     private readonly IMenuAccessService dataAccessService;

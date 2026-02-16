@@ -241,7 +241,7 @@ namespace Brupper.Data.Azure.Implementations
         {
             if (!tables.ContainsKey(tableName))
             {
-                var table = new TableClient(configuration.AzureTableConnectionString, tableName);
+                var table = new TableClient(configuration.TablesSasToken, tableName);
 
                 await table.CreateIfNotExistsAsync().ConfigureAwait(false);
 

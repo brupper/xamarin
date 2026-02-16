@@ -1,4 +1,4 @@
-﻿namespace InspEx.Data.Localization
+﻿namespace Brupper.Localization
 {
     public interface ITextProvider
     {
