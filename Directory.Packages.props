@@ -4,7 +4,6 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     <AspnetVersion>10.0.3</AspnetVersion>
     <EfCoreVersion>10.0.3</EfCoreVersion>
-    <BrupperVersion>10.0.1.1</BrupperVersion>
     <MicrosoftExtensionsVersion>10.0.3</MicrosoftExtensionsVersion>
     <AspireVersion>13.1.1</AspireVersion>
     <AspireUnstablePackagesVersion>13.1.1-preview.1.26105.8</AspireUnstablePackagesVersion>
