@@ -59,7 +59,7 @@ public static class HashHelper
             aesAlg.IV = IV;
 
             // Create an encryptor to perform the stream transform.
-            ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+            using ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
             // Create the streams used for encryption.
             using (MemoryStream msEncrypt = new MemoryStream())
@@ -84,14 +84,16 @@ public static class HashHelper
 
     public static string Aes128Encrypt(this string plainText, string key)
     {
-        return Convert.ToBase64String(EncryptAes128(Encoding.UTF8.GetBytes(plainText), GetRijndaelManaged(key)));
+        using var rijndael = GetRijndaelManaged(key);
+        return Convert.ToBase64String(EncryptAes128(Encoding.UTF8.GetBytes(plainText), rijndael));
     }
 
-    public static string Aes128Decrypt(this string encryptedText, string key)
+    public static string? Aes128Decrypt(this string encryptedText, string key)
     {
         try
         {
-            return Encoding.UTF8.GetString(DecryptAes128(Convert.FromBase64String(encryptedText), GetRijndaelManaged(key)));
+            using var rijndael = GetRijndaelManaged(key);
+            return Encoding.UTF8.GetString(DecryptAes128(Convert.FromBase64String(encryptedText), rijndael));
         }
         catch (CryptographicException)
         {
@@ -101,12 +103,14 @@ public static class HashHelper
 
     private static byte[] EncryptAes128(byte[] plainBytes, RijndaelManaged rijndaelManaged)
     {
-        return rijndaelManaged.CreateEncryptor().TransformFinalBlock(plainBytes, 0, plainBytes.Length);
+        using var encryptor = rijndaelManaged.CreateEncryptor();
+        return encryptor.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
     }
 
     private static byte[] DecryptAes128(byte[] encryptedData, RijndaelManaged rijndaelManaged)
     {
-        return rijndaelManaged.CreateDecryptor().TransformFinalBlock(encryptedData, 0, encryptedData.Length);
+        using var decryptor = rijndaelManaged.CreateDecryptor();
+        return decryptor.TransformFinalBlock(encryptedData, 0, encryptedData.Length);
     }
 
     private static RijndaelManaged GetRijndaelManaged(string secretKey)
@@ -148,7 +152,7 @@ public static class HashHelper
             aesAlg.IV = IV;
 
             // Create a decryptor to perform the stream transform.
-            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+            using ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
             // Create the streams used for decryption.
             using (MemoryStream msDecrypt = new MemoryStream(cipherText))
