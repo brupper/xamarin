@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net10.0;net10.0-android;net10.0-ios</TargetFrameworks>
+    <TargetFrameworks>net11.0;net11.0-android;net11.0-ios</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -9,7 +9,7 @@
     <RootNamespace>Brupper.Maui</RootNamespace>
     <Description>This package contains Brupper to use with Maui</Description>
     <PackageId>Brupper.Maui</PackageId>
-    <GenerateLibraryLayout Condition=" $(TargetFramework.StartsWith('net10.0-windows')) ">true</GenerateLibraryLayout>
+    <GenerateLibraryLayout Condition=" $(TargetFramework.StartsWith('net11.0-windows')) ">true</GenerateLibraryLayout>
 
     <Nullable>enable</Nullable>
     <UseMauiEssentials>true</UseMauiEssentials>

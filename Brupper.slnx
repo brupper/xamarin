@@ -26,6 +26,7 @@
     <File Path="Directory.Build.targets" />
     <File Path="Directory.Packages.props" />
     <File Path="nuget.config" />
+    <File Path="readme.md" />
     <File Path="_nuget.bat" />
   </Folder>
   <Folder Name="/Web/">

@@ -31,7 +31,7 @@ public interface IPriorityQueue : IEnumerable<IBackgroundTask>
     /// Dequeues the next task from the queue.
     /// </summary>
     /// <returns>The dequeued task asynchronously.</returns>
-    Task<IBackgroundTask> Dequeue();
+    Task<IBackgroundTask?> Dequeue();
 
     /// <summary>
     /// Enqueues the new task before the selected task, <paramref name="task"/>.
@@ -54,26 +54,26 @@ public interface IPriorityQueue : IEnumerable<IBackgroundTask>
     /// </summary>
     /// <param name="task">The task.</param>
     /// <returns>The removed task asynchronously.</returns>
-    Task<IBackgroundTask> Remove(IBackgroundTask task);
+    Task<IBackgroundTask?> Remove(IBackgroundTask task);
 
     /// <summary>
     /// Returns the first task in the queue.
     /// </summary>
     /// <returns>The first task in the queue.</returns>
-    IBackgroundTask PeekNext();
+    IBackgroundTask? PeekNext();
 
     /// <summary>
     /// Returns the last task in the queue.
     /// </summary>
     /// <returns>The last task in the queue.</returns>
-    IBackgroundTask PeekLast();
+    IBackgroundTask? PeekLast();
 
     /// <summary>
     /// Finds a task by id.
     /// </summary>
     /// <param name="id">The id.</param>
     /// <returns>The searched task.</returns>
-    IBackgroundTask Find(string id);
+    IBackgroundTask? Find(string id);
 
     /// <summary>
     /// Checks if the queue contains a task or not.
