@@ -11,7 +11,7 @@ public class CosmosTenantDataContext(DbContextOptions<CosmosTenantDataContext> o
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //  https://aka.ms/ef-cosmos-nosync
-        optionsBuilder.ConfigureWarnings(w => w.Ignore(CosmosEventId.SyncNotSupported));
+        // optionsBuilder.ConfigureWarnings(w => w.Ignore(CosmosEventId.SyncNotSupported));
     }
 
     public DbSet<Tenant> Tenants { get; set; } = default!;

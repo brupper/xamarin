@@ -73,7 +73,7 @@ public class PriorityQueue(
         return taskLookupById.ContainsKey(task.Id);
     }
 
-    public async Task<IBackgroundTask> Dequeue()
+    public async Task<IBackgroundTask?> Dequeue()
     {
         var next = PeekNext();
 

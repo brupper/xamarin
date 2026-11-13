@@ -12,6 +12,6 @@ public class IdentityDataContext(DbContextOptions<IdentityDataContext> options)
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //  https://aka.ms/ef-cosmos-nosync
-        optionsBuilder.ConfigureWarnings(w => w.Ignore(CosmosEventId.SyncNotSupported));
+        // optionsBuilder.ConfigureWarnings(w => w.Ignore(CosmosEventId.SyncNotSupported));
     }
 }
